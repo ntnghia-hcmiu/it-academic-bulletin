@@ -9,7 +9,7 @@
 {% macro navigationList(className) %}
   <ul class="{{ className }}">
     {% for label, path in navigation %}
-      <li><a href="{{ path }}">{{ label }}</a></li>
+      <li><a href="{{ path }}"{% if page.url == path %} aria-current="page"{% endif %}>{{ label }}</a></li>
     {% endfor %}
   </ul>
 {% endmacro %}

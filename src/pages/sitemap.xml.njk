@@ -1,0 +1,22 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{# all includes only the first pagination page; enumerate published detail data below. #}
+{% for item in collections.all %}
+  {% if not item.data.noindex and not item.data.pagination and item.outputPath and item.outputPath.endsWith('.html') %}
+  <url><loc>{{ site.url | absoluteUrl(site.basePath, item.url) | escape }}</loc></url>
+  {% endif %}
+{% endfor %}
+{% for entry in bulletin.categories %}
+  <url><loc>{{ site.url | absoluteUrl(site.basePath, '/danh-muc/' + entry.slug + '/') | escape }}</loc></url>
+{% endfor %}
+{% for entry in bulletin.announcements %}
+  <url><loc>{{ site.url | absoluteUrl(site.basePath, '/thong-bao/' + entry.id + '/') | escape }}</loc></url>
+{% endfor %}
+{% for entry in bulletin.guides %}
+  <url><loc>{{ site.url | absoluteUrl(site.basePath, '/huong-dan/' + entry.id + '/') | escape }}</loc></url>
+{% endfor %}
+</urlset>

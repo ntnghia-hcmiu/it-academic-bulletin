@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -13,11 +13,11 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `scripts/verify-dist.mjs`, `src/pages/sitemap.xml.njk`, `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/_includes/**`
+- Owned paths: `scripts/verify-dist.mjs`, `src/pages/sitemap.xml.njk`, `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/_includes/**`; mở rộng bởi ORCHESTRATOR 2026-11-11: `tests/verify-dist.test.mjs` (test âm AC1), `src/pages/robots.txt.njk` thay cho `public/robots.txt` (robots cần URL sitemap tuyệt đối theo `site.url` + base path, file tĩnh không biết base)
 - Dependencies: CP1-03, CP1-04, CP1-05
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-06-seo-a11y-verify`
+- Base commit / branch: `6010fce` (`main` sau merge CP1-05); branch `cp1/CP1-06-seo-a11y-verify`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -67,11 +67,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: `scripts/verify-dist.mjs` (Node stdlib; bài ẩn mọi collection có publish gate qua `readEntries` — route + tiêu đề thô/escape trong html/json/xml/js; link `href`/`src` nội bộ có base path và file tồn tại; mỗi trang không noindex có title, description, canonical tuyệt đối đúng; sitemap `<loc>` tuyệt đối, tồn tại, không noindex/bài ẩn); `/sitemap.xml` (trang HTML không phân trang + chi tiết danh mục/thông báo/hướng dẫn đã published); `/robots.txt` trỏ sitemap tuyệt đối; `verify` thêm `verify-dist` sau build; `aria-current="page"` cho menu.
+- Tests: `tests/verify-dist.test.mjs` 37 test (PASS trên fixture; test âm: tiêu đề ẩn thô/escape trong HTML/JSON/XML/JS, route ẩn, link gãy, thiếu/sai base, thiếu title/description/canonical, sitemap thiếu/chứa bài ẩn/noindex/URL ngoài site). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: PASS, test 72/72, verify-dist PASS trên build thật. Probe ORCHESTRATOR: build nội dung demo + chèn tiêu đề bài `published=false` vào `index.html` → verify-dist FAIL đúng.
+- Diff + / − (app, test): app/config +190/−2; test +176/−0.
+- Helper mới (đã tìm, lý do không tái dùng): `filesIn`, `decodeEntities`, `tagsIn`, `localTarget` trong `scripts/verify-dist.mjs` — chưa có helper duyệt output/parse HTML; tái dùng `readEntries`, `schemas`, `joinBase`, `absoluteUrl`, `site`.
+- Review: ORCHESTRATOR vòng 1: 0 blocking. Non-blocking: dò tiêu đề ẩn theo chuỗi con → tiêu đề ẩn rất ngắn có thể FAIL giả (an toàn theo hướng chặn); tiêu đề ẩn trùng hệt tiêu đề published được miễn dò chuỗi (route vẫn kiểm).
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, 11:40→11:45 UTC, 52,396 tokens. Quota trước khi giao: 5 giờ 14 % / tuần 83 %. Codex không commit, không sửa ngoài Owned paths.
+- Important findings / decisions: chọn tên `sitemap.xml` (contract) thay `sitemap-index.xml` (`docs/SITEMAP.md` — cần đồng bộ tài liệu sau). Owned paths mở rộng: `tests/verify-dist.test.mjs`, `src/pages/robots.txt.njk` thay `public/robots.txt`.
+- Known limitations: GitHub Pages project site → `robots.txt` nằm dưới base path, crawler không đọc; có hiệu lực khi có domain riêng (D-05). Manual 360px: không có thay đổi giao diện ngoài `aria-current`.
 - PR:
