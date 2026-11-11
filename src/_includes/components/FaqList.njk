@@ -1,0 +1,12 @@
+{# Include with faqItems: an already published, ordered array.
+   An include keeps Eleventy's asynchronous renderContent filter outside macros. #}
+{% asyncEach faq in faqItems %}
+  <details class="faq-item">
+    <summary>{{ faq.question | escape }}</summary>
+    {% if faq.answer and (faq.answer | trim) %}
+      <div class="prose">{{ faq.answer | renderContent('md') | replace('<a ', '<a rel="noopener noreferrer" ') | safe }}</div>
+    {% else %}
+      <p>Chưa cập nhật câu trả lời</p>
+    {% endif %}
+  </details>
+{% endeach %}

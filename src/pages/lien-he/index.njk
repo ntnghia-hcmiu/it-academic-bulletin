@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+permalink: /lien-he/
+title: Liên hệ
+description: Thông tin liên hệ học vụ.
+---
+{% from "components/EmptyState.njk" import emptyState %}
+{% from "components/ContactCard.njk" import contactCard %}
+<h1>Liên hệ</h1>
+{% for contact in bulletin.settings.contacts %}
+  {{ contactCard(contact) }}
+{% else %}
+  {{ emptyState('Thông tin liên hệ đang được cập nhật') }}
+{% endfor %}
+{% if bulletin.settings.contact_note and (bulletin.settings.contact_note | trim) %}
+  <div class="prose">{{ bulletin.settings.contact_note | renderContent('md') | replace('<a ', '<a rel="noopener noreferrer" ') | safe }}</div>
+{% endif %}

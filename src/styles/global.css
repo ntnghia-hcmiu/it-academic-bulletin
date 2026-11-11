@@ -226,3 +226,25 @@ nav.category-nav ul {
 @media (min-width: 64rem) {
   .home-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
 }
+
+.contact-card, .faq-item {
+  margin-block: 1rem;
+  border: 1px solid #d3dde8;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: #fff;
+  min-width: 0;
+}
+
+.contact-card dt { margin-top: 0.75rem; font-weight: 600; }
+.contact-card dd { margin: 0; white-space: pre-line; }
+.faq-item summary { max-width: 100%; }
+.faq-item .prose { margin-block: 1rem; }
+.resource-list, .guide-list { list-style: disc; padding-left: 1.5rem; }
+.resource-list li, .guide-list li { margin-block: 1rem; }
+.resource-list span, .guide-list span { display: inline-block; margin-left: 0.5rem; }
+.guide-detail { min-width: 0; }
+
+@media (min-width: 64rem) {
+  .home-contact { grid-column: 2; }
+}

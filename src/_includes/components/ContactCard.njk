@@ -1,0 +1,14 @@
+{# API: contactCard(contact, headingLevel=2) — settings.contacts entry. #}
+{% macro contactCard(contact, headingLevel=2) %}
+  <article class="contact-card">
+    {% if headingLevel == 3 %}<h3>{{ contact.role | escape }}</h3>{% else %}<h2>{{ contact.role | escape }}</h2>{% endif %}
+    {% if contact.name %}<p>{{ contact.name | escape }}</p>{% endif %}
+    <dl>
+      {% if contact.email %}<dt>Email</dt><dd><a href="mailto:{{ contact.email | escape }}">{{ contact.email | escape }}</a></dd>{% endif %}
+      {% if contact.phone %}<dt>Điện thoại</dt><dd><a href="tel:{{ contact.phone | escape }}">{{ contact.phone | escape }}</a></dd>{% endif %}
+      {% if contact.office %}<dt>Văn phòng</dt><dd>{{ contact.office | escape }}</dd>{% endif %}
+      {% if contact.hours %}<dt>Giờ liên hệ</dt><dd>{{ contact.hours | escape }}</dd>{% endif %}
+      {% if contact.responsibilities %}<dt>Phụ trách</dt><dd>{{ contact.responsibilities | escape }}</dd>{% endif %}
+    </dl>
+  </article>
+{% endmacro %}

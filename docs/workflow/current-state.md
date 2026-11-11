@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). Chưa push (HUMAN LEAD 2026-11-11). Chuỗi stacked: CP1-01 READY → CP1-02 READY (`258faa7`) → P1 = CP1-03 READY ‖ CP2-01 READY (worktree `../IAB-wt/*`, base `258faa7`). CP1-04 serialize sau CP1-03 (tái dùng component CP1-03). Global data nội dung tên `bulletin`. Stack **Eleventy 3** (ADR-001 Amendment 2). Claude ORCHESTRATOR → Codex IMPLEMENTER chạy song song 2 worktree được; evidence trong contract.
+CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). Tất cả READY và đã push lên origin (HUMAN LEAD 2026-11-11), chưa có PR: chuỗi stacked CP1-01 → CP1-02 (`258faa7`) → CP1-03 → CP1-04; CP2-01 tách từ `258faa7`. Global data nội dung tên `bulletin`. Stack **Eleventy 3** (ADR-001 Amendment 2). Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy song song 2 worktree (P1) được; evidence trong contract.
 
 ## Next proposed action
 
-CP1-04, base = HEAD CP1-03. Sau đó HUMAN LEAD quyết push/PR chuỗi stacked; CP2-01 cần rebase/merge cùng chuỗi.
+HUMAN LEAD: mở PR / thứ tự merge chuỗi stacked (+ CP2-01). Sau đó CP1-05 (tìm kiếm), base = HEAD CP1-04.
 
 ## Open decisions
 
@@ -26,7 +26,6 @@ CP1-04, base = HEAD CP1-03. Sau đó HUMAN LEAD quyết push/PR chuỗi stacked;
 - D-07 Logo/nhận diện IU được phép dùng?
 - D-08 Giữ, tắt hay xóa `.github/workflows/requirement-to-task.yml` (kit; cần secret `ANTHROPIC_API_KEY`, quyền `contents: write`).
 - D-09 "Thông báo học vụ" giữ là danh mục riêng?
-- D-10 FAQ chưa có câu trả lời: ẩn hay hiện "Chưa cập nhật".
 - D-11 Lỗi kit K-01…K-05: báo upstream / sửa bản project (cần decision) / bỏ qua.
 
 ## Blockers

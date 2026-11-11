@@ -1,0 +1,8 @@
+title: 'Fixture secondary resource <b>escaped</b>'
+description: Fixture secondary resource description
+category: beta
+published: true
+external_url: https://example.org/secondary-resource-public?first=1&second=2
+file_type: PDF
+access: Công khai
+updated_date: 2026-11-10

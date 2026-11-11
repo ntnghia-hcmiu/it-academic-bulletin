@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+permalink: /hoi-dap/
+title: Hỏi đáp
+description: Câu hỏi thường gặp theo danh mục học vụ.
+---
+{% from "components/EmptyState.njk" import emptyState %}
+{% set byCategory = bulletin.faq | groupby('resolvedCategory.slug') %}
+{# Collect the fallback group in source order, including uncategorized questions. #}
+{% set otherFaq = [] %}
+{% for faq in bulletin.faq %}
+  {% if not faq.resolvedCategory or faq.resolvedCategory.slug == 'khac' %}{% set ignored = otherFaq.push(faq) %}{% endif %}
+{% endfor %}
+<h1>Hỏi đáp</h1>
+{% asyncEach category in bulletin.categories.concat([{ slug: 'khac', name: 'Khác' }]) %}
+  {% set faqItems = byCategory[category.slug] or [] %}
+  {% if category.slug == 'khac' %}{% set faqItems = otherFaq %}{% endif %}
+  {% ifAsync faqItems.length %}
+    <section class="page-section" aria-labelledby="faq-{{ category.slug | escape }}">
+      <h2 id="faq-{{ category.slug | escape }}">{{ category.name | escape }}</h2>
+      {% include "components/FaqList.njk" %}
+    </section>
+  {% endif %}
+{% endeach %}
+{% if not bulletin.faq.length %}{{ emptyState('Chưa có câu hỏi thường gặp', 'Nội dung đang được cập nhật') }}{% endif %}

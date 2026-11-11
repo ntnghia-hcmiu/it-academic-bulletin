@@ -13,6 +13,8 @@ eleventyComputed:
 {% from "components/CategoryNav.njk" import categoryNav %}
 {% from "components/EmptyState.njk" import emptyState %}
 {% from "components/DeadlineBadge.njk" import refreshDeadlines %}
+{% from "components/DeadlineBadge.njk" import displayDate %}
+{% from "components/ResourceList.njk" import resourceList %}
 {% set byCategory = bulletin.announcements | groupby('category') %}
 {% set announcements = byCategory[category.slug] or [] %}
 <p><a href="/danh-muc/">Tất cả danh mục</a></p>
@@ -27,4 +29,32 @@ eleventyComputed:
     {{ emptyState() }}
   {% endfor %}
 </section>
+{% set guidesByCategory = bulletin.guides | groupby('resolvedCategory.slug') %}
+{% set guides = guidesByCategory[category.slug] or [] %}
+{% if guides.length %}
+  <section class="page-section" aria-labelledby="guides-title">
+    <h2 id="guides-title">Hướng dẫn</h2>
+    <ul class="guide-list">
+      {% for guide in guides %}
+        <li><a href="/huong-dan/{{ guide.id | escape }}/">{{ guide.title | escape }}</a> <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span></li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+{% set resourcesByCategory = bulletin.resources | groupby('resolvedCategory.slug') %}
+{% set resources = resourcesByCategory[category.slug] or [] %}
+{% if resources.length %}
+  <section class="page-section" aria-labelledby="resources-title">
+    <h2 id="resources-title">Biểu mẫu / Tài liệu</h2>
+    {{ resourceList(resources) }}
+  </section>
+{% endif %}
+{% set faqByCategory = bulletin.faq | groupby('resolvedCategory.slug') %}
+{% set faqItems = faqByCategory[category.slug] or [] %}
+{% ifAsync faqItems.length %}
+  <section class="page-section" aria-labelledby="faq-title">
+    <h2 id="faq-title">Hỏi đáp</h2>
+    {% include "components/FaqList.njk" %}
+  </section>
+{% endif %}
 {{ refreshDeadlines() }}
