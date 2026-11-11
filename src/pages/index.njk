@@ -3,6 +3,49 @@ layout: layouts/base.njk
 permalink: /
 title: Thông tin học vụ — Khoa CNTT
 description: Thông tin học vụ Khoa CNTT. Nội dung đang được cập nhật.
+eleventyComputed:
+  title: "{{ bulletin.settings.site_title or 'Thông tin học vụ — Khoa CNTT' }}"
 ---
-<h1>Thông tin học vụ — Khoa CNTT</h1>
-<p>Nội dung đang được cập nhật.</p>
+{% from "components/AnnouncementCard.njk" import announcementCard %}
+{% from "components/CategoryNav.njk" import categoryNav %}
+{% from "components/EmptyState.njk" import emptyState %}
+{% from "components/DeadlineBadge.njk" import refreshDeadlines %}
+{% set important = bulletin.announcements | selectattr('important') %}
+<h1>{{ title | escape }}</h1>
+{% if bulletin.settings.intro %}<p class="intro">{{ bulletin.settings.intro | escape }}</p>{% endif %}
+<div class="home-grid">
+  <div>
+    <section class="page-section" aria-labelledby="important-title">
+      <h2 id="important-title">Quan trọng</h2>
+      {% for announcement in important.slice(0, 3) %}
+        {{ announcementCard(announcement, build, 3) }}
+      {% else %}
+        {{ emptyState('Chưa có thông báo quan trọng') }}
+      {% endfor %}
+    </section>
+    <section class="page-section" aria-labelledby="latest-title">
+      <div class="section-heading">
+        <h2 id="latest-title">Mới nhất</h2>
+        <a href="/thong-bao/">Xem tất cả thông báo</a>
+      </div>
+      {% for announcement in bulletin.announcements.slice(0, 6) %}
+        {{ announcementCard(announcement, build, 3) }}
+      {% else %}
+        {{ emptyState('Chưa có thông báo', 'Nội dung đang được cập nhật') }}
+      {% endfor %}
+    </section>
+  </div>
+  <section class="page-section" aria-labelledby="categories-title">
+    <h2 id="categories-title">Thủ tục thường dùng</h2>
+    {{ categoryNav(bulletin.categories) }}
+    {% if not bulletin.categories.length %}{{ emptyState() }}{% endif %}
+    {% if bulletin.settings.quick_links.length %}
+      <ul class="quick-links">
+        {% for link in bulletin.settings.quick_links %}
+          {% if link.label and link.url %}<li><a href="{{ link.url | escape }}" rel="noopener noreferrer">{{ link.label | escape }}</a></li>{% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+</div>
+{{ refreshDeadlines() }}

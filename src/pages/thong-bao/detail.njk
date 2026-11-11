@@ -1,0 +1,15 @@
+---
+layout: ../pages/thong-bao/detail-layout.njk
+templateEngineOverride: njk,md
+noindex: false
+eleventyExcludeFromCollections: false
+pagination:
+  data: bulletin.announcements
+  size: 1
+  alias: announcement
+permalink: /thong-bao/{{ announcement.id }}/index.html
+eleventyComputed:
+  title: "{{ announcement.title }}"
+  description: "{{ announcement.summary or announcement.title }}"
+---
+{{ announcement.body | safe }}

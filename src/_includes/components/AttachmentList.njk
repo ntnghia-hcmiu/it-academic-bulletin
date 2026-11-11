@@ -1,0 +1,13 @@
+{# API: attachmentList(attachments) — array of {label, url, note?}. #}
+{% macro attachmentList(attachments) %}
+  {% if attachments and attachments.length %}
+    <ul class="attachment-list">
+      {% for attachment in attachments %}
+        <li>
+          <a href="{{ attachment.url | escape }}" rel="noopener noreferrer">{{ attachment.label | escape }}</a>
+          {% if attachment.note %}<span class="access-label">{{ attachment.note | escape }}</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

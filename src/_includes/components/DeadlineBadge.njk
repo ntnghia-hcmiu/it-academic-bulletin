@@ -1,0 +1,30 @@
+{% macro displayDate(date) -%}
+  {%- set parts = date.split('-') -%}
+  {{- parts[2] | escape }}/{{ parts[1] | escape }}/{{ parts[0] | escape -}}
+{%- endmacro %}
+
+{# Both arguments are ISO calendar dates (yyyy-MM-dd), compared in UTC. #}
+{% macro deadlineBadge(deadline, buildDate) %}
+  {% if deadline %}
+    <span class="deadline-badge" data-deadline="{{ deadline | escape }}">
+      Hạn: <time datetime="{{ deadline | escape }}">{{ displayDate(deadline) }}</time><span class="deadline-status">{% if deadline < buildDate %} — Đã hết hạn{% endif %}</span>
+    </span>
+  {% endif %}
+{% endmacro %}
+
+{# Call once after the page's badges; update cached pages against today's UTC date. #}
+{% macro refreshDeadlines() %}
+  <script>
+    (() => {
+      const refresh = () => {
+        const today = new Date().toISOString().slice(0, 10);
+        for (const badge of document.querySelectorAll('[data-deadline]')) {
+          badge.querySelector('.deadline-status').textContent =
+            badge.dataset.deadline < today ? ' — Đã hết hạn' : '';
+        }
+      };
+      refresh();
+      window.addEventListener('pageshow', refresh);
+    })();
+  </script>
+{% endmacro %}

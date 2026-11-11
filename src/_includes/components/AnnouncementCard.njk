@@ -1,0 +1,22 @@
+{% from "components/DeadlineBadge.njk" import displayDate, deadlineBadge %}
+{# API: announcementCard(announcement, buildDate, headingLevel=2). #}
+{% macro announcementCard(announcement, buildDate, headingLevel=2) %}
+  <article class="announcement-card">
+    <div class="announcement-meta">
+      {% if announcement.resolvedCategory.slug != 'khac' %}
+        <a href="/danh-muc/{{ announcement.resolvedCategory.slug | escape }}/">{{ announcement.resolvedCategory.name | escape }}</a>
+      {% else %}
+        <span>{{ announcement.resolvedCategory.name | escape }}</span>
+      {% endif %}
+      <span>Ngày đăng: <time datetime="{{ announcement.published_date | escape }}">{{ displayDate(announcement.published_date) }}</time></span>
+      {% if announcement.important %}<span class="important-label">Quan trọng</span>{% endif %}
+    </div>
+    {% if headingLevel == 3 %}
+      <h3><a href="/thong-bao/{{ announcement.id | escape }}/">{{ announcement.title | escape }}</a></h3>
+    {% else %}
+      <h2><a href="/thong-bao/{{ announcement.id | escape }}/">{{ announcement.title | escape }}</a></h2>
+    {% endif %}
+    {% if announcement.summary %}<p>{{ announcement.summary | escape }}</p>{% endif %}
+    {{ deadlineBadge(announcement.deadline, buildDate) }}
+  </article>
+{% endmacro %}

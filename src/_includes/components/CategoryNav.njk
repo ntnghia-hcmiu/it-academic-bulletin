@@ -1,0 +1,12 @@
+{# API: categoryNav(categories, currentSlug?) — published categories from bulletin. #}
+{% macro categoryNav(categories, currentSlug='') %}
+  {% if categories.length %}
+    <nav class="category-nav" aria-label="Danh mục học vụ">
+      <ul>
+        {% for category in categories %}
+          <li><a href="/danh-muc/{{ category.slug | escape }}/"{% if category.slug == currentSlug %} aria-current="page"{% endif %}>{{ category.name | escape }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endmacro %}

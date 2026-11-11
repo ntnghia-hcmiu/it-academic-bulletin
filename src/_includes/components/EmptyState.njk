@@ -1,0 +1,7 @@
+{# API: emptyState(message?, detail?) — plain text only. #}
+{% macro emptyState(message='Nội dung đang được cập nhật', detail='') %}
+  <div class="empty-state">
+    <p>{{ message | escape }}</p>
+    {% if detail %}<p>{{ detail | escape }}</p>{% endif %}
+  </div>
+{% endmacro %}
