@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: không — serialize sau CP1-03 (HUMAN LEAD 2026-11-11: tái dùng component CP1-03)
-- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/_includes/components/{ContactCard,ResourceList,FaqList}.njk`, `src/styles/global.css` (chỉ thêm style), `tests/pages-secondary.test.mjs`, `tests/fixtures/pages/**` (chỉ thêm file), `src/pages/index.njk` + `src/pages/danh-muc/detail.njk` (chỉ thêm section theo SITEMAP §1–2: Hướng dẫn nhanh, Liên hệ trên trang chủ; hướng dẫn/tài liệu/FAQ liên quan trên trang danh mục — CP1-03 READY chỉ làm phần thông báo) — mở rộng bởi ORCHESTRATOR 2026-11-11
+- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/_includes/components/{ContactCard,ResourceList,FaqList}.njk`, `src/styles/global.css` (chỉ thêm style), `tests/pages-secondary.test.mjs`, `tests/fixtures/pages/**` (chỉ thêm file), `src/pages/index.njk` + `src/pages/danh-muc/detail.njk` (chỉ thêm section theo SITEMAP §1–2: Hướng dẫn nhanh, Liên hệ trên trang chủ; hướng dẫn/tài liệu/FAQ liên quan trên trang danh mục — CP1-03 READY chỉ làm phần thông báo), `eleventy.config.js` (chỉ thêm `RenderPlugin` built-in của Eleventy cho Markdown FAQ answer, giữ `html:false`; thêm sau BLOCKED vòng 1) — mở rộng bởi ORCHESTRATOR 2026-11-11
 - Dependencies: CP1-02
 - Base commit / branch: `0412797` (HEAD CP1-03 READY); branch `cp1/CP1-04-guides-resources-faq-contact`, worktree `../IAB-wt/CP1-04`
 - Human Lead approval: inherited from boundary IAB-001
