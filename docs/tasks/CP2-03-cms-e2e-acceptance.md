@@ -52,10 +52,11 @@ Chứng minh AC-005/AC-006 của REQ-001 bằng thao tác thật của thư ký.
 2. Bài test hiện rồi mất trên site công khai.
 3. Commit CMS chỉ chạm `src/content/**`; guard CI PASS.
 4. Ghi rõ branch CMS ghi vào và hành vi với ruleset.
+5. Ghi kết quả thử thật trên Pages CMS: dán từ Word/email, bảng, tiêu đề, gạch chân → Markdown sau khi lưu và hiển thị trên site (chuyển từ CP2-01, HUMAN LEAD 2026-11-11).
 
 ## Required verification
 
-- Evidence: commit SHA của CMS, log Actions, ảnh chụp site — AC1–AC4
+- Evidence: commit SHA của CMS, log Actions, ảnh chụp site — AC1–AC5
 - Không mô phỏng; chưa chạy → NOT RUN
 
 Tất cả required verification phải chạy và PASS trước READY.
