@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -13,11 +13,11 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `src/lib/schema.js`, `src/lib/content.js`, `src/_data/content.js`, `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/fixtures/**`
+- Owned paths: `src/lib/schema.js`, `src/lib/content.js`, `src/_data/content.js`, `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/markdown.test.mjs`, `tests/fixtures/**`, `scripts/check.mjs` (mới), `package.json` (chỉ `scripts`)
 - Dependencies: CP1-01
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-02-content-collections`
+- Base commit / branch: `263434e` (stacked trên `cp1/CP1-01-scaffold`, chưa merge `main` — HUMAN LEAD 2026-11-11); branch `cp1/CP1-02-content-collections`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -28,7 +28,8 @@ Schema 6 collection theo `docs/CONTENT_MODEL.md`, một helper duy nhất lọc 
 ## Scope
 
 - In scope: validator schema thuần JS (`src/lib/schema.js`, không Zod — ADR-001 Amendment 2), đọc file bằng `js-yaml`; helper `getPublished*`, `resolveCategory` (fallback "Khác"), sort; seed đúng bảng §4 CONTENT_MODEL (drive_folder_url trống).
-- Out of scope: Thông báo/hướng dẫn/FAQ/tài liệu thật hoặc giả; liên hệ; trang UI.
+- In scope (non-blocking note CP1-01, HUMAN LEAD 2026-11-11): (a) tách script `check` one-liner thành `scripts/check.mjs` = `node --check` mọi `.js` của project + validate `src/content/**` bằng `src/lib/schema.js`; (b) `dev` watch cả Tailwind nếu gọn, không thêm dependency; (c) test Markdown `html: false` (HTML thô bị escape).
+- Out of scope: Thông báo/hướng dẫn/FAQ/tài liệu thật hoặc giả; liên hệ; trang UI; dependency mới.
 
 ## Authority / key decisions
 
@@ -51,12 +52,14 @@ Schema 6 collection theo `docs/CONTENT_MODEL.md`, một helper duy nhất lọc 
 1. Build PASS với 9 danh mục seed, 0 thông báo.
 2. Helper loại entry `published=false`; danh mục ẩn/không tồn tại → "Khác" + cảnh báo build, không fail.
 3. Không có nội dung học vụ ngoài tên + mô tả trung tính 1 câu.
+4. `npm run check` fail (exit ≠ 0) khi entry trong `src/content` sai schema (field bắt buộc thiếu, `slug`/URL sai pattern); Markdown chứa HTML thô được escape.
 
 ## Required verification
 
 - `npm test` (content.test.mjs) — AC2
 - `npm run build` — AC1
 - Review diff `src/content/**` — AC3
+- `npm run check` (+ fixture sai schema qua test) — AC4; `npm run verify` toàn bộ
 
 Tất cả required verification phải chạy và PASS trước READY.
 
