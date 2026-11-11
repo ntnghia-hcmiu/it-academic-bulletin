@@ -17,7 +17,7 @@
 - Dependencies: none
 - Base commit / branch: `23c8edb` (origin/cp0/framework-adoption); branch `cp1/CP1-01-scaffold`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: YES (IAB-001)
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -71,11 +71,15 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
-- PR:
+**Trạng thái: BLOCKED (2026-11-11)** — decision gate môi trường/dependency; code scaffold có trong working tree, chưa commit.
+
+- Main changes (Codex, untracked): `.gitignore`, `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/lib/url.ts` (`joinBase`, `url`), `src/layouts/Base.astro`, `src/styles/global.css`, `src/pages/index.astro`, `src/pages/404.astro`, `tests/url.test.mjs`. Dependency: astro 7.4.10, @astrojs/check 0.9.12, typescript 6.0.3, tailwindcss + @tailwindcss/vite 4.3.5.
+- ORCHESTRATOR micro-fix: script `test` → `node --test tests/*.test.mjs` (Node 24 không nhận thư mục); `engines.node` → `>=22.23.4` (yêu cầu của astro 7.4.10); contract `Implementation authorized: YES` (checker không nhận hậu tố).
+- Tests (ORCHESTRATOR chạy lại ngoài sandbox): `npm test` PASS 3/3; `node scripts/framework-check.mjs` PASS; `npm run check` / `npm run build` **FAIL exit 132 `Illegal instruction`**; grep `dist/` và DevTools 360px **NOT RUN** (không có build).
+- Root cause: `@astrojs/compiler-binding-linux-x64-gnu` (compiler Rust native của Astro 7) dùng lệnh AVX/AVX2; CPU ảo của máy dev (Xeon Silver 4216, chỉ expose SSE4.2/BMI2, không có avx/avx2) không hỗ trợ → SIGILL khi `dlopen`. Các native binding khác (rolldown, lightningcss, oxide, sharp) nạp được. Thử fallback WASI (`@astrojs/compiler-binding-wasm32-wasi` + `NAPI_RS_NATIVE_LIBRARY_PATH`, cài trong scratch) thất bại: biến môi trường áp cho mọi package napi-rs (rolldown nạp nhầm binding). GitHub Actions runner có AVX2 → dự kiến chỉ ảnh hưởng máy dev.
+- Diff + / − (app, test): +5952 / −0 (gồm `package-lock.json` 5619); app/test không tính lockfile ≈ +333.
+- Helper mới: `joinBase()` + `url()` — repo chưa có source app (Codex đã grep), không có helper để tái dùng.
+- Review: 0 blocking finding về code; non-blocking: hai `<nav>` cùng `aria-label` (một cái `display:none` theo breakpoint — chấp nhận).
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1c9c4-e9b6-7100-a0b7-5dc11348f054`, 77,405 tokens, 08:41:27→08:46:31 UTC (≈ 5 phút); quota trước khi giao: 5 giờ 3 %, tuần 76 %. Codex không commit/push, không sửa ngoài Owned paths, báo BLOCKED trung thực (không claim PASS).
+- Known limitations: AC1–AC3 chưa chứng minh được trên máy này.
+- PR: —
