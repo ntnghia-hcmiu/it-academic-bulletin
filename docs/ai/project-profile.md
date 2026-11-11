@@ -123,7 +123,7 @@ Cách chọn:
 
 ## 9. Setup / tools
 
-- Runtime: Node.js ≥ 20 (máy dev hiện: v24.21.0, npm 11.19.0). Git; GitHub CLI chỉ dùng read-only khi chưa được phép.
+- Runtime: Node.js ≥ 22.12 (yêu cầu Astro 6, ADR-001 Amendment 1) (máy dev hiện: v24.21.0, npm 11.19.0). Git; GitHub CLI chỉ dùng read-only khi chưa được phép.
 - Ứng dụng (planned, sau khi ADR-001 ACCEPTED): `npm ci`, `npm run dev`, `npm run build`, `npm run check`, `npm test`. Dependency được duyệt: chưa có — xem `docs/decisions/ADR-001-static-site-stack.md`.
 - Session context handoff: ngưỡng mặc định Core (250k token).
 

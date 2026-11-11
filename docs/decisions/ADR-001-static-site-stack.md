@@ -16,7 +16,7 @@ Cần website công khai, chi phí 0, không backend, thư ký sửa nội dung 
 
 | Thành phần | Lựa chọn | Phiên bản (npm 2026-11-11) | Ghi chú |
 |---|---|---|---|
-| Static site | `astro` | 7.4.10 (major 7) | content collections (`src/content.config.ts`, `glob` loader); output tĩnh |
+| Static site | `astro` | **6.4.8 (major 6)** — sửa 2026-11-11, xem Amendment 1 | content collections (`src/content.config.ts`, `glob` loader); output tĩnh |
 | Ngôn ngữ | `typescript` + `@astrojs/check` | stable hiện hành | `astro check` là verification |
 | CSS | `tailwindcss` + `@tailwindcss/vite` | 4.3.5 | Tailwind v4 qua Vite plugin |
 | Sitemap | `@astrojs/sitemap` | stable hiện hành | SEO cơ bản |
@@ -42,6 +42,13 @@ Không thêm dependency khác trong CP1–CP3 nếu không có decision mới (P
 - Toàn bộ site là HTML/CSS/JS tĩnh; bài `published=false` bị lọc ở build.
 - Thay đổi base path khi chuyển sang domain riêng chỉ cần đổi `site`/`base` (và `public/CNAME`).
 - Phiên bản pin bằng `package-lock.json`; CP1 xác minh lại bản stable hiện hành.
+
+## Amendment 1 — Astro major 6 (2026-11-11)
+
+- **Quyết định:** HUMAN LEAD 2026-11-11 (phiên CP1-01: "quay lại hướng 2 (hạ xuống Astro 6)"). `astro` dùng **major 6** (6.4.8) thay major 7; các dependency khác giữ nguyên.
+- **Lý do:** compiler native Rust của Astro 7 (`@astrojs/compiler-binding-linux-x64-gnu`) cần AVX/AVX2; VM dev (VMware, CPU ảo không expose `avx`/`avx2`/`xsave`) crash `Illegal instruction` khi `astro check`/`astro build`. Astro 6 dùng `@astrojs/compiler` (WASM), không phụ thuộc tập lệnh CPU. Evidence: `docs/tasks/CP1-01-scaffold.md` Result.
+- **Đã kiểm (scratch, 2026-11-11):** astro 6.4.8 + @astrojs/check 0.9.12 + typescript 6.0.3 + tailwindcss/@tailwindcss/vite 4.3.5 → `astro build` và `astro check` PASS trên VM dev. Astro 6 yêu cầu Node ≥ 22.12.0.
+- **Hệ quả:** nâng lên Astro 7 sau này cần decision mới, kèm điều kiện máy dev/CI có AVX2. Content collections (`src/content.config.ts`, `glob` loader) có ở Astro 6.
 
 ## Open points
 
