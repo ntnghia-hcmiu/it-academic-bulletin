@@ -73,6 +73,28 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
+**Trạng thái: READY — trừ AC3 (kiểm thủ công 360px + Tab, chờ HUMAN LEAD)** — 2026-11-11, sau vòng 2 (Eleventy).
+
+- Main changes: scaffold Eleventy 3 + Tailwind CLI — `eleventy.config.js` (pathPrefix từ `BASE_PATH`, HtmlBasePlugin, markdown-it `html: false`, ignore `src/content|styles|lib`), `src/_data/site.js`, `src/_includes/layouts/base.njk` (`lang="vi"`, canonical tuyệt đối / `noindex`, skip-link, một `<nav>` với `<details>` mobile), `src/lib/url.js` (`joinBase` port từ bản Astro, `absoluteUrl` mới), `src/styles/global.css`, `src/pages/index.njk` (khung, "Nội dung đang được cập nhật."), `src/pages/404.njk` (`/404.html`, noindex), `tests/url.test.mjs`, `package.json`, `package-lock.json`, `.gitignore`. Scaffold Astro (untracked) đã xóa.
+- Dependency: `@11ty/eleventy` 3.1.8, `tailwindcss` 4.3.5, `@tailwindcss/cli` 4.3.5, `js-yaml` 4.3.2 (ADR-001 Amendment 2).
+- Tests (ORCHESTRATOR chạy lại ngoài sandbox): `npm run check` exit 0; `npm test` 3/3; `npm run build` exit 0 (2 trang + `dist/assets/site.css`); grep `dist/**/*.html`: 29/29 `href`/`src` nội bộ có prefix `/it-academic-bulletin/`, `BASE_PATH=/` 29/29 prefix `/`; canonical trang chủ `https://ntnghia-hcmiu.github.io/it-academic-bulletin/` (root build: `https://ntnghia-hcmiu.github.io/`); `dist/404.html` noindex, không canonical; `npm audit` 0 vulnerabilities; `node scripts/framework-check.mjs` PASS. AC3 **NOT RUN** (máy không có trình duyệt).
+- AC → test: AC1 `npm run check && npm test && npm run build`; AC2 `tests/url.test.mjs` (3 test, bảng case) + grep `dist/` hai base; AC3 thủ công (chờ); AC4 framework-check; AC5 `npm audit`.
+- Diff + / − (app, test, config): +347 / −0; `package-lock.json` +2778.
+- Helper mới: `joinBase()` (port), `absoluteUrl()` (dùng lại `joinBase`) — Codex grep `rg -n 'joinBase|absoluteUrl|canonical|function url' src tests`; không có helper sẵn.
+- Review: 0 blocking. Non-blocking: (1) script `check` là one-liner `node -e` dài — có thể tách thành `scripts/check-js.mjs` khi CP1-02 thêm validator schema; (2) `dev` chưa watch Tailwind; (3) `html: false` chưa có test Markdown thực — thêm ở CP1-02 khi có nội dung.
+- Pilot evidence (Claude Code ORCHESTRATOR → Codex IMPLEMENTER, PD-002): Codex CLI 0.166.0, model `gpt-6.1-sol`.
+  - Vòng 1 (Astro 7): session `01a1c9c4-e9b6-7100-a0b7-5dc11348f054`, effort `high`, 77,405 tokens, ≈ 5 phút — Codex báo BLOCKED trung thực (`Illegal instruction`).
+  - Vòng sửa 1 (Astro 6, `resume`): effort `medium`, ≈ 2,5 phút, session tích lũy 144,686 tokens — build PASS, phát hiện `npm audit` critical.
+  - Vòng 2 (Eleventy, session mới vì đổi stack): session `01a1c9e9-251d-7ff1-8b27-0f912d69be62`, effort `high`, 55,252 tokens, 09:21:02→09:27:26 UTC (≈ 6,5 phút).
+  - Quota trước mỗi lần giao: 5 giờ 3 % / 6 % / 9 %; tuần 76–77 %. Ngưỡng dự phòng 95 % / 97 % (project-profile §7).
+  - Codex không commit/push, không sửa ngoài Owned paths ở cả 3 lượt; mọi claim của Codex khớp lần chạy lại của ORCHESTRATOR.
+- Important findings / decisions: Astro 7 cần AVX2 (VM dev không có) → Amendment 1 (Astro 6) → `npm audit` critical → Amendment 2 (Eleventy 3), HUMAN LEAD duyệt 2026-11-11. Văn bản chỉ qua link Drive (CONTENT_MODEL). Ngưỡng quota Codex 95 %/97 %.
+- Known limitations: AC3 chờ kiểm thủ công; route trong nav (thông báo, danh mục…) chưa có trang tới CP1-03/04.
+- PR: — (chưa push; HUMAN LEAD quyết integration).
+
+<details><summary>Lịch sử vòng Astro (đã thay)</summary>
+
+
 **Trạng thái: BLOCKED (2026-11-11, sau vòng sửa 1)** — decision gate bảo mật: Astro 6 có advisory critical (xem dưới). Code scaffold trong working tree, chưa commit.
 - 2026-11-11: HUMAN LEAD chọn Eleventy 3 → ADR-001 Amendment 2; contract viết lại scope Eleventy. HUMAN LEAD duyệt chi tiết Amendment 2 (2026-11-11) → giao Codex vòng 2.
 
@@ -90,3 +112,5 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Non-blocking: trang 404 có canonical `/404/` (nên bỏ canonical/thêm `noindex` ở CP1-06).
 - Known limitations: AC3 chờ kiểm thủ công.
 - PR: —
+
+</details>

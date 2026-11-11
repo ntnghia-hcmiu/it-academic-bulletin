@@ -1,0 +1,51 @@
+{% set navigation = [
+  ['Trang chủ', '/'],
+  ['Thông báo', '/thong-bao/'],
+  ['Danh mục', '/danh-muc/'],
+  ['Biểu mẫu', '/bieu-mau/'],
+  ['Hỏi đáp', '/hoi-dap/'],
+  ['Liên hệ', '/lien-he/']
+] %}
+{% macro navigationList(className) %}
+  <ul class="{{ className }}">
+    {% for label, path in navigation %}
+      <li><a href="{{ path }}">{{ label }}</a></li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title | escape }}</title>
+    <meta name="description" content="{{ description | escape }}">
+    {% if noindex %}
+      <meta name="robots" content="noindex">
+    {% else %}
+      <link rel="canonical" href="{{ site.url | absoluteUrl(site.basePath, page.url) | escape }}">
+    {% endif %}
+    <link rel="stylesheet" href="/assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Bỏ qua tới nội dung</a>
+    <header>
+      <div class="shell header-content">
+        <a class="site-name" href="/">Học vụ CNTT</a>
+        <nav aria-label="Điều hướng chính">
+          <details class="mobile-menu">
+            <summary>Menu</summary>
+            {{ navigationList('mobile-links') }}
+          </details>
+          {{ navigationList('desktop-menu') }}
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="shell" tabindex="-1">
+      {{ content | safe }}
+    </main>
+    <footer>
+      <div class="shell">Thông tin học vụ — Khoa CNTT</div>
+    </footer>
+  </body>
+</html>
