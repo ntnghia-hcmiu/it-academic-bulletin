@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -12,12 +12,12 @@
 - Human Lead: tech owner
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
-- Parallel group: P1 (PD-001; worktree riêng)
-- Owned paths: `src/pages/index.njk`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/_includes/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.njk`
+- Parallel group: P1 = CP1-03 ‖ CP2-01 (PD-001; worktree riêng). CP1-04 serialize sau CP1-03 (HUMAN LEAD 2026-11-11: CP1-04 tái dùng component của task này)
+- Owned paths: `src/pages/index.njk`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/_includes/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.njk`, `src/_data/bulletin.js` (chỉ thêm env `CONTENT_DIR` cho fixture build), `src/styles/global.css` (chỉ thêm style), `tests/pages.test.mjs`, `tests/fixtures/pages/**` — mở rộng bởi ORCHESTRATOR 2026-11-11 vì AC1 cần build với fixture; không giao với CP2-01
 - Dependencies: CP1-02
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-03-announcement-pages`
+- Base commit / branch: `258faa7` (HEAD CP1-02); branch `cp1/CP1-03-announcement-pages`, worktree `../IAB-wt/CP1-03`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES (IAB-001)
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
