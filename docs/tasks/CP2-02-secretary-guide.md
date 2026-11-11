@@ -66,11 +66,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: `docs/SECRETARY_GUIDE.md` (56 dòng, ~2 trang A4): 6 mục — địa chỉ/tài khoản, đăng & sửa thông báo, các nhóm còn lại (tên nhóm/nhãn field khớp `.pages.yml`), kiểm quyền link Drive, "Ẩn bài khác xóa bài", sau khi lưu & báo lỗi; cảnh báo kho CÔNG KHAI ở mục 1 và 5.
+- Tests: không có test tự động trong contract; `node scripts/framework-check.mjs` PASS; Codex + ORCHESTRATOR đối chiếu nhãn field với `.pages.yml`.
+- Diff + / − (app, test): docs +56/−0.
+- Helper mới (đã tìm, lý do không tái dùng): không có.
+- Review: ORCHESTRATOR review 0 blocking; sửa 2 cụm thuật ngữ nội bộ ("CP2-03", "agent") khỏi văn bản cho thư ký.
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `medium`; chạy song song CP1-05.
+- Important findings / decisions: placeholder `[chờ HUMAN LEAD cung cấp]` cho: địa chỉ trang công khai (D-05), địa chỉ CMS, tài khoản thư ký (D-03), đầu mối kỹ thuật nhận báo lỗi, thư mục Drive (D-06). Thời gian chờ deploy 2–10 phút là ước lượng, đo ở CP2-03.
+- Known limitations: Required verification (review HUMAN LEAD + thư ký) chưa chạy → chưa READY. Slug từ tiêu đề tiếng Việt, deadline trống: xác nhận ở CP2-03. Chưa có ảnh màn hình.
 - PR:
