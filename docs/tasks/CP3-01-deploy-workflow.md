@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -77,5 +77,6 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Review: ORCHESTRATOR vòng 1: 0 blocking. Lệch nhỏ có chủ đích: build job dùng `pages: read` (configure-pages đọc cấu hình) — vẫn trong tập quyền IAB-001, tối thiểu hơn.
 - Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, 11:47→11:53 UTC, 66,064 tokens. Quota trước khi giao: 5 giờ 17 % / tuần 83 %.
 - Important findings / decisions: tên bot CMS đọc từ repository variable `CMS_BOT_ACTORS` (đặt sau khi xác minh ở CP2-03); merge PR = kích hoạt deploy → integration gate.
-- Known limitations: Required verification "chạy thật trên GitHub" NOT RUN — cần HUMAN LEAD bật Pages (Source: GitHub Actions) rồi merge → chưa READY. Guard chỉ phát hiện, không ngăn commit (ADR-002).
-- PR:
+- Chạy thật (integration gate): HUMAN LEAD bật Pages (Source: GitHub Actions) + thêm rule `main` vào environment `github-pages` (default branch vẫn `cp0/framework-adoption`) 2026-11-11. Merge PR #8 → run 43020102019 (push `main`, 12:24 UTC): build + deploy PASS. Annotation: `CMS_BOT_ACTORS is empty; content-path guard skipped` (đúng thiết kế; đặt biến ở CP2-03). Smoke test https://ntnghia-hcmiu.github.io/it-academic-bulletin/ : `/`, `sitemap.xml`, `robots.txt`, 16 link nội bộ trang chủ (base path) đều 200; trang không tồn tại 404.
+- Known limitations: Guard chỉ phát hiện, không ngăn commit (ADR-002); guard tắt tới khi đặt `CMS_BOT_ACTORS`. Runner `ubuntu-latest` có notice chuyển Ubuntu 26 — không ảnh hưởng.
+- PR: #8 (merged 2026-11-11)
