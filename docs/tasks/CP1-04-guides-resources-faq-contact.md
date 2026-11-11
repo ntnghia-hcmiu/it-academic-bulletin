@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -63,16 +63,16 @@ Tất cả required verification phải chạy và PASS trước READY.
 
 Task không chạm security model / quyền bên thứ ba; manual test sau automated verification là điểm danh.
 
-- [ ] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI).
+- [x] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI). — HUMAN LEAD 2026-11-11 PASS.
 
 ## Result
 
 - Main changes: `/huong-dan/` + chi tiết, `/bieu-mau/` (nhóm theo danh mục, không JS), `/hoi-dap/` (`<details>`, answer trống → "Chưa cập nhật câu trả lời" theo D-10), `/lien-he/` (chỉ từ settings, trống → "Thông tin liên hệ đang được cập nhật"); components `ContactCard`, `ResourceList`, `FaqList`; trang chủ thêm "Hướng dẫn nhanh" + "Liên hệ"; trang danh mục thêm hướng dẫn/tài liệu/FAQ liên quan; `RenderPlugin` cho Markdown của FAQ answer và `contact_note`. Không hiển thị link Drive (D-06).
-- Tests: `tests/pages-secondary.test.mjs` 9 test (AC1–AC3, D-10, escape `<script>`/`<b>` trong answer, Markdown đậm/link). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: PASS, test 25/25; grep `dist/**/*.html` (settings rỗng) không có email/số điện thoại — AC3 PASS. Probe ORCHESTRATOR: cú pháp `{{ }}`/`{% %}` trong FAQ answer, body thông báo, body hướng dẫn được xuất nguyên văn (không chạy template). Kiểm 360px/1280px + bàn phím: **NOT RUN** — chờ HUMAN LEAD.
+- Tests: `tests/pages-secondary.test.mjs` 9 test (AC1–AC3, D-10, escape `<script>`/`<b>` trong answer, Markdown đậm/link). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: PASS, test 25/25; grep `dist/**/*.html` (settings rỗng) không có email/số điện thoại — AC3 PASS. Probe ORCHESTRATOR: cú pháp `{{ }}`/`{% %}` trong FAQ answer, body thông báo, body hướng dẫn được xuất nguyên văn (không chạy template). Kiểm 360px/1280px + bàn phím (dev server, fixture + liên hệ giả `example.invalid` không commit): **PASS** — HUMAN LEAD 2026-11-11.
 - Diff + / − (app, test): app +257/−1; test/fixture +285/−0.
 - Helper mới (đã tìm, lý do không tái dùng): 3 component theo contract; test helper `section`, `guideIds`, `htmlFiles`. Codex grep `src/lib`, `src/_includes`, `tests`; tái dùng `emptyState`, `attachmentList`, `displayDate`, cách build fixture của `tests/pages.test.mjs`.
 - Review: vòng 1 Codex BLOCKED đúng (cần `RenderPlugin` trong `eleventy.config.js` ngoài Owned paths) → ORCHESTRATOR chấp thuận, chỉ thêm plugin (commit `3146479`) và yêu cầu test escape. Review ORCHESTRATOR: 0 blocking. Non-blocking: thứ tự "Hướng dẫn nhanh" sắp lại theo `updated_date` trong template; nhóm "Khác" tạo bằng literal trong template; layout chi tiết ở `src/pages/huong-dan/detail-layout.njk` (như CP1-03).
 - Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1ca4a-f9df-7032-8993-e2e02d7cadbf`; vòng 1 11:07→11:09 UTC (BLOCKED, 45,169 tokens), vòng 2 `resume` →11:17 UTC, tích lũy 86,234 tokens. Quota: trước vòng 1 5 giờ 31 % / tuần 81 %; trước vòng 2 2 % / 81 %. Codex không commit, không sửa ngoài Owned paths.
 - Important findings / decisions: HUMAN LEAD 2026-11-11 — D-10: hiện câu hỏi với "Chưa cập nhật câu trả lời" (ghi trong `docs/CONTENT_MODEL.md`). ORCHESTRATOR mở rộng Owned paths sang `src/pages/index.njk`, `src/pages/danh-muc/detail.njk` (khoảng trống SITEMAP giữa CP1-03/CP1-04) và `eleventy.config.js` (RenderPlugin).
 - Known limitations: footer (`footer_text`, link web khoa) chưa làm — layout base ngoài scope; link Drive danh mục chờ D-06.
-- PR: chưa (HUMAN LEAD quyết push).
+- PR: chưa; branch đã push (HUMAN LEAD 2026-11-11).
