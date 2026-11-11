@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -75,5 +75,6 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Review: vòng 1 Codex BLOCKED đúng (client cần import `src/lib/search.js` bị Eleventy ignore) → ORCHESTRATOR chấp thuận passthrough (commit `1986099`). Review ORCHESTRATOR vòng 2: 0 blocking. Non-blocking: index render bằng `renderFile ... "11ty.js"` trên file thư viện (ít hiển nhiên nhưng giữ một nguồn helper); submit form luôn gửi `sort=newest` → khi bấm Tìm kiếm danh sách xếp theo ngày, bỏ nhóm "quan trọng trước" (đúng AC-003).
 - Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1ca5a-43d2-7351-b6f9-5cab2a09dc5e`; vòng 1 11:24→11:26 UTC BLOCKED (36,317 tokens), vòng 2 `resume` (tích lũy 71,706 tokens). Quota trước vòng 1: 5 giờ 7 % / tuần 82 %; trước vòng 2: 9 % / 82 %. Chạy song song CP2-02. Codex không commit, không sửa ngoài Owned paths.
 - Important findings / decisions: Owned paths mở rộng (ORCHESTRATOR): `eleventy.config.js` (passthrough), `src/pages/index.njk` (SearchBox trang chủ theo SITEMAP).
-- Known limitations: AC3 thủ công trình duyệt (360/1280, bàn phím, link chia sẻ) chưa chạy → chưa READY. Không có JS: `/thong-bao/?q=` hiện danh sách đầy đủ, không lọc (EC-007).
+- AC3 thủ công (dev server, fixture + 3 bài `[DEMO]` tiếng Việt không commit, có 1 bài `published=false`): "dang ky"/"đăng ký", lọc + sắp xếp, URL chia sẻ, EC-004, trang chủ → `/thong-bao/?q=`, 360/1280px, bàn phím, tắt JS — **PASS** HUMAN LEAD 2026-11-11.
+- Known limitations: Không có JS: `/thong-bao/?q=` hiện danh sách đầy đủ, không lọc (EC-007).
 - PR:
