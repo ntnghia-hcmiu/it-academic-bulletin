@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -13,11 +13,11 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `scripts/verify-dist.mjs`, `src/pages/sitemap.xml.njk`, `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/_includes/**`
+- Owned paths: `scripts/verify-dist.mjs`, `src/pages/sitemap.xml.njk`, `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/_includes/**`; mở rộng bởi ORCHESTRATOR 2026-11-11: `tests/verify-dist.test.mjs` (test âm AC1), `src/pages/robots.txt.njk` thay cho `public/robots.txt` (robots cần URL sitemap tuyệt đối theo `site.url` + base path, file tĩnh không biết base)
 - Dependencies: CP1-03, CP1-04, CP1-05
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-06-seo-a11y-verify`
+- Base commit / branch: `6010fce` (`main` sau merge CP1-05); branch `cp1/CP1-06-seo-a11y-verify`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
