@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -13,11 +13,11 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P2 (PD-001; worktree riêng)
-- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`
+- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`; mở rộng bởi ORCHESTRATOR 2026-11-11: `eleventy.config.js` (chỉ passthrough `src/assets/` và `src/lib/search.js` → `assets/search-helpers.js`, để client dùng chung helper thuần — Codex BLOCKED vòng 1, ORCHESTRATOR chấp thuận), `src/pages/index.njk` (chỉ mount SearchBox trang chủ → `/thong-bao/?q=`, theo `docs/SITEMAP.md`)
 - Dependencies: CP1-03
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-05-client-search`
+- Base commit / branch: `6f9ca0b` (HEAD CP1-04, stacked); branch `cp1/CP1-05-client-search`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -68,11 +68,13 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: `src/lib/search.js` (normalize NFD + bỏ dấu + đ→d, AND token trên title/summary/tên danh mục, `buildIndex`, `filterAndSort` newest/oldest, tie-break id); `/search-index.json` qua RenderPlugin (chỉ `bulletin.announcements` đã qua published gate của `content.js`, không body, URL có base path); `SearchBox` (form GET, label, danh mục, sắp xếp; trang chủ chỉ ô `q`); `src/assets/search.js` ẩn/hiện + sắp xếp lại card đã render, query string qua `history.replaceState`, EC-004 (aria-live + link `/danh-muc/`), fetch lỗi → giữ danh sách đầy đủ; passthrough `src/assets/` + `src/lib/search.js` → `assets/search-helpers.js`.
+- Tests: `tests/search.test.mjs` 4 test (AC1 hai chiều, đ→d, nhiều token, lọc + sắp xếp; AC2 build fixture không có bài draft/body, cả hai base path; EC-007 HTML đầy đủ không JS; mô phỏng client: query string, empty state, fetch lỗi). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: PASS, test 29/29.
+- Diff + / − (app, test): app +146/−0; test +154/−0.
+- Helper mới (đã tìm, lý do không tái dùng): `normalize`, `matches`, `buildIndex`, `filterAndSort` — chưa có helper tìm kiếm; tái dùng published gate `content.js`, `emptyState`, RenderPlugin, `this.url`.
+- Review: vòng 1 Codex BLOCKED đúng (client cần import `src/lib/search.js` bị Eleventy ignore) → ORCHESTRATOR chấp thuận passthrough (commit `1986099`). Review ORCHESTRATOR vòng 2: 0 blocking. Non-blocking: index render bằng `renderFile ... "11ty.js"` trên file thư viện (ít hiển nhiên nhưng giữ một nguồn helper); submit form luôn gửi `sort=newest` → khi bấm Tìm kiếm danh sách xếp theo ngày, bỏ nhóm "quan trọng trước" (đúng AC-003).
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1ca5a-43d2-7351-b6f9-5cab2a09dc5e`; vòng 1 11:24→11:26 UTC BLOCKED (36,317 tokens), vòng 2 `resume` (tích lũy 71,706 tokens). Quota trước vòng 1: 5 giờ 7 % / tuần 82 %; trước vòng 2: 9 % / 82 %. Chạy song song CP2-02. Codex không commit, không sửa ngoài Owned paths.
+- Important findings / decisions: Owned paths mở rộng (ORCHESTRATOR): `eleventy.config.js` (passthrough), `src/pages/index.njk` (SearchBox trang chủ theo SITEMAP).
+- AC3 thủ công (dev server, fixture + 3 bài `[DEMO]` tiếng Việt không commit, có 1 bài `published=false`): "dang ky"/"đăng ký", lọc + sắp xếp, URL chia sẻ, EC-004, trang chủ → `/thong-bao/?q=`, 360/1280px, bàn phím, tắt JS — **PASS** HUMAN LEAD 2026-11-11.
+- Known limitations: Không có JS: `/thong-bao/?q=` hiện danh sách đầy đủ, không lọc (EC-007).
 - PR:
