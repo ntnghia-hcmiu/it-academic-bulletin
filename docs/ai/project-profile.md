@@ -69,7 +69,7 @@ Tất cả module ứng dụng hiện là **planned**; chưa có file nào đư�
 
 Hai luồng tách biệt:
 
-**A. Source / cấu hình / governance (agent + tech owner):** feature branch `cp<N>/<task-id>-<slug>` từ `main` → commit trên branch → ORCHESTRATOR review → READY → **HUMAN LEAD** quyết push, tạo PR, merge vào `main`. Agent không tự push/PR/merge/deploy. Remote `origin` = repo ở §1; mọi push/PR/merge do HUMAN LEAD cho phép từng lần (hoặc theo policy integration được duyệt sau).
+**A. Source / cấu hình / governance (agent + tech owner):** feature branch `cp<N>/<task-id>-<slug>` từ `main` → commit trên branch → ORCHESTRATOR review → READY → **HUMAN LEAD** quyết push, tạo PR, merge vào `main`. Agent không tự push/PR/merge/deploy. Remote `origin` = repo ở §1; mọi push/PR/merge do HUMAN LEAD cho phép từng lần (hoặc theo policy integration được duyệt sau). Hiện hành: `docs/decisions/PD-003-integration-delegation.md` (ACCEPTED 2026-11-11).
 
 **B. Nội dung (thư ký qua Pages CMS):** Pages CMS commit trực tiếp vào branch nội dung đã cấu hình → GitHub Actions build & deploy. Luồng này không đi qua task contract hay review của agent; quyền ghi giới hạn bởi cấu hình `.pages.yml` và cơ chế bảo vệ đề xuất ở `docs/decisions/ADR-002-cms-publishing-boundary.md` (ACCEPTED). Thư ký không cần quyền sửa `.pages.yml`, workflow hay cài GitHub App.
 
