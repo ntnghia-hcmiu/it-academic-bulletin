@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: DOC
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -15,9 +15,9 @@
 - Parallel group: P2 (PD-001; worktree riêng)
 - Owned paths: `docs/SECRETARY_GUIDE.md`, `docs/images/secretary/**`
 - Dependencies: CP2-01
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp2/CP2-02-secretary-guide`
+- Base commit / branch: `cb0f54c` (HEAD CP2-01); branch `cp2/CP2-02-secretary-guide`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -37,6 +37,7 @@ Thư ký tự đăng/sửa/ẩn/xóa, sửa link Drive, FAQ, liên hệ chỉ b�
 ## Implementation approach
 
 - Ảnh màn hình chụp trong CP2-03 nếu được.
+- Thông tin chưa chốt (domain D-05, tài khoản thư ký D-03, link Drive D-06, người nhận báo lỗi) để placeholder ghi rõ "chờ HUMAN LEAD cung cấp", không bịa (ORCHESTRATOR 2026-11-11).
 
 ## Phải giữ nguyên
 
