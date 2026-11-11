@@ -1,4 +1,4 @@
-# Task: CP1-01 — Scaffold Astro + TypeScript + Tailwind, base path, layout shell (PILOT S1 — P2)
+# Task: CP1-01 — Scaffold Eleventy 3 + Tailwind, base path, layout shell (PILOT S1 — P2)
 
 ## Status / Approval
 
@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/layouts/**`, `src/lib/url.ts`, `src/styles/**`, `src/pages/index.astro` (khung), `src/pages/404.astro`, `tests/url.test.mjs`, `.gitignore`
+- Owned paths: `package.json`, `package-lock.json`, `eleventy.config.js`, `src/_data/site.js`, `src/_includes/layouts/**`, `src/lib/url.js`, `src/styles/**`, `src/pages/index.njk` (khung), `src/pages/404.njk`, `tests/url.test.mjs`, `.gitignore`; xóa scaffold Astro cũ (untracked): `astro.config.mjs`, `tsconfig.json`, `src/layouts/**`, `src/lib/url.ts`, `src/pages/*.astro`
 - Dependencies: none
 - Base commit / branch: `23c8edb` (origin/cp0/framework-adoption); branch `cp1/CP1-01-scaffold`
 - Human Lead approval: inherited from boundary IAB-001
@@ -23,12 +23,12 @@ Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ
 
 ## Goal
 
-Có dự án Astro build được thành site tĩnh với layout responsive tiếng Việt, header/nav/footer, skip-link, và mọi link nội bộ đúng base path `/it-academic-bulletin/`. Đồng thời là **pilot S1** Claude Code ORCHESTRATOR → Codex IMPLEMENTER (PD-002).
+Có dự án Eleventy 3 build được thành site tĩnh với layout responsive tiếng Việt, header/nav/footer, skip-link, và mọi link nội bộ đúng base path `/it-academic-bulletin/`. Đồng thời là **pilot S1** Claude Code ORCHESTRATOR → Codex IMPLEMENTER (PD-002).
 
 ## Scope
 
-- In scope: Cài dependency theo ADR-001; script npm `dev`, `build`, `check`, `test`, `verify`; `site`/`base` từ env với mặc định `https://ntnghia-hcmiu.github.io` + `/it-academic-bulletin`; helper `url()`; layout Base với `<html lang="vi">`, title/description/canonical; 404.
-- Out of scope: Content collections, trang nội dung, CMS, workflow deploy, logo IU.
+- In scope: Cài dependency theo ADR-001 Amendment 2 (`@11ty/eleventy`, `tailwindcss`, `@tailwindcss/cli`; `js-yaml` để CP1-02); script npm `dev`, `build`, `check`, `test`, `verify`; `SITE_URL`/`BASE_PATH` từ env với mặc định `https://ntnghia-hcmiu.github.io` + `/it-academic-bulletin/`; HtmlBasePlugin; markdown-it `html: false`; helper `url()`/`joinBase()`; layout base với `<html lang="vi">`, title/description/canonical; 404 (`dist/404.html`, không canonical, `noindex`).
+- Out of scope: Đọc/lọc nội dung, schema, trang nội dung, CMS, workflow deploy, logo IU.
 
 ## Authority / key decisions
 
@@ -36,7 +36,7 @@ Có dự án Astro build được thành site tĩnh với layout responsive ti�
 
 ## Implementation approach
 
-- `npm create astro` tối thiểu (hoặc tạo tay) → thêm Tailwind v4 qua `@tailwindcss/vite` → layout Base. Codex chạy với `npm_config_cache=$PWD/.npm-cache` (thêm `.npm-cache/` vào `.gitignore`). Ghi evidence pilot: Codex session id, model, effort, tokens, thời gian; lệnh verification ORCHESTRATOR tự chạy lại.
+- Tạo tay `eleventy.config.js` (ESM; input `src/`, includes `_includes`, data `_data`, output `dist/`; ignore `src/content/**`) → Tailwind v4 qua `@tailwindcss/cli` (`src/styles/global.css` → `dist/assets/site.css`) → layout base. Tái dùng `joinBase()` + test bảng case của scaffold Astro (chỉ đổi `.ts` → `.js`). `check` = `node --check` trên file JS của project (validator schema thêm ở CP1-02). Codex chạy với `npm_config_cache=$PWD/.npm-cache` (thêm `.npm-cache/` vào `.gitignore`). Ghi evidence pilot: Codex session id, model, effort, tokens, thời gian; lệnh verification ORCHESTRATOR tự chạy lại.
 
 ## Phải giữ nguyên
 
@@ -44,7 +44,7 @@ Có dự án Astro build được thành site tĩnh với layout responsive ti�
 
 ## Code bị thay / xóa
 
-- không có (thêm mới).
+- Scaffold Astro (untracked, chưa commit): xóa `astro.config.mjs`, `tsconfig.json`, `src/layouts/Base.astro`, `src/lib/url.ts`, `src/pages/index.astro`, `src/pages/404.astro`; `package.json`/`package-lock.json` tạo lại không còn astro/@astrojs/check/typescript/@tailwindcss/vite.
 
 ## Acceptance Criteria
 
@@ -52,6 +52,7 @@ Có dự án Astro build được thành site tĩnh với layout responsive ti�
 2. Mọi `href`/`src` nội bộ trong `dist/` bắt đầu bằng `/it-academic-bulletin/`; build với `BASE_PATH=/` cho link gốc `/`.
 3. Layout ở 360px không cuộn ngang; skip-link + focus nhìn thấy được.
 4. `node scripts/framework-check.mjs` vẫn PASS.
+5. `npm audit` không có advisory high/critical.
 
 ## Required verification
 
@@ -59,6 +60,7 @@ Có dự án Astro build được thành site tĩnh với layout responsive ti�
 - `node --test tests/url.test.mjs` — AC2
 - grep link trong `dist/` (tạm thời, trước CP1-06) — AC2
 - `node scripts/framework-check.mjs` — AC4
+- `npm audit` — AC5
 - Thủ công: DevTools 360px + Tab — AC3
 
 Tất cả required verification phải chạy và PASS trước READY.
@@ -72,6 +74,7 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 ## Result
 
 **Trạng thái: BLOCKED (2026-11-11, sau vòng sửa 1)** — decision gate bảo mật: Astro 6 có advisory critical (xem dưới). Code scaffold trong working tree, chưa commit.
+- 2026-11-11: HUMAN LEAD chọn Eleventy 3 → ADR-001 Amendment 2; contract viết lại scope Eleventy. Chờ HUMAN LEAD duyệt chi tiết Amendment 2 rồi giao Codex vòng 2.
 
 - Main changes (Codex, untracked): `.gitignore`, `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/lib/url.ts` (`joinBase`, `url`), `src/layouts/Base.astro`, `src/styles/global.css`, `src/pages/index.astro`, `src/pages/404.astro`, `tests/url.test.mjs`. Dependency: astro 7.4.10, @astrojs/check 0.9.12, typescript 6.0.3, tailwindcss + @tailwindcss/vite 4.3.5.
 - ORCHESTRATOR micro-fix: script `test` → `node --test tests/*.test.mjs` (Node 24 không nhận thư mục); `engines.node` → `>=22.23.4` (yêu cầu của astro 7.4.10); contract `Implementation authorized: YES` (checker không nhận hậu tố).

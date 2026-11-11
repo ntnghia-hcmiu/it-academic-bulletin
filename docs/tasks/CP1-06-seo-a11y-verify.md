@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `scripts/verify-dist.mjs`, `astro.config.mjs` (sitemap), `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/components/**`
+- Owned paths: `scripts/verify-dist.mjs`, `src/pages/sitemap.xml.njk`, `public/robots.txt`, `package.json` (script verify), sửa a11y nhỏ trong `src/_includes/**`
 - Dependencies: CP1-03, CP1-04, CP1-05
 - Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-06-seo-a11y-verify`
 - Human Lead approval: inherited from boundary IAB-001
@@ -27,7 +27,7 @@ Tự động chứng minh: không lộ bài ẩn, link nội bộ không gãy, b
 
 ## Scope
 
-- In scope: verify-dist: quét `dist/**/*.html|json|xml` cho id/tiêu đề fixture ẩn, link nội bộ tồn tại, mọi link có base; `@astrojs/sitemap` lọc trang.
+- In scope: verify-dist: quét `dist/**/*.html|json|xml` cho id/tiêu đề fixture ẩn, link nội bộ tồn tại, mọi link có base; sitemap template Eleventy chỉ từ dữ liệu đã lọc (không dependency).
 - Out of scope: Lighthouse CI, Playwright.
 
 ## Authority / key decisions

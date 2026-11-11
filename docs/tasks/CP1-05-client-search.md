@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P2 (PD-001; worktree riêng)
-- Owned paths: `src/lib/search.ts`, `src/pages/search-index.json.ts`, `src/components/SearchBox.astro`, script client trong `src/pages/thong-bao/index.astro`, `tests/search.test.mjs`
+- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`
 - Dependencies: CP1-03
 - Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-05-client-search`
 - Human Lead approval: inherited from boundary IAB-001

@@ -36,7 +36,7 @@ Thư ký thấy 6 nhóm nội dung với nhãn/mô tả tiếng Việt, trườn
 
 ## Implementation approach
 
-- Không thêm parser YAML làm dependency: test so sánh qua build Astro hoặc parser tối giản cho tập con — nếu cần lib YAML → decision gate.
+- Parse `.pages.yml` bằng `js-yaml` (ADR-001 Amendment 2); không thêm parser khác.
 
 ## Phải giữ nguyên
 
@@ -48,7 +48,7 @@ Thư ký thấy 6 nhóm nội dung với nhãn/mô tả tiếng Việt, trườn
 
 ## Acceptance Criteria
 
-1. Mọi field schema Astro có trong `.pages.yml` và ngược lại.
+1. Mọi field schema (`src/lib/schema.js`) có trong `.pages.yml` và ngược lại.
 2. Field bắt buộc khớp `required`.
 3. Không có path ngoài `src/content/**`, `public/media/**`.
 
