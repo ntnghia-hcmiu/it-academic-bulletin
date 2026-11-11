@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -15,9 +15,9 @@
 - Parallel group: —
 - Owned paths: `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/layouts/**`, `src/lib/url.ts`, `src/styles/**`, `src/pages/index.astro` (khung), `src/pages/404.astro`, `tests/url.test.mjs`, `.gitignore`
 - Dependencies: none
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-01-scaffold`
+- Base commit / branch: `23c8edb` (origin/cp0/framework-adoption); branch `cp1/CP1-01-scaffold`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES (IAB-001)
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
