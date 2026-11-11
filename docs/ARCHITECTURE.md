@@ -36,7 +36,7 @@ Không backend, không database, không API runtime. Hai địa chỉ phải ph�
 eleventy.config.js      input src/, output dist/, pathPrefix (env BASE_PATH), HtmlBasePlugin, markdown-it html:false,
                         ignore src/content/** (không tự thành trang), passthrough public/
 src/_data/site.js       SITE_URL / BASE_PATH cho template
-src/_data/content.js    global data: gọi src/lib/content.js (chỉ entry published)
+src/_data/bulletin.js   global data `bulletin`: gọi src/lib/content.js (chỉ entry published; `content` là key Eleventy giữ riêng)
 src/content/**          dữ liệu do CMS ghi (Markdown front matter / YAML / JSON)
 src/lib/content.js      DUY NHẤT nơi đọc + lọc published, sắp xếp, resolve category (fallback "Khác")
 src/lib/schema.js       validator field bắt buộc theo docs/CONTENT_MODEL.md (thay schema Astro)

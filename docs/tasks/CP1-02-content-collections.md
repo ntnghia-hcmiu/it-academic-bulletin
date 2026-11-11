@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `src/lib/schema.js`, `src/lib/content.js`, `src/_data/content.js`, `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/markdown.test.mjs`, `tests/fixtures/**`, `scripts/check.mjs` (mới), `package.json` (chỉ `scripts`)
+- Owned paths: `src/lib/schema.js`, `src/lib/content.js`, `src/_data/bulletin.js` (global `bulletin` — `content` là key Eleventy giữ riêng, phát hiện khi implement 2026-11-11), `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/markdown.test.mjs`, `tests/fixtures/**`, `scripts/check.mjs` (mới), `package.json` (chỉ `scripts`)
 - Dependencies: CP1-01
 - Base commit / branch: `263434e` (stacked trên `cp1/CP1-01-scaffold`, chưa merge `main` — HUMAN LEAD 2026-11-11); branch `cp1/CP1-02-content-collections`
 - Human Lead approval: inherited from boundary IAB-001
