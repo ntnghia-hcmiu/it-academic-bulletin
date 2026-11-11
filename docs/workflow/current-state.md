@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). Tất cả READY và đã push lên origin (HUMAN LEAD 2026-11-11), chưa có PR: chuỗi stacked CP1-01 → CP1-02 (`258faa7`) → CP1-03 → CP1-04; CP2-01 tách từ `258faa7`. Global data nội dung tên `bulletin`. Stack **Eleventy 3** (ADR-001 Amendment 2). Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy song song 2 worktree (P1) được; evidence trong contract.
+CP0 DONE. CP1-01…CP1-06 + CP2-01 đã merge vào `main` (PR #1–#7, merge commit; `main` tạo tại `23c8edb` 2026-11-11). HUMAN LEAD 2026-11-11 giao ORCHESTRATOR push/PR/merge khi task READY (chỉ đạo trong session; chưa ghi decision record). Mở: CP2-02 (`cp2/CP2-02-secretary-guide`, chờ HUMAN LEAD + thư ký review; placeholder D-03/D-05/D-06), CP3-01 (draft PR #8, chờ integration gate). Default branch repo vẫn `cp0/framework-adoption` (đổi cần admin, D-02).
 
 ## Next proposed action
 
-HUMAN LEAD: mở PR / thứ tự merge chuỗi stacked (+ CP2-01). Sau đó CP1-05 (tìm kiếm), base = HEAD CP1-04.
+HUMAN LEAD: bật GitHub Pages (Source: GitHub Actions) → cho merge PR #8 (deploy đầu tiên, chạy thật CP3-01); đổi default branch sang `main`. Sau đó CP3-02 (cần CP3-01 + CP2-02), CP2-03 (CMS thật, xác minh tên bot → biến `CMS_BOT_ACTORS`).
 
 ## Open decisions
 

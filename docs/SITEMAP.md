@@ -21,7 +21,7 @@ Tham khảo *cách tổ chức* trang School of Business (thông báo chung → 
 | `/hoi-dap/` | FAQ theo danh mục | faq |
 | `/lien-he/` | Liên hệ | settings.contacts |
 | `/404.html` | Không tìm thấy | — |
-| `/search-index.json`, `/sitemap-index.xml`, `/robots.txt` | kỹ thuật | — |
+| `/search-index.json`, `/sitemap.xml`, `/robots.txt` | kỹ thuật | — |
 
 Menu chính (mobile: nút "Menu"): Trang chủ · Thông báo · Danh mục ▾ (9 mục theo `order`) · Biểu mẫu · Hỏi đáp · Liên hệ.
 
