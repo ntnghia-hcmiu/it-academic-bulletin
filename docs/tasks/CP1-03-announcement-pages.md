@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -12,12 +12,12 @@
 - Human Lead: tech owner
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
-- Parallel group: P1 (PD-001; worktree riêng)
-- Owned paths: `src/pages/index.njk`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/_includes/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.njk`
+- Parallel group: P1 = CP1-03 ‖ CP2-01 (PD-001; worktree riêng). CP1-04 serialize sau CP1-03 (HUMAN LEAD 2026-11-11: CP1-04 tái dùng component của task này)
+- Owned paths: `src/pages/index.njk`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/_includes/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.njk`, `src/_data/bulletin.js` (chỉ thêm env `CONTENT_DIR` cho fixture build), `src/styles/global.css` (chỉ thêm style), `tests/pages.test.mjs`, `tests/fixtures/pages/**`, `src/_data/build.js` (chỉ export ngày build UTC cho DeadlineBadge; thêm sau BLOCKED vòng 1) — mở rộng bởi ORCHESTRATOR 2026-11-11 vì AC1 cần build với fixture; không giao với CP2-01
 - Dependencies: CP1-02
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-03-announcement-pages`
+- Base commit / branch: `258faa7` (HEAD CP1-02); branch `cp1/CP1-03-announcement-pages`, worktree `../IAB-wt/CP1-03`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -63,15 +63,16 @@ Tất cả required verification phải chạy và PASS trước READY.
 
 Task không chạm security model / quyền bên thứ ba; manual test sau automated verification là điểm danh.
 
-- [ ] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI).
+- [x] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI). — HUMAN LEAD 2026-11-11 PASS.
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
-- PR:
+- Main changes: trang chủ (Quan trọng tối đa 3, Mới nhất 6, Thủ tục thường dùng + quick_links), `/thong-bao/` (quan trọng trước, rồi ngày giảm dần) + chi tiết (pagination, Markdown `html:false`), `/danh-muc/` + từng danh mục với empty state; 5 component macro (`emptyState(message?, detail?)`, `attachmentList(attachments)` cho CP1-04 tái dùng); `src/_data/bulletin.js` nhận `CONTENT_DIR`; `src/_data/build.js` ngày build; deadline "Đã hết hạn" lúc build + kiểm lại phía client (CONTENT_MODEL §4, ARCHITECTURE T6).
+- Tests: `tests/pages.test.mjs` (AC1–AC3, build production rỗng có empty state, escaping Markdown, attachments, deadline). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: check PASS, test 16/16 PASS, build PASS, framework-check PASS. Build thủ công `CONTENT_DIR=tests/fixtures/content`: không có trang/chuỗi của bài `hidden` và danh mục ẩn. Kiểm 360px/1280px + bàn phím (dev server, fixture): **PASS** — HUMAN LEAD 2026-11-11.
+- Diff + / − (app, test): app +335/−3; test/fixture +200/−0.
+- Helper mới (đã tìm, lý do không tái dùng): macro UI + `displayDate`; không thêm helper lọc/sắp xếp. Codex grep `rg -n 'date|deadline|markdown|attachments|sort|macro|EmptyState' src/lib src/_includes tests`.
+- Review: vòng 1 Codex BLOCKED đúng (cần ngày build ngoài Owned paths) → ORCHESTRATOR thêm `src/_data/build.js` (commit `aff63e8`). Review ORCHESTRATOR: 0 blocking. Non-blocking: (1) tách quan trọng/còn lại bằng `selectattr`/`rejectattr` trong template lặp lại thứ tự của `getHomeAnnouncements` vì `getContent()` không expose nó (`src/lib` ngoài Owned paths) — thứ tự kết quả giống nhau; (2) layout chi tiết đặt ở `src/pages/thong-bao/detail-layout.njk` (`permalink: false`) thay vì `_includes/layouts` (ngoài Owned paths); (3) `rel="noopener noreferrer"` gắn cho mọi `<a ` trong body bằng `replace`, kể cả link nội bộ (vô hại).
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1ca26-8cdb-7ae3-b078-893b13fcf74d`; vòng 1 10:28→10:31 UTC (BLOCKED), vòng 2 `resume` →10:42 UTC, tích lũy 106,045 tokens. Quota: trước vòng 1 5 giờ 19 % / tuần 79 %; trước vòng 2 24 % / 79 %. Song song với CP2-01 (worktree riêng). Codex không commit, không sửa ngoài Owned paths.
+- Important findings / decisions: HUMAN LEAD 2026-11-11 — CP1-04 serialize sau task này.
+- Known limitations: ngày "hết hạn" so theo UTC (build và client), chậm tối đa 7 giờ so với giờ Việt Nam (00:00–07:00); chưa có ô tìm kiếm trang chủ (CP1-05).
+- PR: chưa (HUMAN LEAD quyết push).

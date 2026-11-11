@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: bulletin.categories
+  size: 1
+  alias: category
+permalink: /danh-muc/{{ category.slug }}/index.html
+eleventyComputed:
+  title: "{{ category.name }}"
+  description: "{{ category.description or 'Nội dung đang được cập nhật' }}"
+---
+{% from "components/AnnouncementCard.njk" import announcementCard %}
+{% from "components/CategoryNav.njk" import categoryNav %}
+{% from "components/EmptyState.njk" import emptyState %}
+{% from "components/DeadlineBadge.njk" import refreshDeadlines %}
+{% set byCategory = bulletin.announcements | groupby('category') %}
+{% set announcements = byCategory[category.slug] or [] %}
+<p><a href="/danh-muc/">Tất cả danh mục</a></p>
+<h1>{{ category.name | escape }}</h1>
+{% if category.description %}<p class="intro">{{ category.description | escape }}</p>{% endif %}
+{{ categoryNav(bulletin.categories, category.slug) }}
+<section class="page-section" aria-labelledby="announcements-title">
+  <h2 id="announcements-title">Thông báo</h2>
+  {% for announcement in announcements %}
+    {{ announcementCard(announcement, build, 3) }}
+  {% else %}
+    {{ emptyState() }}
+  {% endfor %}
+</section>
+{{ refreshDeadlines() }}

@@ -137,3 +137,92 @@ footer {
     flex-wrap: wrap;
   }
 }
+
+.home-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.home-grid > *, .announcement-card, .announcement-detail {
+  min-width: 0;
+}
+
+.page-section, .announcement-list { margin-block: 2rem; }
+
+main h2, main h3 {
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+main h2 { font-size: 1.5rem; }
+main h3 { font-size: 1.2rem; }
+
+.section-heading, .announcement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+}
+
+.section-heading { justify-content: space-between; }
+
+.announcement-card, .empty-state {
+  margin-block: 1rem;
+  border: 1px solid #d3dde8;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: #fff;
+}
+
+.announcement-card h2, .announcement-card h3 { margin-top: 0.5rem; }
+.announcement-meta, .access-label { font-size: 0.9rem; }
+.intro { max-width: 65ch; }
+
+.important-label, .deadline-badge, .access-label {
+  display: inline-block;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  color: #523600;
+  background: #fff0c2;
+}
+
+.deadline-badge { margin-top: 0.75rem; }
+.access-label { color: #172b43; background: #e7edf5; }
+
+nav.category-nav ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+
+.category-nav li { min-width: 0; }
+.category-nav a {
+  height: 100%;
+  padding: 0.75rem;
+  border: 1px solid #b9cadd;
+  border-radius: 0.375rem;
+  background: #fff;
+}
+.category-nav [aria-current="page"] { font-weight: 700; border-color: #174c87; }
+
+.quick-links, .attachment-list, .prose ul, .prose ol {
+  padding-left: 1.5rem;
+  margin-block: 1rem;
+  list-style: disc;
+}
+
+.prose ol { list-style: decimal; }
+.attachment-list li { margin-block: 0.75rem; }
+.attachment-list .access-label { margin-left: 0.5rem; }
+.prose { max-width: 75ch; margin-block: 2rem; }
+.prose h2, .prose h3 { margin-block: 1.5rem 0.75rem; }
+.prose img { max-width: 100%; height: auto; }
+.prose pre { max-width: 100%; overflow-x: auto; padding: 1rem; background: #e7edf5; }
+.prose code { overflow-wrap: anywhere; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; }
+.prose blockquote { border-left: 3px solid #b9cadd; padding-left: 1rem; }
+
+@media (min-width: 64rem) {
+  .home-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+}

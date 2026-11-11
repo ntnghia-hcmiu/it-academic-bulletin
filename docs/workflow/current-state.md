@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). CP1-01 READY (AC3 PASS), branch `cp1/CP1-01-scaffold`; CP1-02 READY, branch `cp1/CP1-02-content-collections` stacked trên CP1-01 (cả hai chưa push). Global data nội dung tên `bulletin` (`content` bị Eleventy giữ). Stack đổi sang **Eleventy 3** (ADR-001 Amendment 2) vì VM dev thiếu AVX2 (Astro 7) và Astro 6 có advisory critical. Pilot Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy được, evidence trong contract CP1-01.
+CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). Chưa push (HUMAN LEAD 2026-11-11). Chuỗi stacked: CP1-01 READY → CP1-02 READY (`258faa7`) → P1 = CP1-03 READY ‖ CP2-01 READY (worktree `../IAB-wt/*`, base `258faa7`). CP1-04 serialize sau CP1-03 (tái dùng component CP1-03). Global data nội dung tên `bulletin`. Stack **Eleventy 3** (ADR-001 Amendment 2). Claude ORCHESTRATOR → Codex IMPLEMENTER chạy song song 2 worktree được; evidence trong contract.
 
 ## Next proposed action
 
-HUMAN LEAD: quyết push/PR cho CP1-01 + CP1-02 (stacked). Sau đó parallel group P1 (CP1-03 ‖ CP1-04 ‖ CP2-01), base = HEAD CP1-02.
+CP1-04, base = HEAD CP1-03. Sau đó HUMAN LEAD quyết push/PR chuỗi stacked; CP2-01 cần rebase/merge cùng chuỗi.
 
 ## Open decisions
 

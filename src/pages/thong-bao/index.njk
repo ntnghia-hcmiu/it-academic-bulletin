@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /thong-bao/
+title: Thông báo
+description: Thông báo học vụ Khoa Công nghệ Thông tin.
+---
+{% from "components/AnnouncementCard.njk" import announcementCard %}
+{% from "components/CategoryNav.njk" import categoryNav %}
+{% from "components/EmptyState.njk" import emptyState %}
+{% from "components/DeadlineBadge.njk" import refreshDeadlines %}
+{# Keep content.js date/id order within both importance groups. #}
+{% set important = bulletin.announcements | selectattr('important') %}
+{% set remaining = bulletin.announcements | rejectattr('important') %}
+<h1>Thông báo</h1>
+{{ categoryNav(bulletin.categories) }}
+<div class="announcement-list">
+  {% for announcement in important.concat(remaining) %}
+    {{ announcementCard(announcement, build) }}
+  {% else %}
+    {{ emptyState('Chưa có thông báo', 'Nội dung đang được cập nhật') }}
+  {% endfor %}
+</div>
+{{ refreshDeadlines() }}

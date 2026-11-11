@@ -1,0 +1,11 @@
+---
+layout: layouts/base.njk
+permalink: /danh-muc/
+title: Danh mục học vụ
+description: Các danh mục thông tin học vụ Khoa Công nghệ Thông tin.
+---
+{% from "components/CategoryNav.njk" import categoryNav %}
+{% from "components/EmptyState.njk" import emptyState %}
+<h1>Danh mục học vụ</h1>
+{{ categoryNav(bulletin.categories) }}
+{% if not bulletin.categories.length %}{{ emptyState() }}{% endif %}
