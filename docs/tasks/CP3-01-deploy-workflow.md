@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -15,9 +15,9 @@
 - Parallel group: —
 - Owned paths: `.github/workflows/deploy.yml`, `scripts/content-guard.mjs`, `tests/content-guard.test.mjs`
 - Dependencies: CP1-06
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp3/CP3-01-deploy-workflow`
+- Base commit / branch: `574cc77` (`main` sau merge CP1-06); branch `cp3/CP3-01-deploy-workflow`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -37,6 +37,8 @@ Mỗi push vào `main` build, verify và deploy GitHub Pages; commit bot CMS ch�
 ## Implementation approach
 
 - Pin action theo major tag; xác minh tên bot CMS ở CP2-03.
+- Tên actor bot CMS chưa xác minh → đọc từ repository variable `CMS_BOT_ACTORS` (không phải secret); rỗng → guard ghi notice và bỏ qua (ORCHESTRATOR 2026-11-11).
+- Merge vào `main` sẽ kích hoạt workflow deploy → coi là integration gate (IAB-001 §6): mở PR, chờ HUMAN LEAD trước khi merge.
 
 ## Phải giữ nguyên
 
