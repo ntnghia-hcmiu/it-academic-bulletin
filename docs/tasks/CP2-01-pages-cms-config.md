@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -12,12 +12,12 @@
 - Human Lead: tech owner
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
-- Parallel group: P1 (PD-001; worktree riêng)
+- Parallel group: P1 = CP1-03 ‖ CP2-01 (PD-001; worktree riêng)
 - Owned paths: `.pages.yml`, `tests/cms-config.test.mjs`
 - Dependencies: CP1-02
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp2/CP2-01-pages-cms-config`
+- Base commit / branch: `258faa7` (HEAD CP1-02); branch `cp2/CP2-01-pages-cms-config`, worktree `../IAB-wt/CP2-01`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES (IAB-001)
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -27,7 +27,7 @@ Thư ký thấy 6 nhóm nội dung với nhãn/mô tả tiếng Việt, trườn
 
 ## Scope
 
-- In scope: Ánh xạ §2 CONTENT_MODEL; operations (rename false); media `public/media`; `settings.commit.identity` theo D-04; test so tên field `.pages.yml` ↔ schema.
+- In scope: Ánh xạ §2 CONTENT_MODEL; operations (rename false); media `public/media`; không đặt `settings.commit.identity` (dùng mặc định Pages CMS) tới khi D-04 chốt — HUMAN LEAD 2026-11-11; test so tên field `.pages.yml` ↔ schema.
 - Out of scope: Cài GitHub App, mời collaborator (integration gate).
 
 ## Authority / key decisions
@@ -52,12 +52,14 @@ Thư ký thấy 6 nhóm nội dung với nhãn/mô tả tiếng Việt, trườn
 2. Field bắt buộc khớp `required`.
 3. Không có path ngoài `src/content/**`, `public/media/**`.
 4. Mọi field `rich-text` có `options.format: markdown` và `options.switcher: false` (ADR-001 Amendment 2); media chỉ `categories: [image]`.
-5. Ghi kết quả thử thật trên Pages CMS: dán từ Word/email, bảng, tiêu đề, gạch chân → Markdown sau khi lưu và hiển thị trên site.
+5. Không có key `commit.identity` (D-04 chưa chốt).
+
+AC thử thật trên Pages CMS (dán Word/email, bảng, tiêu đề, gạch chân → Markdown) chuyển sang CP2-03 AC5 (HUMAN LEAD 2026-11-11).
 
 ## Required verification
 
-- `npm test` (cms-config.test.mjs) — AC1–AC3
-- Kiểm cú pháp trên Pages CMS thật ở CP2-03
+- `npm test` (cms-config.test.mjs) — AC1–AC5
+- `npm run verify` toàn bộ (ORCHESTRATOR, ngoài sandbox)
 
 Tất cả required verification phải chạy và PASS trước READY.
 
