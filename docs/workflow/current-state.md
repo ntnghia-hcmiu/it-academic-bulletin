@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). CP1-01 READY trừ AC3 thủ công, branch `cp1/CP1-01-scaffold` (chưa push). Stack đổi sang **Eleventy 3** (ADR-001 Amendment 2) vì VM dev thiếu AVX2 (Astro 7) và Astro 6 có advisory critical. Pilot Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy được, evidence trong contract CP1-01.
+CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). CP1-01 READY (AC3 PASS), branch `cp1/CP1-01-scaffold`; CP1-02 READY, branch `cp1/CP1-02-content-collections` stacked trên CP1-01 (cả hai chưa push). Global data nội dung tên `bulletin` (`content` bị Eleventy giữ). Stack đổi sang **Eleventy 3** (ADR-001 Amendment 2) vì VM dev thiếu AVX2 (Astro 7) và Astro 6 có advisory critical. Pilot Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy được, evidence trong contract CP1-01.
 
 ## Next proposed action
 
-HUMAN LEAD: kiểm AC3 (360px + Tab) CP1-01, quyết push/PR. Sau đó CP1-02 (validator schema + đọc nội dung bằng `js-yaml`), rồi parallel group P1.
+HUMAN LEAD: quyết push/PR cho CP1-01 + CP1-02 (stacked). Sau đó parallel group P1 (CP1-03 ‖ CP1-04 ‖ CP2-01), base = HEAD CP1-02.
 
 ## Open decisions
 

@@ -7,9 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "npm run build && eleventy --serve",
+    "dev": "npm run build && (tailwindcss -i src/styles/global.css -o dist/assets/site.css --watch & css_pid=$!; trap 'kill \"$css_pid\" 2>/dev/null' EXIT; trap 'exit 130' INT; trap 'exit 143' TERM; eleventy --serve)",
     "build": "eleventy && tailwindcss -i src/styles/global.css -o dist/assets/site.css --minify",
-    "check": "node --input-type=module -e \"import { readdirSync } from 'node:fs'; import { spawnSync } from 'node:child_process'; for (const file of ['eleventy.config.js', ...readdirSync('src', { recursive: true }).filter(file => file.endsWith('.js')).map(file => 'src/' + file)]) { const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit' }); if (result.status !== 0) process.exit(result.status ?? 1); }\"",
+    "check": "node scripts/check.mjs",
     "test": "node --test tests/*.test.mjs",
     "verify": "npm run check && npm test && npm run build && node scripts/framework-check.mjs"
   },
