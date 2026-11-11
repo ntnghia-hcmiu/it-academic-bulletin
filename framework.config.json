@@ -1,0 +1,29 @@
+{
+  "frameworkVersion": "4.4",
+  "adapters": [
+    "chatgpt",
+    "claude-code",
+    "codex"
+  ],
+  "agents": {
+    "product": "chatgpt"
+  },
+  "governance": {
+    "taskAuthorization": "boundary",
+    "maxParallelImplementers": 3
+  },
+  "requiredFiles": [
+    "docs/decisions/ADR-001-static-site-stack.md",
+    "docs/decisions/ADR-002-cms-publishing-boundary.md",
+    "docs/decisions/IAB-001-cp1-cp3-implementation-boundary.md",
+    "docs/CONTENT_MODEL.md"
+  ],
+  "requiredTokens": {
+    "docs/ai/project-profile.md": [
+      "Publishing invariant",
+      "không bảo mật"
+    ]
+  },
+  "taskDir": "docs/tasks",
+  "decisionDir": "docs/decisions"
+}
