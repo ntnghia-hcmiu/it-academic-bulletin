@@ -71,7 +71,7 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-**Trạng thái: BLOCKED (2026-11-11)** — decision gate môi trường/dependency; code scaffold có trong working tree, chưa commit.
+**Trạng thái: BLOCKED (2026-11-11, sau vòng sửa 1)** — decision gate bảo mật: Astro 6 có advisory critical (xem dưới). Code scaffold trong working tree, chưa commit.
 
 - Main changes (Codex, untracked): `.gitignore`, `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/lib/url.ts` (`joinBase`, `url`), `src/layouts/Base.astro`, `src/styles/global.css`, `src/pages/index.astro`, `src/pages/404.astro`, `tests/url.test.mjs`. Dependency: astro 7.4.10, @astrojs/check 0.9.12, typescript 6.0.3, tailwindcss + @tailwindcss/vite 4.3.5.
 - ORCHESTRATOR micro-fix: script `test` → `node --test tests/*.test.mjs` (Node 24 không nhận thư mục); `engines.node` → `>=22.23.4` (yêu cầu của astro 7.4.10); contract `Implementation authorized: YES` (checker không nhận hậu tố).
@@ -81,5 +81,9 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Helper mới: `joinBase()` + `url()` — repo chưa có source app (Codex đã grep), không có helper để tái dùng.
 - Review: 0 blocking finding về code; non-blocking: hai `<nav>` cùng `aria-label` (một cái `display:none` theo breakpoint — chấp nhận).
 - Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1c9c4-e9b6-7100-a0b7-5dc11348f054`, 77,405 tokens, 08:41:27→08:46:31 UTC (≈ 5 phút); quota trước khi giao: 5 giờ 3 %, tuần 76 %. Codex không commit/push, không sửa ngoài Owned paths, báo BLOCKED trung thực (không claim PASS).
-- Known limitations: AC1–AC3 chưa chứng minh được trên máy này.
+- Vòng sửa 1 (sau ADR-001 Amendment 1): Codex resume cùng session, effort `medium`, 08:53:36→08:56:08 UTC, tổng session 144,686 tokens; hạ `astro` 6.4.8, `engines.node >=22.12.0`, `npm dedupe` (Vite 7.3.8 dùng chung). Không đổi source.
+- Verification ORCHESTRATOR chạy lại (ngoài sandbox, sau vòng 1): `npm run check` 0 lỗi/0 cảnh báo; `npm test` 3/3; `npm run build` 2 trang; grep `dist/`: 29/29 `href`/`src` nội bộ có prefix `/it-academic-bulletin/`, `BASE_PATH=/` 29/29 prefix `/`; canonical tuyệt đối đúng; `node scripts/framework-check.mjs` PASS. AC3 (360px + Tab) **NOT RUN** — máy không có trình duyệt; chờ Tech Lead kiểm thủ công.
+- **Security finding (blocking, decision gate):** `npm audit` — `astro <=7.3.1` critical (GHSA-f48w-9m4c-m7f5, GHSA-7pw4-f3q4-r2p2, GHSA-4g3v-8h47-v7g6, GHSA-26w7-cxv4-gfx2 RCE AVIF, GHSA-376h-93r7-7g6f, GHSA-98hj-9722-w3j8); `sharp <=0.35.5-rc.1` high; `esbuild` low (dev server Windows). 6.4.8 là bản 6.x mới nhất — bản sửa chỉ có ở 7.x. Cần HUMAN LEAD quyết.
+- Non-blocking: trang 404 có canonical `/404/` (nên bỏ canonical/thêm `noindex` ở CP1-06).
+- Known limitations: AC3 chờ kiểm thủ công.
 - PR: —
