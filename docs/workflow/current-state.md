@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE. CP1-01…CP1-06 + CP2-01 đã merge vào `main` (PR #1–#7, merge commit; `main` tạo tại `23c8edb` 2026-11-11). HUMAN LEAD 2026-11-11 giao ORCHESTRATOR push/PR/merge khi task READY (chỉ đạo trong session; chưa ghi decision record). Mở: CP2-02 (`cp2/CP2-02-secretary-guide`, chờ HUMAN LEAD + thư ký review; placeholder D-03/D-05/D-06), CP3-01 (draft PR #8, chờ integration gate). Default branch repo vẫn `cp0/framework-adoption` (đổi cần admin, D-02).
+CP0 DONE. `main` có CP1-01…CP1-06, CP2-01, CP3-01, PD-003 (PR #1–#11). Site live: https://ntnghia-hcmiu.github.io/it-academic-bulletin/ (Pages Source = GitHub Actions; environment `github-pages` cho phép `main` + `cp0/framework-adoption`; default branch vẫn `cp0/framework-adoption`). Content guard tắt tới khi đặt biến `CMS_BOT_ACTORS`. Mở: CP2-02 (`cp2/CP2-02-secretary-guide`, chờ thư ký đọc thử; placeholder D-03/D-05/D-06).
 
 ## Next proposed action
 
-HUMAN LEAD: bật GitHub Pages (Source: GitHub Actions) → cho merge PR #8 (deploy đầu tiên, chạy thật CP3-01); đổi default branch sang `main`. Sau đó CP3-02 (cần CP3-01 + CP2-02), CP2-03 (CMS thật, xác minh tên bot → biến `CMS_BOT_ACTORS`).
+Chờ thư ký review CP2-02 → READY/merge. Sau đó CP3-02 (HUMAN LEAD chọn chờ CP3-01 + CP2-02 vào `main`, không stack). CP2-03 (CMS thật, xác minh tên bot → biến `CMS_BOT_ACTORS`).
 
 ## Open decisions
 
