@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -13,11 +13,11 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P2 (PD-001; worktree riêng)
-- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`
+- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`; mở rộng bởi ORCHESTRATOR 2026-11-11: `eleventy.config.js` (chỉ passthrough `src/assets/`), `src/pages/index.njk` (chỉ mount SearchBox trang chủ → `/thong-bao/?q=`, theo `docs/SITEMAP.md`)
 - Dependencies: CP1-03
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-05-client-search`
+- Base commit / branch: `6f9ca0b` (HEAD CP1-04, stacked); branch `cp1/CP1-05-client-search`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
