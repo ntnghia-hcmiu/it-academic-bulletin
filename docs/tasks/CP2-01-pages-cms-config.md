@@ -79,4 +79,4 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, session `01a1ca26-8ce2-7a81-97bc-27e33580743a`, 10:28→10:31 UTC, 69,429 tokens. Quota trước khi giao: 5 giờ 19 %, tuần 79 %. Chạy song song với CP1-03 (worktree riêng). Codex không commit, không sửa ngoài Owned paths.
 - Important findings / decisions: HUMAN LEAD 2026-11-11 — không đặt `commit.identity` tới khi D-04 chốt; AC thử dán rich-text chuyển sang CP2-03 AC5.
 - Known limitations: chỉ kiểm được trên Pages CMS thật (CP2-03): (1) reference `value: "{name}"` lưu slug hay tên file kèm `.yml`; (2) `{primary}` slugify có bỏ dấu tiếng Việt không (CONTENT_MODEL dòng 27) — nếu không, thêm field `slug` cho announcements/guides/faq/resources; (3) hành vi `deadline` default `""` khi lưu.
-- PR: chưa (HUMAN LEAD quyết push).
+- PR: chưa; branch đã push (HUMAN LEAD 2026-11-11).
