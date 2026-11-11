@@ -1,10 +1,11 @@
 import { existsSync } from 'node:fs';
-import { HtmlBasePlugin } from '@11ty/eleventy';
+import { HtmlBasePlugin, RenderPlugin } from '@11ty/eleventy';
 import site from './src/_data/site.js';
 import { absoluteUrl } from './src/lib/url.js';
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(HtmlBasePlugin);
+  eleventyConfig.addPlugin(RenderPlugin);
   eleventyConfig.amendLibrary('md', (markdown) => markdown.set({ html: false }));
   eleventyConfig.addFilter('absoluteUrl', absoluteUrl);
   eleventyConfig.ignores.add('src/content/**');

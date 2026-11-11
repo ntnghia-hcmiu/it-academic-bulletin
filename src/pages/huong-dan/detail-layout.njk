@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+permalink: false
+noindex: true
+eleventyExcludeFromCollections: true
+---
+{% from "components/DeadlineBadge.njk" import displayDate %}
+{% from "components/AttachmentList.njk" import attachmentList %}
+{% if guide %}
+<p><a href="/huong-dan/">Tất cả hướng dẫn</a></p>
+<article class="guide-detail">
+  <h1>{{ guide.title | escape }}</h1>
+  <div class="announcement-meta">
+    {% if guide.resolvedCategory.slug != 'khac' %}
+      <a href="/danh-muc/{{ guide.resolvedCategory.slug | escape }}/">{{ guide.resolvedCategory.name | escape }}</a>
+    {% else %}
+      <span>{{ guide.resolvedCategory.name | escape }}</span>
+    {% endif %}
+    <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span>
+  </div>
+  {% if guide.summary %}<p class="intro">{{ guide.summary | escape }}</p>{% endif %}
+  <div class="prose">{{ content | replace('<a ', '<a rel="noopener noreferrer" ') | safe }}</div>
+  {% if guide.attachments.length %}
+    <section class="page-section" aria-labelledby="attachments-title">
+      <h2 id="attachments-title">Tệp và đường dẫn đính kèm</h2>
+      {{ attachmentList(guide.attachments) }}
+    </section>
+  {% endif %}
+</article>
+{% endif %}

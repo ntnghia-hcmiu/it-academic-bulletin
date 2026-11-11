@@ -1,0 +1,15 @@
+{% from "components/DeadlineBadge.njk" import displayDate %}
+{# API: resourceList(resources) — already published and ordered by bulletin. #}
+{% macro resourceList(resources) %}
+  <ul class="resource-list">
+    {% for resource in resources %}
+      <li>
+        <a href="{{ resource.external_url | escape }}" rel="noopener noreferrer">{{ resource.title | escape }}</a>
+        {% if resource.file_type %}<span class="file-type">{{ resource.file_type | escape }}</span>{% endif %}
+        {% if resource.access %}<span class="access-label">{{ resource.access | escape }}</span>{% endif %}
+        <span>Cập nhật: <time datetime="{{ resource.updated_date | escape }}">{{ displayDate(resource.updated_date) }}</time></span>
+        {% if resource.description %}<p>{{ resource.description | escape }}</p>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

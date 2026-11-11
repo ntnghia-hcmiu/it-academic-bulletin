@@ -1,0 +1,15 @@
+---
+layout: ../pages/huong-dan/detail-layout.njk
+templateEngineOverride: njk,md
+noindex: false
+eleventyExcludeFromCollections: false
+pagination:
+  data: bulletin.guides
+  size: 1
+  alias: guide
+permalink: /huong-dan/{{ guide.id }}/index.html
+eleventyComputed:
+  title: "{{ guide.title }}"
+  description: "{{ guide.summary or guide.title }}"
+---
+{{ guide.body | safe }}

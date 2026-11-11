@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+permalink: /huong-dan/
+title: Hướng dẫn
+description: Hướng dẫn theo danh mục học vụ.
+---
+{% from "components/EmptyState.njk" import emptyState %}
+{% from "components/DeadlineBadge.njk" import displayDate %}
+{% set byCategory = bulletin.guides | groupby('resolvedCategory.slug') %}
+<h1>Hướng dẫn</h1>
+{% for category in bulletin.categories.concat([{ slug: 'khac', name: 'Khác' }]) %}
+  {% set guides = byCategory[category.slug] or [] %}
+  {% if guides.length %}
+    <section class="page-section" aria-labelledby="guides-{{ category.slug | escape }}">
+      <h2 id="guides-{{ category.slug | escape }}">{{ category.name | escape }}</h2>
+      <ul class="guide-list">
+        {% for guide in guides %}
+          <li>
+            <a href="/huong-dan/{{ guide.id | escape }}/">{{ guide.title | escape }}</a>
+            <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span>
+            {% if guide.summary %}<p>{{ guide.summary | escape }}</p>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endfor %}
+{% if not bulletin.guides.length %}{{ emptyState('Chưa có hướng dẫn', 'Nội dung đang được cập nhật') }}{% endif %}
