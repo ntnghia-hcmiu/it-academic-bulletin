@@ -12,9 +12,11 @@ eleventyComputed:
 {% from "components/DeadlineBadge.njk" import refreshDeadlines %}
 {% from "components/DeadlineBadge.njk" import displayDate %}
 {% from "components/ContactCard.njk" import contactCard %}
+{% from "components/SearchBox.njk" import searchBox %}
 {% set important = bulletin.announcements | selectattr('important') %}
 <h1>{{ title | escape }}</h1>
 {% if bulletin.settings.intro %}<p class="intro">{{ bulletin.settings.intro | escape }}</p>{% endif %}
+{{ searchBox(bulletin.categories, false) }}
 <div class="home-grid">
   <div>
     <section class="page-section" aria-labelledby="important-title">

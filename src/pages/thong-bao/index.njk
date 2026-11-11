@@ -8,10 +8,17 @@ description: Thông báo học vụ Khoa Công nghệ Thông tin.
 {% from "components/CategoryNav.njk" import categoryNav %}
 {% from "components/EmptyState.njk" import emptyState %}
 {% from "components/DeadlineBadge.njk" import refreshDeadlines %}
+{% from "components/SearchBox.njk" import searchBox %}
 {# Keep content.js date/id order within both importance groups. #}
 {% set important = bulletin.announcements | selectattr('important') %}
 {% set remaining = bulletin.announcements | rejectattr('important') %}
 <h1>Thông báo</h1>
+{{ searchBox(bulletin.categories) }}
+<p role="status" aria-live="polite" data-search-status></p>
+<div data-search-empty hidden>
+  {{ emptyState("Không tìm thấy thông báo phù hợp", "Hãy thử từ khóa khác hoặc xem thông báo theo danh mục.") }}
+  <a href="/danh-muc/">Xem các danh mục học vụ</a>
+</div>
 {{ categoryNav(bulletin.categories) }}
 <div class="announcement-list">
   {% for announcement in important.concat(remaining) %}
@@ -21,3 +28,5 @@ description: Thông báo học vụ Khoa Công nghệ Thông tin.
   {% endfor %}
 </div>
 {{ refreshDeadlines() }}
+
+<script type="module" src="/assets/search.js"></script>

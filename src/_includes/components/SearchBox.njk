@@ -1,0 +1,28 @@
+{# API: searchBox(categories, filters=true). A plain GET works without JavaScript. #}
+{% macro searchBox(categories, filters=true) %}
+  <form class="search-box" role="search" method="get" action="/thong-bao/">
+    <div>
+      <label for="search-q">Từ khóa tìm thông báo</label>
+      <input id="search-q" name="q" type="search" class="max-w-full border rounded p-2" placeholder="Nhập từ khóa">
+    </div>
+    {% if filters %}
+      <div>
+        <label for="search-category">Danh mục</label>
+        <select id="search-category" name="category" class="max-w-full border rounded p-2">
+          <option value="">Tất cả danh mục</option>
+          {% for category in categories %}
+            <option value="{{ category.slug | escape }}">{{ category.name | escape }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="search-sort">Sắp xếp</label>
+        <select id="search-sort" name="sort" class="max-w-full border rounded p-2">
+          <option value="newest">Mới nhất</option>
+          <option value="oldest">Cũ nhất</option>
+        </select>
+      </div>
+    {% endif %}
+    <button type="submit" class="border rounded p-2">Tìm kiếm</button>
+  </form>
+{% endmacro %}

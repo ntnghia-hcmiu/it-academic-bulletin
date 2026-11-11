@@ -11,6 +11,7 @@ export default function (eleventyConfig) {
   eleventyConfig.ignores.add('src/content/**');
   eleventyConfig.ignores.add('src/styles/**');
   eleventyConfig.ignores.add('src/lib/**');
+  eleventyConfig.addPassthroughCopy({ 'src/assets/': 'assets', 'src/lib/search.js': 'assets/search-helpers.js' });
 
   if (existsSync('public')) {
     eleventyConfig.addPassthroughCopy({ public: '.' });
