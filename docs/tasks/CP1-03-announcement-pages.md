@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -63,12 +63,12 @@ Tất cả required verification phải chạy và PASS trước READY.
 
 Task không chạm security model / quyền bên thứ ba; manual test sau automated verification là điểm danh.
 
-- [ ] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI).
+- [x] Kiểm trên điện thoại thật hoặc DevTools 360px (nếu có UI). — HUMAN LEAD 2026-11-11 PASS.
 
 ## Result
 
 - Main changes: trang chủ (Quan trọng tối đa 3, Mới nhất 6, Thủ tục thường dùng + quick_links), `/thong-bao/` (quan trọng trước, rồi ngày giảm dần) + chi tiết (pagination, Markdown `html:false`), `/danh-muc/` + từng danh mục với empty state; 5 component macro (`emptyState(message?, detail?)`, `attachmentList(attachments)` cho CP1-04 tái dùng); `src/_data/bulletin.js` nhận `CONTENT_DIR`; `src/_data/build.js` ngày build; deadline "Đã hết hạn" lúc build + kiểm lại phía client (CONTENT_MODEL §4, ARCHITECTURE T6).
-- Tests: `tests/pages.test.mjs` (AC1–AC3, build production rỗng có empty state, escaping Markdown, attachments, deadline). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: check PASS, test 16/16 PASS, build PASS, framework-check PASS. Build thủ công `CONTENT_DIR=tests/fixtures/content`: không có trang/chuỗi của bài `hidden` và danh mục ẩn. Kiểm 360px/1280px + bàn phím: **NOT RUN** — chờ HUMAN LEAD.
+- Tests: `tests/pages.test.mjs` (AC1–AC3, build production rỗng có empty state, escaping Markdown, attachments, deadline). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: check PASS, test 16/16 PASS, build PASS, framework-check PASS. Build thủ công `CONTENT_DIR=tests/fixtures/content`: không có trang/chuỗi của bài `hidden` và danh mục ẩn. Kiểm 360px/1280px + bàn phím (dev server, fixture): **PASS** — HUMAN LEAD 2026-11-11.
 - Diff + / − (app, test): app +335/−3; test/fixture +200/−0.
 - Helper mới (đã tìm, lý do không tái dùng): macro UI + `displayDate`; không thêm helper lọc/sắp xếp. Codex grep `rg -n 'date|deadline|markdown|attachments|sort|macro|EmptyState' src/lib src/_includes tests`.
 - Review: vòng 1 Codex BLOCKED đúng (cần ngày build ngoài Owned paths) → ORCHESTRATOR thêm `src/_data/build.js` (commit `aff63e8`). Review ORCHESTRATOR: 0 blocking. Non-blocking: (1) tách quan trọng/còn lại bằng `selectattr`/`rejectattr` trong template lặp lại thứ tự của `getHomeAnnouncements` vì `getContent()` không expose nó (`src/lib` ngoài Owned paths) — thứ tự kết quả giống nhau; (2) layout chi tiết đặt ở `src/pages/thong-bao/detail-layout.njk` (`permalink: false`) thay vì `_includes/layouts` (ngoài Owned paths); (3) `rel="noopener noreferrer"` gắn cho mọi `<a ` trong body bằng `replace`, kể cả link nội bộ (vô hại).
