@@ -75,6 +75,7 @@ tests/*.test.mjs        node --test cho helper thuần
 
 - Deploy: mỗi push vào `main` (CMS hoặc merge PR) → build ~1–3 phút → site cập nhật.
 - Build lỗi (vd thư ký nhập dữ liệu sai schema): site giữ phiên bản cũ; tech owner xem log Actions, sửa qua CMS hoặc revert.
+- Chuyển hosting sau này (D-01, HUMAN LEAD 2026-11-11): output `dist/` là site tĩnh thuần, chuyển được sang server/hosting khác bằng cách đổi `SITE_URL`/`BASE_PATH` và bước deploy; Pages CMS không phụ thuộc hosting.
 - Rollback: `git revert <sha>` + push (tech owner) hoặc "Re-run" deploy commit cũ. Chi tiết ở `docs/DEPLOYMENT.md` (CP3).
 
 ## 6. Biến còn thiếu (ảnh hưởng kiến trúc)

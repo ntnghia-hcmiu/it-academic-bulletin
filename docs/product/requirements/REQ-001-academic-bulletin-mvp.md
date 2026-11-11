@@ -108,7 +108,7 @@ Given `docs/SECRETARY_GUIDE.md`, when thư ký đọc, then thao tác chính n�
 ## 13. Open questions
 - OQ-1: Ai là thư ký (1 hay nhiều người)? Có tài khoản GitHub không, hay dùng mời theo email? (D-03)
 - OQ-2: Domain/subdomain dự kiến? Tạm dùng `ntnghia-hcmiu.github.io/it-academic-bulletin`? (D-05)
-- OQ-3: Repo `ntnghia-hcmiu/it-academic-bulletin` đã PUBLIC: xác nhận chấp nhận draft/lịch sử commit công khai và ai giữ quyền admin lâu dài (D-01, D-02).
+- OQ-3: ~~Repo public?~~ Quyết 2026-11-11: giữ PUBLIC (D-01). Còn: ai giữ quyền admin lâu dài (D-02).
 - OQ-4: Có logo/bộ nhận diện IU được phép dùng? (D-07)
 - OQ-5: Có cần bản tiếng Anh trong MVP không? (ASSUMPTION: không)
 - OQ-6: FAQ chưa có câu trả lời: ẩn hay hiện "Chưa cập nhật"? (D-10)

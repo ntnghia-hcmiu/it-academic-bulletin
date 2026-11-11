@@ -10,7 +10,7 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11. HUMAN LEAD "duyệt tất cả": ADR-001, ADR-002, IAB-001 (CP1–CP3), PD-001 (≤3 song song), PD-002 (IMPLEMENTER = Codex `codex exec`). CP0 commit trên branch `cp0/framework-adoption`; **chưa push** — chờ trả lời D-01 (public/private).
+CP0 DONE 2026-11-11. HUMAN LEAD "duyệt tất cả": ADR-001, ADR-002, IAB-001 (CP1–CP3), PD-001 (≤3 song song), PD-002 (IMPLEMENTER = Codex `codex exec`). CP0 commit trên branch `cp0/framework-adoption`; D-01 quyết 2026-11-11: **giữ PUBLIC** (draft + lịch sử commit công khai được chấp nhận); có thể chuyển hosting sang server khác khi hoàn thiện. Push CP0: HUMAN LEAD thực hiện.
 
 ## Next proposed action
 
@@ -18,7 +18,6 @@ Session mới: CP1-01 (pilot S1 Claude ORCHESTRATOR → Codex IMPLEMENTER), bran
 
 ## Open decisions
 
-- D-01 Repo PUBLIC hay chuyển PRIVATE (private + Pages cần gói GitHub trả phí; xem báo cáo 2026-11-11). Chặn push.
 - D-02 Ai giữ quyền admin repo lâu dài (bật Pages, ruleset, App)? Agent chỉ có WRITE.
 - D-03 Thư ký: collaborator theo email hay tài khoản GitHub; 1 hay nhiều người.
 - D-04 `commit.identity: user` (ghi email thư ký vào commit public) hay `app`.
@@ -32,6 +31,5 @@ Session mới: CP1-01 (pilot S1 Claude ORCHESTRATOR → Codex IMPLEMENTER), bran
 
 ## Blockers
 
-- Push/PR: chờ D-01.
 - `scripts/product-check.mjs` không dùng được (K-01).
 - Pilot Codex IMPLEMENTER: chạy ở CP1-01.
