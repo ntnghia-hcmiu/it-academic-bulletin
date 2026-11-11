@@ -51,6 +51,8 @@ Thư ký thấy 6 nhóm nội dung với nhãn/mô tả tiếng Việt, trườn
 1. Mọi field schema (`src/lib/schema.js`) có trong `.pages.yml` và ngược lại.
 2. Field bắt buộc khớp `required`.
 3. Không có path ngoài `src/content/**`, `public/media/**`.
+4. Mọi field `rich-text` có `options.format: markdown` và `options.switcher: false` (ADR-001 Amendment 2); media chỉ `categories: [image]`.
+5. Ghi kết quả thử thật trên Pages CMS: dán từ Word/email, bảng, tiêu đề, gạch chân → Markdown sau khi lưu và hiển thị trên site.
 
 ## Required verification
 

@@ -74,7 +74,7 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 ## Result
 
 **Trạng thái: BLOCKED (2026-11-11, sau vòng sửa 1)** — decision gate bảo mật: Astro 6 có advisory critical (xem dưới). Code scaffold trong working tree, chưa commit.
-- 2026-11-11: HUMAN LEAD chọn Eleventy 3 → ADR-001 Amendment 2; contract viết lại scope Eleventy. Chờ HUMAN LEAD duyệt chi tiết Amendment 2 rồi giao Codex vòng 2.
+- 2026-11-11: HUMAN LEAD chọn Eleventy 3 → ADR-001 Amendment 2; contract viết lại scope Eleventy. HUMAN LEAD duyệt chi tiết Amendment 2 (2026-11-11) → giao Codex vòng 2.
 
 - Main changes (Codex, untracked): `.gitignore`, `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `src/lib/url.ts` (`joinBase`, `url`), `src/layouts/Base.astro`, `src/styles/global.css`, `src/pages/index.astro`, `src/pages/404.astro`, `tests/url.test.mjs`. Dependency: astro 7.4.10, @astrojs/check 0.9.12, typescript 6.0.3, tailwindcss + @tailwindcss/vite 4.3.5.
 - ORCHESTRATOR micro-fix: script `test` → `node --test tests/*.test.mjs` (Node 24 không nhận thư mục); `engines.node` → `>=22.23.4` (yêu cầu của astro 7.4.10); contract `Implementation authorized: YES` (checker không nhận hậu tố).

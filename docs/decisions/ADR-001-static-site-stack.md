@@ -2,9 +2,9 @@
 
 | Metadata | Value |
 |---|---|
-| Status | ACCEPTED (Amendment 2 — Eleventy 3, chờ HUMAN LEAD duyệt nội dung chi tiết) |
+| Status | ACCEPTED (Amendment 2 — Eleventy 3, chi tiết duyệt 2026-11-11) |
 | Date | 2026-11-11 (gốc) · 2026-11-11 (Amendment 1, Amendment 2) |
-| Decision owner | HUMAN LEAD — ACCEPTED 2026-11-11 ("duyệt tất cả", phiên CP0); Amendment 2: "chọn Eleventy 3" (phiên CP1-01) |
+| Decision owner | HUMAN LEAD — ACCEPTED 2026-11-11 ("duyệt tất cả", phiên CP0); Amendment 2: "chọn Eleventy 3" + "Duyệt" chi tiết (phiên CP1-01) |
 | Gate | architecture + dependency (`docs/ai/workflow.md` §3) |
 | Source | PROJECT_BRIEF v1.1 §3 (đề xuất trong brief, không phải approval) |
 
@@ -51,6 +51,7 @@ Không thêm dependency khác trong CP1–CP3 nếu không có decision mới (P
 - **Quyết định:** HUMAN LEAD 2026-11-11 (phiên CP1-01: "chọn Eleventy 3"). Bảng Decision ở trên thay bảng Astro gốc; Amendment 1 hết hiệu lực.
 - **Lý do:** Astro 7 không chạy trên VM dev (Amendment 1); Astro 6.4.8 (bản 6.x cuối) có `npm audit` critical — `astro <=7.3.1`: GHSA-f48w-9m4c-m7f5, GHSA-7pw4-f3q4-r2p2, GHSA-4g3v-8h47-v7g6, GHSA-26w7-cxv4-gfx2, GHSA-376h-93r7-7g6f, GHSA-98hj-9722-w3j8 — bản vá chỉ có ở 7.x. Evidence: `docs/tasks/CP1-01-scaffold.md` Result.
 - **Đã kiểm (scratch, 2026-11-11):** `@11ty/eleventy` 3.1.8 + `tailwindcss`/`@tailwindcss/cli` 4.3.5 → build Markdown với `--pathprefix` PASS trên VM dev; `npm audit` 0 vulnerabilities; native binary (lightningcss, tailwind oxide, watcher) nạp được.
+- **Soạn nội dung (thư ký):** field nội dung dài dùng Pages CMS `type: rich-text` (WYSIWYG) với `options.format: markdown` và `options.switcher: false` (ẩn chế độ Source); thư ký không cần biết Markdown. Kết hợp markdown-it `html: false` phía site. Dán từ Word/email, bảng, gạch chân: kiểm thật ở CP2-01/CP2-03.
 - **Phạm vi ảnh hưởng:** `docs/ARCHITECTURE.md` §2–§3, `docs/CONTENT_MODEL.md` (tên helper), `docs/ai/project-profile.md` (module map, Test policy), IAB-001 §1/§4, contract CP1-01…CP1-06, CP2-01, CP3-01 — sửa cùng commit.
 
 ## Amendment 1 — Astro major 6 (2026-11-11) — SUPERSEDED bởi Amendment 2
