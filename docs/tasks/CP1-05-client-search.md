@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P2 (PD-001; worktree riêng)
-- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`; mở rộng bởi ORCHESTRATOR 2026-11-11: `eleventy.config.js` (chỉ passthrough `src/assets/`), `src/pages/index.njk` (chỉ mount SearchBox trang chủ → `/thong-bao/?q=`, theo `docs/SITEMAP.md`)
+- Owned paths: `src/lib/search.js`, `src/pages/search-index.json.njk`, `src/_includes/components/SearchBox.njk`, `src/assets/search.js` (script client), script mount trong `src/pages/thong-bao/index.njk`, `tests/search.test.mjs`; mở rộng bởi ORCHESTRATOR 2026-11-11: `eleventy.config.js` (chỉ passthrough `src/assets/` và `src/lib/search.js` → `assets/search-helpers.js`, để client dùng chung helper thuần — Codex BLOCKED vòng 1, ORCHESTRATOR chấp thuận), `src/pages/index.njk` (chỉ mount SearchBox trang chủ → `/thong-bao/?q=`, theo `docs/SITEMAP.md`)
 - Dependencies: CP1-03
 - Base commit / branch: `6f9ca0b` (HEAD CP1-04, stacked); branch `cp1/CP1-05-client-search`
 - Human Lead approval: inherited from boundary IAB-001
