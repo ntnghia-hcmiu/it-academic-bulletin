@@ -111,7 +111,7 @@ Canonical owner cho việc tool nào được làm IMPLEMENTER của task `dual-
 
 | Adapter | Điểm mạnh | Giới hạn | Dùng khi | Dự phòng |
 |---|---|---|---|---|
-| `codex` — **mặc định bắt buộc (PD-002)**: `codex exec` khi Claude Code là ORCHESTRATOR; built-in worker khi Codex là ORCHESTRATOR | dùng hạn mức gói Codex thay ORCHESTRATOR; vendor khác → review chéo tự nhiên | sandbox `workspace-write`: cần `network_access=true` + `npm_config_cache=$PWD/.npm-cache`; socket/dev server có thể không chạy → ORCHESTRATOR chạy full verification; quota 5 giờ/tuần | mọi task `dual-agent` | `claude-code` subagent — chỉ khi HUMAN LEAD duyệt cho task |
+| `codex` — **mặc định bắt buộc (PD-002)**: `codex exec` khi Claude Code là ORCHESTRATOR; built-in worker khi Codex là ORCHESTRATOR | dùng hạn mức gói Codex thay ORCHESTRATOR; vendor khác → review chéo tự nhiên | sandbox `workspace-write`: cần `network_access=true` + `npm_config_cache=$PWD/.npm-cache`; socket/dev server có thể không chạy → ORCHESTRATOR chạy full verification; quota 5 giờ/tuần — ngưỡng chuyển dự phòng (HUMAN LEAD 2026-11-11): cửa sổ 5 giờ ≥ 95 % hoặc tuần ≥ 97 % (thay gợi ý 85 % / 80 % của README adapter); kiểm bằng `codex-usage.py` của kit trước mỗi lần giao | mọi task `dual-agent` | `claude-code` subagent — chỉ khi HUMAN LEAD duyệt cho task |
 | `claude-code` (subagent native `implementer`) | native, chạy được dev server | dùng hạn mức Claude | **chỉ dự phòng** có duyệt | — |
 
 Cách chọn:
