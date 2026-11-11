@@ -70,11 +70,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: `.github/workflows/deploy.yml` (push `main` + `workflow_dispatch`; `permissions: {}` toàn cục, job build `contents: read` + `pages: read`, job deploy `pages: write` + `id-token: write`; concurrency `pages`; checkout `fetch-depth: 0`, `persist-credentials: false` → setup-node 24 → `npm ci` → content guard → `npm run verify` → configure-pages → upload `dist` → deploy-pages); `scripts/content-guard.mjs` (`checkPaths` thuần, allowlist `src/content/`, `public/media/`, chặn traversal; CLI lọc commit theo author/committer khớp `CMS_BOT_ACTORS`, xử lý rename/delete/merge, push đầu tiên `000…0`, force-push; biến rỗng → notice, exit 0).
+- Tests: `tests/content-guard.test.mjs` 30 test (paths PASS/FAIL, actor, notice, repo git tạm: rename/delete/first push/force-push; parse YAML: trigger, concurrency, permissions, verify trước upload/deploy, không secret ngoài token ngầm định). ORCHESTRATOR chạy `npm run verify` ngoài sandbox 2026-11-11: PASS 102/102, verify-dist PASS. `actionlint` không có sẵn, không cài. Tag action đã kiểm tồn tại qua GitHub API: checkout@v7, setup-node@v7, configure-pages@v6, upload-pages-artifact@v5, deploy-pages@v5.
+- Diff + / − (app, test): workflow +59/−0; script +118/−0; test +269/−0.
+- Helper mới (đã tìm, lý do không tái dùng): `normalizePath`, `checkPaths`, `git`, `matchesActor`, `changedPaths`, `runGuard`, `escapeAnnotation` — chưa có helper git/guard.
+- Review: ORCHESTRATOR vòng 1: 0 blocking. Lệch nhỏ có chủ đích: build job dùng `pages: read` (configure-pages đọc cấu hình) — vẫn trong tập quyền IAB-001, tối thiểu hơn.
+- Pilot evidence: Codex CLI 0.166.0, model `gpt-6.1-sol`, effort `high`, 11:47→11:53 UTC, 66,064 tokens. Quota trước khi giao: 5 giờ 17 % / tuần 83 %.
+- Important findings / decisions: tên bot CMS đọc từ repository variable `CMS_BOT_ACTORS` (đặt sau khi xác minh ở CP2-03); merge PR = kích hoạt deploy → integration gate.
+- Known limitations: Required verification "chạy thật trên GitHub" NOT RUN — cần HUMAN LEAD bật Pages (Source: GitHub Actions) rồi merge → chưa READY. Guard chỉ phát hiện, không ngăn commit (ADR-002).
 - PR:
