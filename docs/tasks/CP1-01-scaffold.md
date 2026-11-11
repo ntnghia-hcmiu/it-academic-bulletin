@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -73,12 +73,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-**Trạng thái: READY — trừ AC3 (kiểm thủ công 360px + Tab, chờ HUMAN LEAD)** — 2026-11-11, sau vòng 2 (Eleventy).
+**Trạng thái: READY** — 2026-11-11, sau vòng 2 (Eleventy); AC3 PASS do HUMAN LEAD kiểm thủ công 2026-11-11.
 
 - Main changes: scaffold Eleventy 3 + Tailwind CLI — `eleventy.config.js` (pathPrefix từ `BASE_PATH`, HtmlBasePlugin, markdown-it `html: false`, ignore `src/content|styles|lib`), `src/_data/site.js`, `src/_includes/layouts/base.njk` (`lang="vi"`, canonical tuyệt đối / `noindex`, skip-link, một `<nav>` với `<details>` mobile), `src/lib/url.js` (`joinBase` port từ bản Astro, `absoluteUrl` mới), `src/styles/global.css`, `src/pages/index.njk` (khung, "Nội dung đang được cập nhật."), `src/pages/404.njk` (`/404.html`, noindex), `tests/url.test.mjs`, `package.json`, `package-lock.json`, `.gitignore`. Scaffold Astro (untracked) đã xóa.
 - Dependency: `@11ty/eleventy` 3.1.8, `tailwindcss` 4.3.5, `@tailwindcss/cli` 4.3.5, `js-yaml` 4.3.2 (ADR-001 Amendment 2).
-- Tests (ORCHESTRATOR chạy lại ngoài sandbox): `npm run check` exit 0; `npm test` 3/3; `npm run build` exit 0 (2 trang + `dist/assets/site.css`); grep `dist/**/*.html`: 29/29 `href`/`src` nội bộ có prefix `/it-academic-bulletin/`, `BASE_PATH=/` 29/29 prefix `/`; canonical trang chủ `https://ntnghia-hcmiu.github.io/it-academic-bulletin/` (root build: `https://ntnghia-hcmiu.github.io/`); `dist/404.html` noindex, không canonical; `npm audit` 0 vulnerabilities; `node scripts/framework-check.mjs` PASS. AC3 **NOT RUN** (máy không có trình duyệt).
-- AC → test: AC1 `npm run check && npm test && npm run build`; AC2 `tests/url.test.mjs` (3 test, bảng case) + grep `dist/` hai base; AC3 thủ công (chờ); AC4 framework-check; AC5 `npm audit`.
+- Tests (ORCHESTRATOR chạy lại ngoài sandbox): `npm run check` exit 0; `npm test` 3/3; `npm run build` exit 0 (2 trang + `dist/assets/site.css`); grep `dist/**/*.html`: 29/29 `href`/`src` nội bộ có prefix `/it-academic-bulletin/`, `BASE_PATH=/` 29/29 prefix `/`; canonical trang chủ `https://ntnghia-hcmiu.github.io/it-academic-bulletin/` (root build: `https://ntnghia-hcmiu.github.io/`); `dist/404.html` noindex, không canonical; `npm audit` 0 vulnerabilities; `node scripts/framework-check.mjs` PASS. AC3 (DevTools 360px + Tab): **PASS** — HUMAN LEAD kiểm thủ công 2026-11-11 (máy agent không có trình duyệt).
+- AC → test: AC1 `npm run check && npm test && npm run build`; AC2 `tests/url.test.mjs` (3 test, bảng case) + grep `dist/` hai base; AC3 thủ công — PASS (HUMAN LEAD); AC4 framework-check; AC5 `npm audit`.
 - Diff + / − (app, test, config): +347 / −0; `package-lock.json` +2778.
 - Helper mới: `joinBase()` (port), `absoluteUrl()` (dùng lại `joinBase`) — Codex grep `rg -n 'joinBase|absoluteUrl|canonical|function url' src tests`; không có helper sẵn.
 - Review: 0 blocking. Non-blocking: (1) script `check` là one-liner `node -e` dài — có thể tách thành `scripts/check-js.mjs` khi CP1-02 thêm validator schema; (2) `dev` chưa watch Tailwind; (3) `html: false` chưa có test Markdown thực — thêm ở CP1-02 khi có nội dung.
@@ -89,8 +89,8 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
   - Quota trước mỗi lần giao: 5 giờ 3 % / 6 % / 9 %; tuần 76–77 %. Ngưỡng dự phòng 95 % / 97 % (project-profile §7).
   - Codex không commit/push, không sửa ngoài Owned paths ở cả 3 lượt; mọi claim của Codex khớp lần chạy lại của ORCHESTRATOR.
 - Important findings / decisions: Astro 7 cần AVX2 (VM dev không có) → Amendment 1 (Astro 6) → `npm audit` critical → Amendment 2 (Eleventy 3), HUMAN LEAD duyệt 2026-11-11. Văn bản chỉ qua link Drive (CONTENT_MODEL). Ngưỡng quota Codex 95 %/97 %.
-- Known limitations: AC3 chờ kiểm thủ công; route trong nav (thông báo, danh mục…) chưa có trang tới CP1-03/04.
-- PR: — (chưa push; HUMAN LEAD quyết integration).
+- Known limitations: route trong nav (thông báo, danh mục…) chưa có trang tới CP1-03/04.
+- PR: — (HUMAN LEAD 2026-11-11: chưa push; CP1-02 stacked trên branch này).
 
 <details><summary>Lịch sử vòng Astro (đã thay)</summary>
 
