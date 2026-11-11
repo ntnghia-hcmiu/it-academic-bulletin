@@ -1,0 +1,22 @@
+{
+  "name": "it-academic-bulletin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm run build && eleventy --serve",
+    "build": "eleventy && tailwindcss -i src/styles/global.css -o dist/assets/site.css --minify",
+    "check": "node --input-type=module -e \"import { readdirSync } from 'node:fs'; import { spawnSync } from 'node:child_process'; for (const file of ['eleventy.config.js', ...readdirSync('src', { recursive: true }).filter(file => file.endsWith('.js')).map(file => 'src/' + file)]) { const result = spawnSync(process.execPath, ['--check', file], { stdio: 'inherit' }); if (result.status !== 0) process.exit(result.status ?? 1); }\"",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "npm run check && npm test && npm run build && node scripts/framework-check.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.8",
+    "@tailwindcss/cli": "^4.3.5",
+    "js-yaml": "^4.3.2",
+    "tailwindcss": "^4.3.5"
+  }
+}

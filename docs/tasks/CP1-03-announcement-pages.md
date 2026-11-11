@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P1 (PD-001; worktree riêng)
-- Owned paths: `src/pages/index.astro`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.astro`
+- Owned paths: `src/pages/index.njk`, `src/pages/thong-bao/**`, `src/pages/danh-muc/**`, `src/_includes/components/{AnnouncementCard,CategoryNav,EmptyState,DeadlineBadge,AttachmentList}.njk`
 - Dependencies: CP1-02
 - Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-03-announcement-pages`
 - Human Lead approval: inherited from boundary IAB-001
@@ -40,7 +40,7 @@ Trang chủ theo mockup `docs/SITEMAP.md`, `/thong-bao/` + chi tiết, `/danh-mu
 
 ## Phải giữ nguyên
 
-- Helper `src/lib/content.ts` là nơi lọc duy nhất.
+- Helper `src/lib/content.js` là nơi lọc duy nhất.
 
 ## Code bị thay / xóa
 

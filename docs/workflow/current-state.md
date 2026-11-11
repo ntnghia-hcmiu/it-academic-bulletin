@@ -10,11 +10,11 @@ Ngân sách token của file: xem `docs/ai/workflow.md` §10.
 
 ## Current focus
 
-CP0 DONE 2026-11-11. HUMAN LEAD "duyệt tất cả": ADR-001, ADR-002, IAB-001 (CP1–CP3), PD-001 (≤3 song song), PD-002 (IMPLEMENTER = Codex `codex exec`). CP0 commit trên branch `cp0/framework-adoption`; D-01 quyết 2026-11-11: **giữ PUBLIC** (draft + lịch sử commit công khai được chấp nhận); có thể chuyển hosting sang server khác khi hoàn thiện. Push CP0: HUMAN LEAD thực hiện.
+CP0 DONE 2026-11-11 (D-01: giữ PUBLIC). CP1-01 READY trừ AC3 thủ công, branch `cp1/CP1-01-scaffold` (chưa push). Stack đổi sang **Eleventy 3** (ADR-001 Amendment 2) vì VM dev thiếu AVX2 (Astro 7) và Astro 6 có advisory critical. Pilot Claude ORCHESTRATOR → Codex IMPLEMENTER: chạy được, evidence trong contract CP1-01.
 
 ## Next proposed action
 
-Session mới: CP1-01 (pilot S1 Claude ORCHESTRATOR → Codex IMPLEMENTER), branch `cp1/CP1-01-scaffold` từ `cp0/framework-adoption`; sau đó CP1-02, rồi parallel group P1.
+HUMAN LEAD: kiểm AC3 (360px + Tab) CP1-01, quyết push/PR. Sau đó CP1-02 (validator schema + đọc nội dung bằng `js-yaml`), rồi parallel group P1.
 
 ## Open decisions
 
@@ -32,4 +32,4 @@ Session mới: CP1-01 (pilot S1 Claude ORCHESTRATOR → Codex IMPLEMENTER), bran
 ## Blockers
 
 - `scripts/product-check.mjs` không dùng được (K-01).
-- Pilot Codex IMPLEMENTER: chạy ở CP1-01.
+- VM dev (VMware) không expose AVX/AVX2 — tránh dependency có binary native đòi AVX2.

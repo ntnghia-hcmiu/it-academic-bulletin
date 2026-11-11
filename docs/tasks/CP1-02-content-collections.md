@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: —
-- Owned paths: `src/content.config.ts`, `src/lib/content.ts`, `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/fixtures/**`
+- Owned paths: `src/lib/schema.js`, `src/lib/content.js`, `src/_data/content.js`, `src/content/categories/*.yml`, `src/content/settings/site.json`, `src/content/{announcements,guides,resources,faq}/.gitkeep`, `tests/content.test.mjs`, `tests/fixtures/**`
 - Dependencies: CP1-01
 - Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-02-content-collections`
 - Human Lead approval: inherited from boundary IAB-001
@@ -27,7 +27,7 @@ Schema 6 collection theo `docs/CONTENT_MODEL.md`, một helper duy nhất lọc 
 
 ## Scope
 
-- In scope: Zod schema; helper `getPublished*`, `resolveCategory` (fallback "Khác"), sort; seed đúng bảng §4 CONTENT_MODEL (drive_folder_url trống).
+- In scope: validator schema thuần JS (`src/lib/schema.js`, không Zod — ADR-001 Amendment 2), đọc file bằng `js-yaml`; helper `getPublished*`, `resolveCategory` (fallback "Khác"), sort; seed đúng bảng §4 CONTENT_MODEL (drive_folder_url trống).
 - Out of scope: Thông báo/hướng dẫn/FAQ/tài liệu thật hoặc giả; liên hệ; trang UI.
 
 ## Authority / key decisions

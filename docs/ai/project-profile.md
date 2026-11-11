@@ -42,10 +42,10 @@ Tất cả module ứng dụng hiện là **planned**; chưa có file nào đư�
 
 | Path | Vai trò | Trạng thái | Rule riêng |
 |---|---|---|---|
-| `src/pages/` | routing Astro (trang chủ, thông báo, danh mục, tài liệu, FAQ, liên hệ, 404) | planned | `docs/ARCHITECTURE.md` (ACCEPTED) |
-| `src/layouts/`, `src/components/` | layout responsive, component UI | planned | như trên |
+| `src/pages/` | template Eleventy `.njk` (trang chủ, thông báo, danh mục, tài liệu, FAQ, liên hệ, 404) | planned | `docs/ARCHITECTURE.md` (ACCEPTED) |
+| `src/_includes/layouts/`, `src/_includes/components/` | layout responsive, macro UI (Nunjucks) | planned | như trên |
 | `src/content/` | nội dung do CMS ghi (Markdown/YAML/JSON) | planned | `docs/CONTENT_MODEL.md` (ACCEPTED); agent không tạo nội dung học vụ giả |
-| `src/content.config.ts` | schema content collections | planned | khớp `.pages.yml` |
+| `src/lib/schema.js`, `src/_data/` | validator schema nội dung, global data | planned | khớp `.pages.yml` |
 | `src/lib/` | helper thuần (lọc published, sắp xếp, chuẩn hóa tìm kiếm) | planned | — |
 | `public/media/` | ảnh nhỏ do CMS upload | planned | không chứa tài liệu nội bộ |
 | `.pages.yml` | cấu hình Pages CMS | planned | thuộc HUMAN LEAD/tech owner; thư ký không cần sửa |
@@ -111,7 +111,7 @@ Canonical owner cho việc tool nào được làm IMPLEMENTER của task `dual-
 
 | Adapter | Điểm mạnh | Giới hạn | Dùng khi | Dự phòng |
 |---|---|---|---|---|
-| `codex` — **mặc định bắt buộc (PD-002)**: `codex exec` khi Claude Code là ORCHESTRATOR; built-in worker khi Codex là ORCHESTRATOR | dùng hạn mức gói Codex thay ORCHESTRATOR; vendor khác → review chéo tự nhiên | sandbox `workspace-write`: cần `network_access=true` + `npm_config_cache=$PWD/.npm-cache`; socket/dev server có thể không chạy → ORCHESTRATOR chạy full verification; quota 5 giờ/tuần | mọi task `dual-agent` | `claude-code` subagent — chỉ khi HUMAN LEAD duyệt cho task |
+| `codex` — **mặc định bắt buộc (PD-002)**: `codex exec` khi Claude Code là ORCHESTRATOR; built-in worker khi Codex là ORCHESTRATOR | dùng hạn mức gói Codex thay ORCHESTRATOR; vendor khác → review chéo tự nhiên | sandbox `workspace-write`: cần `network_access=true` + `npm_config_cache=$PWD/.npm-cache`; socket/dev server có thể không chạy → ORCHESTRATOR chạy full verification; quota 5 giờ/tuần — ngưỡng chuyển dự phòng (HUMAN LEAD 2026-11-11): cửa sổ 5 giờ ≥ 95 % hoặc tuần ≥ 97 % (thay gợi ý 85 % / 80 % của README adapter); kiểm bằng `codex-usage.py` của kit trước mỗi lần giao | mọi task `dual-agent` | `claude-code` subagent — chỉ khi HUMAN LEAD duyệt cho task |
 | `claude-code` (subagent native `implementer`) | native, chạy được dev server | dùng hạn mức Claude | **chỉ dự phòng** có duyệt | — |
 
 Cách chọn:
@@ -123,7 +123,7 @@ Cách chọn:
 
 ## 9. Setup / tools
 
-- Runtime: Node.js ≥ 20 (máy dev hiện: v24.21.0, npm 11.19.0). Git; GitHub CLI chỉ dùng read-only khi chưa được phép.
+- Runtime: Node.js ≥ 20 (Eleventy 3 cần ≥ 18; ADR-001 Amendment 2) (máy dev hiện: v24.21.0, npm 11.19.0). Git; GitHub CLI chỉ dùng read-only khi chưa được phép.
 - Ứng dụng (planned, sau khi ADR-001 ACCEPTED): `npm ci`, `npm run dev`, `npm run build`, `npm run check`, `npm test`. Dependency được duyệt: chưa có — xem `docs/decisions/ADR-001-static-site-stack.md`.
 - Session context handoff: ngưỡng mặc định Core (250k token).
 
@@ -135,6 +135,6 @@ Canonical owner; áp dụng cho mọi IMPLEMENTER bất kể tool.
 
 - Trong vòng sửa: chạy test liên quan tới thay đổi (file hoặc bộ lọc theo tên), ưu tiên dừng ở lỗi đầu tiên với traceback ngắn.
 - Toàn bộ suite: một lần trước khi báo READY và một lần sau mỗi vòng fix review; không chạy toàn bộ sau từng lần sửa.
-- Lệnh chuẩn chạy toàn bộ suite: hiện tại (chưa có source) `node scripts/framework-check.mjs`. Sau CP1 (planned, chờ ADR-001): `npm run verify` = `astro check` + `node --test` (helper thuần) + `astro build` + `node scripts/verify-dist.mjs` (không lộ bài `published=false`, link nội bộ không gãy, base path đúng) + `node scripts/framework-check.mjs`.
+- Lệnh chuẩn chạy toàn bộ suite: hiện tại (chưa có source) `node scripts/framework-check.mjs`. Sau CP1 (planned): `npm run verify` = `npm run check` (validator schema nội dung, `node --check`) + `node --test` (helper thuần) + `npm run build` (Eleventy + Tailwind CLI) + `node scripts/verify-dist.mjs` (không lộ bài `published=false`, link nội bộ không gãy, base path đúng) + `node scripts/framework-check.mjs`.
 - Acceptance CMS (CP2) là kiểm thử thủ công end-to-end với tài khoản thư ký thật; không mô phỏng, không claim PASS khi chưa chạy — ghi `NOT RUN / BLOCKED` kèm lý do.
 - Không nới `docs/ai/workflow.md` §7: required verification trong task contract vẫn phải chạy và PASS trước READY.

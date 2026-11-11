@@ -6,7 +6,7 @@
 | Date | 2026-11-11 |
 | Source | PROJECT_BRIEF v1.1 §5; Pages CMS docs (configuration/content, fields, media, collaborators — đọc 2026-11-11) |
 
-Mọi tên field bằng tiếng Anh; nhãn hiển thị trong CMS bằng tiếng Việt. Schema Astro (`src/content.config.ts`) và `.pages.yml` phải khớp 1-1; task CP2-01 kiểm bằng test.
+Mọi tên field bằng tiếng Anh; nhãn hiển thị trong CMS bằng tiếng Việt. Schema (`src/lib/schema.js`, ADR-001 Amendment 2) và `.pages.yml` phải khớp 1-1; task CP2-01 kiểm bằng test.
 
 ## 1. Lưu trữ
 
@@ -19,6 +19,8 @@ Mọi tên field bằng tiếng Anh; nhãn hiển thị trong CMS bằng tiếng
 | faq | collection | `src/content/faq` | `yaml-frontmatter` | `{primary}.md` |
 | settings | file | `src/content/settings/site.json` | `json` | 1 file; delete: false |
 | media | media | `public/media` → `/media` | ảnh | categories: [image], rename: safe |
+
+Văn bản (PDF/Word/Excel…) **không** upload qua CMS; chỉ link Google Drive qua `resources.external_url` (HUMAN LEAD 2026-11-11 — repo public, file đã commit không rút lại được).
 
 `id` của entry = tên file (không đuôi). **URL dùng id**, không phụ thuộc tiêu đề sau khi tạo.
 
@@ -74,8 +76,8 @@ Seed ban đầu: `site_title` = "Thông tin học vụ — Khoa Công nghệ Th�
 
 ## 3. Quy tắc hiển thị (frontend)
 
-1. Chỉ entry `published === true` được render; lọc trong **một helper duy nhất** `src/lib/content.ts` dùng cho mọi trang, search index, sitemap.
-2. Entry tham chiếu danh mục `published=false` hoặc không tồn tại: vẫn hiển thị bài ở danh sách chung, nhãn danh mục = "Khác"; build ghi cảnh báo (không fail build để không chặn thư ký). *Không* dùng `reference()` strict của Astro vì xóa danh mục sẽ làm hỏng build.
+1. Chỉ entry `published === true` được render; lọc trong **một helper duy nhất** `src/lib/content.js` dùng cho mọi trang, search index, sitemap.
+2. Entry tham chiếu danh mục `published=false` hoặc không tồn tại: vẫn hiển thị bài ở danh sách chung, nhãn danh mục = "Khác"; build ghi cảnh báo (không fail build để không chặn thư ký). *Không* tham chiếu strict vì xóa danh mục sẽ làm hỏng build.
 3. Sắp xếp thông báo: `important` trước trên trang chủ; danh sách: `published_date` giảm dần, tie-break theo id.
 4. Deadline: hiển thị badge "Hạn: dd/MM/yyyy"; đã qua → "Đã hết hạn" (tính lúc build + kiểm lại phía client theo ngày hiện tại). Không tự ẩn bài.
 5. Danh mục không có bài/hướng dẫn/tài liệu đã xuất bản → "Nội dung đang được cập nhật".

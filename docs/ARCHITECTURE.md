@@ -18,7 +18,7 @@
                                     ▼
                          GitHub Actions: deploy.yml
                            1. guard: commit CMS chỉ chạm content/media
-                           2. npm ci → astro check → node --test → astro build
+                           2. npm ci → npm run check → node --test → npm run build
                            3. verify-dist (không lộ bài ẩn, link, base path)
                            4. upload-pages-artifact → deploy-pages
                                     │
@@ -33,16 +33,20 @@ Không backend, không database, không API runtime. Hai địa chỉ phải ph�
 ## 2. Cấu trúc thư mục (planned)
 
 ```text
-astro.config.mjs        site, base (từ env SITE_URL / BASE_PATH), sitemap, tailwind vite plugin
-src/content.config.ts   collections: announcements, categories, guides, resources, faq, settings
-src/content/**          dữ liệu do CMS ghi
-src/lib/content.ts      DUY NHẤT nơi lọc published, sắp xếp, resolve category (fallback "Khác")
-src/lib/search.ts       chuẩn hóa tiếng Việt (NFD, bỏ dấu, đ→d), build index
-src/lib/url.ts          ghép base path cho mọi link nội bộ
-src/layouts/Base.astro  <head> SEO (title, description, canonical), skip-link, header/nav, footer
-src/components/         AnnouncementCard, CategoryNav, SearchBox, EmptyState, DeadlineBadge, AttachmentList, ContactCard
-src/pages/              xem docs/SITEMAP.md
-src/pages/search-index.json.ts   chỉ mục tĩnh (chỉ bài published)
+eleventy.config.js      input src/, output dist/, pathPrefix (env BASE_PATH), HtmlBasePlugin, markdown-it html:false,
+                        ignore src/content/** (không tự thành trang), passthrough public/
+src/_data/site.js       SITE_URL / BASE_PATH cho template
+src/_data/content.js    global data: gọi src/lib/content.js (chỉ entry published)
+src/content/**          dữ liệu do CMS ghi (Markdown front matter / YAML / JSON)
+src/lib/content.js      DUY NHẤT nơi đọc + lọc published, sắp xếp, resolve category (fallback "Khác")
+src/lib/schema.js       validator field bắt buộc theo docs/CONTENT_MODEL.md (thay schema Astro)
+src/lib/search.js       chuẩn hóa tiếng Việt (NFD, bỏ dấu, đ→d), build index
+src/lib/url.js          ghép base path cho JSON/XML/canonical (HTML đã do HtmlBasePlugin)
+src/_includes/layouts/base.njk   <head> SEO (title, description, canonical), skip-link, header/nav, footer
+src/_includes/components/        macro Nunjucks: AnnouncementCard, CategoryNav, SearchBox, EmptyState, DeadlineBadge, AttachmentList, ContactCard
+src/pages/              template .njk (pagination trên dữ liệu đã lọc) — xem docs/SITEMAP.md
+src/pages/search-index.json.njk  chỉ mục tĩnh (chỉ bài published)
+src/styles/global.css   Tailwind v4 (build bằng @tailwindcss/cli → dist/assets/site.css)
 public/media/           ảnh do CMS upload
 scripts/verify-dist.mjs kiểm dist/ sau build
 tests/*.test.mjs        node --test cho helper thuần
@@ -54,13 +58,13 @@ tests/*.test.mjs        node --test cho helper thuần
 
 | # | Quyết định | Lý do |
 |---|---|---|
-| T1 | Static output, `getStaticPaths` chỉ từ entry đã lọc published | bài ẩn không có HTML |
-| T2 | Base path cấu hình qua env, mọi link qua `url()` helper | chạy ở `/<repo>/` và domain riêng |
+| T1 | Static output, pagination Eleventy chỉ trên entry đã lọc published; `src/content/**` không phải template | bài ẩn không có HTML |
+| T2 | Base path cấu hình qua env `BASE_PATH` → `pathPrefix` + HtmlBasePlugin; output không phải HTML qua `url()` helper | chạy ở `/<repo>/` và domain riêng |
 | T3 | Tìm kiếm: fetch `search-index.json` (title, summary, category, date, url) + lọc client, bỏ dấu | không dependency, đủ quy mô |
 | T4 | Lọc danh mục + sắp xếp bằng query string (`?category=…&sort=…`) → link chia sẻ được; không JS vẫn xem được danh sách đầy đủ | progressive enhancement |
-| T5 | Category là string slug, resolve mềm (không `reference()` strict) | xóa/ẩn danh mục không làm hỏng build của thư ký |
+| T5 | Category là string slug, resolve mềm (không tham chiếu strict) | xóa/ẩn danh mục không làm hỏng build của thư ký |
 | T6 | Deadline "đã hết hạn" tính lúc build và cập nhật phía client | site tĩnh không rebuild mỗi ngày |
-| T7 | Markdown body render bằng Astro; không cho HTML thô nguy hiểm (CMS markdown) | an toàn nội dung |
+| T7 | Markdown body render bằng markdown-it của Eleventy với `html: false`; không cho HTML thô (CMS markdown) | an toàn nội dung |
 | T8 | Ảnh trong repo chỉ minh họa nhỏ; PDF/Word ở Drive | repo nhẹ, quyền tài liệu ở Drive |
 
 ## 4. Bảo mật & quyền riêng tư

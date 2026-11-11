@@ -17,7 +17,7 @@ Có thể duyệt **từng phần**: IAB-001/CP1, IAB-001/CP2, IAB-001/CP3.
 
 | Phần | Được làm | Task |
 |---|---|---|
-| CP1 | Scaffold Astro + TS + Tailwind; layout responsive; routing; trang chủ, thông báo list/detail, danh mục, guides, resources, FAQ, liên hệ, 404; content collections theo `docs/CONTENT_MODEL.md`; seed 9 danh mục (mô tả trung tính) + settings rỗng; tìm kiếm/lọc client; SEO cơ bản; script verify `dist/` | CP1-01 … CP1-06 |
+| CP1 | Scaffold stack theo ADR-001 (Eleventy 3 + Tailwind — Amendment 2); layout responsive; routing; trang chủ, thông báo list/detail, danh mục, guides, resources, FAQ, liên hệ, 404; content collections theo `docs/CONTENT_MODEL.md`; seed 9 danh mục (mô tả trung tính) + settings rỗng; tìm kiếm/lọc client; SEO cơ bản; script verify `dist/` | CP1-01 … CP1-06 |
 | CP2 | `.pages.yml` ánh xạ đủ collection; nhãn/mô tả field tiếng Việt; `docs/SECRETARY_GUIDE.md`; chuẩn bị checklist acceptance CMS | CP2-01, CP2-02, CP2-03 (phần chuẩn bị) |
 | CP3 | `.github/workflows/deploy.yml` (build + content-path guard + deploy Pages); `README.md`, `docs/DEPLOYMENT.md`, checklist bàn giao, quy trình rollback; cấu hình sẵn `site`/`base`, hướng dẫn custom domain (không đổi DNS) | CP3-01, CP3-02 |
 
@@ -39,7 +39,7 @@ Có thể duyệt **từng phần**: IAB-001/CP1, IAB-001/CP2, IAB-001/CP3.
 
 | Path | Owner |
 |---|---|
-| `src/**` (trừ `src/content/**`), `astro.config.*`, `package*.json`, `tsconfig.json`, `scripts/verify-dist.mjs`, `tests/**`, `public/**` (trừ `public/media/**`) | agent theo task contract |
+| `src/**` (trừ `src/content/**`), `eleventy.config.js`, `package*.json`, `scripts/verify-dist.mjs`, `tests/**`, `public/**` (trừ `public/media/**`) | agent theo task contract |
 | `src/content/**`, `public/media/**` | seed ban đầu do agent (CP1-02); sau bàn giao thuộc **thư ký qua CMS** |
 | `.pages.yml`, `.github/workflows/deploy.yml` | agent viết theo task; thay đổi sau bàn giao chỉ qua PR HUMAN LEAD |
 | `docs/ai/workflow.md`, `docs/ai/execution-profiles.md`, `scripts/framework-check.mjs`, `adapters/**` | không sửa |

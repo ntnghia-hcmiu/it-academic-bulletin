@@ -13,7 +13,7 @@
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
 - Parallel group: P1 (PD-001; worktree riêng)
-- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/components/{ContactCard,ResourceList,FaqList}.astro`
+- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/_includes/components/{ContactCard,ResourceList,FaqList}.njk`
 - Dependencies: CP1-02
 - Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-04-guides-resources-faq-contact`
 - Human Lead approval: inherited from boundary IAB-001

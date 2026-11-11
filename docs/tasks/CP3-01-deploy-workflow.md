@@ -27,7 +27,7 @@ Mỗi push vào `main` build, verify và deploy GitHub Pages; commit bot CMS ch�
 
 ## Scope
 
-- In scope: `withastro/action@v6` hoặc build tay + `actions/upload-pages-artifact` + `actions/deploy-pages@v5`; permissions `contents: read, pages: write, id-token: write`; concurrency; guard.
+- In scope: build tay (`actions/setup-node`, `npm ci`, `npm run verify`) + `actions/upload-pages-artifact` + `actions/deploy-pages@v5`; permissions `contents: read, pages: write, id-token: write`; concurrency; guard.
 - Out of scope: Bật Pages/ruleset (integration gate), custom domain.
 
 ## Authority / key decisions
