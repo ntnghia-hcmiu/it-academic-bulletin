@@ -20,6 +20,8 @@ Mọi tên field bằng tiếng Anh; nhãn hiển thị trong CMS bằng tiếng
 | settings | file | `src/content/settings/site.json` | `json` | 1 file; delete: false |
 | media | media | `public/media` → `/media` | ảnh | categories: [image], rename: safe |
 
+Văn bản (PDF/Word/Excel…) **không** upload qua CMS; chỉ link Google Drive qua `resources.external_url` (HUMAN LEAD 2026-11-11 — repo public, file đã commit không rút lại được).
+
 `id` của entry = tên file (không đuôi). **URL dùng id**, không phụ thuộc tiêu đề sau khi tạo.
 
 > Cần kiểm ở CP2-01: `{primary}` slugify có bỏ dấu tiếng Việt không (vd "Đăng ký" → `dang-ky`). Nếu không, thêm field `slug` bắt buộc với `pattern` `^[a-z0-9-]+$` và dùng `{fields.slug}`.
