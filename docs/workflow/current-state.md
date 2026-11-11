@@ -26,7 +26,6 @@ CP1-04, base = HEAD CP1-03. Sau đó HUMAN LEAD quyết push/PR chuỗi stacked;
 - D-07 Logo/nhận diện IU được phép dùng?
 - D-08 Giữ, tắt hay xóa `.github/workflows/requirement-to-task.yml` (kit; cần secret `ANTHROPIC_API_KEY`, quyền `contents: write`).
 - D-09 "Thông báo học vụ" giữ là danh mục riêng?
-- D-10 FAQ chưa có câu trả lời: ẩn hay hiện "Chưa cập nhật".
 - D-11 Lỗi kit K-01…K-05: báo upstream / sửa bản project (cần decision) / bỏ qua.
 
 ## Blockers

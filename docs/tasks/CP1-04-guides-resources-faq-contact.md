@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: DRAFT
+- Status: IN_PROGRESS
 - Type: FEATURE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -12,12 +12,12 @@
 - Human Lead: tech owner
 - Authorization mode: boundary
 - Authorization source: IAB-001 (ACCEPTED 2026-11-11)
-- Parallel group: P1 (PD-001; worktree riêng)
-- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/_includes/components/{ContactCard,ResourceList,FaqList}.njk`
+- Parallel group: không — serialize sau CP1-03 (HUMAN LEAD 2026-11-11: tái dùng component CP1-03)
+- Owned paths: `src/pages/huong-dan/**`, `src/pages/bieu-mau/**`, `src/pages/hoi-dap/**`, `src/pages/lien-he/**`, `src/_includes/components/{ContactCard,ResourceList,FaqList}.njk`, `src/styles/global.css` (chỉ thêm style), `tests/pages-secondary.test.mjs`, `tests/fixtures/pages/**` (chỉ thêm file) — mở rộng bởi ORCHESTRATOR 2026-11-11 cho test build fixture
 - Dependencies: CP1-02
-- Base commit / branch: chưa có commit gốc — xác định khi bắt đầu; branch `cp1/CP1-04-guides-resources-faq-contact`
+- Base commit / branch: `0412797` (HEAD CP1-03 READY); branch `cp1/CP1-04-guides-resources-faq-contact`, worktree `../IAB-wt/CP1-04`
 - Human Lead approval: inherited from boundary IAB-001
-- Implementation authorized: NO
+- Implementation authorized: YES
 
 Lifecycle: `boundary` mode = `DRAFT → IN_PROGRESS → READY`. DONE suy ra từ Git sau khi merge.
 
@@ -27,7 +27,7 @@ Bốn nhóm trang còn lại với empty state và chỉ hiển thị nội dung
 
 ## Scope
 
-- In scope: Resources lọc theo danh mục/loại (không JS: hiển thị nhóm theo danh mục); FAQ theo danh mục (`<details>`); liên hệ từ settings, trống → "đang được cập nhật".
+- In scope: Resources lọc theo danh mục/loại (không JS: hiển thị nhóm theo danh mục); FAQ theo danh mục (`<details>`), answer trống → "Chưa cập nhật câu trả lời" (D-10); không hiển thị link Drive danh mục (D-06 chưa chốt); liên hệ từ settings, trống → "đang được cập nhật".
 - Out of scope: Nội dung thật.
 
 ## Authority / key decisions

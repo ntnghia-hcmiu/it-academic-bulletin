@@ -66,7 +66,7 @@ Ký hiệu: ★ bắt buộc. Kiểu theo Pages CMS.
 
 ### E. faq — "Câu hỏi thường gặp"
 
-`question` ★, `answer` (rich-text; trống → hiển thị "Chưa cập nhật câu trả lời" hoặc ẩn — xem D-10), `category` (reference, tùy chọn), `order`, `published` (default false).
+`question` ★, `answer` (rich-text; trống → vẫn hiển thị câu hỏi kèm "Chưa cập nhật câu trả lời" — D-10, HUMAN LEAD 2026-11-11), `category` (reference, tùy chọn), `order`, `published` (default false).
 
 ### F. settings — "Cài đặt trang & Liên hệ" (file)
 
