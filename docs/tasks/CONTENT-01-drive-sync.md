@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: CHANGE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -82,7 +82,7 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 - Tests: `npm run verify` PASS 103/103 + verify-dist PASS (ORCHESTRATOR, 2026-11-12) sau khi merge `main` `26ab85d` (FIX-01, PR #12) — AC2. Trước FIX-01: FAIL do 2 test seed-only.
 - Diff + / − (app, test): content +4 file; app/test 0.
 - Helper mới (đã tìm, lý do không tái dùng): không có.
-- Review: ORCHESTRATOR tự làm (single-agent).
+- Review: ORCHESTRATOR tự làm (single-agent); HUMAN LEAD duyệt nội dung 2026-11-12 ("Duyệt — merge + deploy") — AC1, AC3.
 - Important findings / decisions: quyền truy cập đọc từ metadata Drive, không đổi sharing. File mẫu chứa MSSV/CCCD ví dụ — HUMAN LEAD xác nhận 2026-11-12 là dữ liệu giả, giữ link. `drive_folder_url` danh mục giữ trống (D-06).
-- Known limitations: chưa READY — chờ HUMAN LEAD duyệt diff nội dung (AC1, AC3).
+- Known limitations: link bảng theo dõi tiến trình chờ thư ký cung cấp bản không chứa dữ liệu cá nhân; quyền xem Google Form chưa kiểm.
 - PR:
