@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: BUG
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -72,11 +72,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: fixture mới `tests/fixtures/empty-seed/` (9 danh mục + settings, giống hệt seed hiện tại — ORCHESTRATOR `diff -r` xác nhận); assert seed/empty-state chuyển sang fixture trong `tests/content.test.mjs`, `tests/pages.test.mjs`, `tests/pages-secondary.test.mjs`; thêm test production chỉ kiểm build + trang cố định tồn tại.
+- Tests: `npm run verify` PASS (ORCHESTRATOR, ngoài sandbox, 2026-11-12): trên branch (seed) 103/103; trên merge thử với `content/CONTENT-01-drive-sync` 103/103 + verify-dist PASS — AC1. Codex trong sandbox: 3 file test sửa PASS; content-guard/verify-dist test không chạy được (EPERM spawn) — đã chạy ngoài sandbox.
+- Diff + / − (app, test): test +98/−19 (gồm 10 file fixture); app 0.
+- Helper mới (đã tìm, lý do không tái dùng): không có; tái dùng `buildSite`, `CONTENT_DIR`.
+- Review: ORCHESTRATOR 0 blocking — AC2: bảng assert cũ → mới: content.test.mjs:75–100 → fixture; pages.test.mjs:115 (base lặp), :152–161 (trang rỗng) → fixture; pages-secondary.test.mjs:59–68 (empty-state), :173–178 (không email/điện thoại) → fixture. Không assert nào bị bỏ. Base path production vẫn do `verify-dist` kiểm.
+- Pilot evidence: Codex CLI 0.166.0, `gpt-6.1-sol`, effort `medium`, session `01a1cf5a-db0c-7db0-87f1-11602f854ada`.
+- Important findings / decisions: trước fix, mọi nội dung thật (kể cả commit CMS của thư ký) làm CI fail và chặn deploy.
+- Known limitations: không có.
 - PR:
