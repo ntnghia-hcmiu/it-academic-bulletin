@@ -14,7 +14,7 @@
 - Authorization source: HUMAN LEAD chấp thuận riêng 2026-11-12, ngoài IAB-001 (IAB-001 không phủ nội dung chính thức) ("Chấp nhận": task contract riêng, nội dung chính thức qua git thay vì CMS, HUMAN LEAD duyệt nội dung trước merge)
 - Parallel group: —
 - Owned paths: `src/content/**`
-- Dependencies: CP1-02 (schema), CP3-01 (deploy)
+- Dependencies: CP1-02 (schema), CP3-01 (deploy), FIX-01 (test seed-only — merge trước)
 - Base commit / branch: `c7243a6` (`main`); branch `content/CONTENT-01-drive-sync`
 - Human Lead approval: accepted 2026-11-12
 - Implementation authorized: YES
@@ -69,11 +69,20 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: thư mục nguồn = "1. GIẤY GIỚI THIỆU THỰC TẬP" (thư ký cập nhật 2026-11-12). Ánh xạ (AC1):
+
+  | Nguồn Drive | Đích | Ghi chú |
+  |---|---|---|
+  | `Thông tin giấy giơi thiệu thực tập.docx` | `src/content/guides/xin-giay-gioi-thieu-thuc-tap.md` | chép nguyên ý quy trình + 3 ngày làm việc |
+  | `RECOMMENDATION LETTER-Student's name-ID.doc` | `src/content/resources/20261112-recommendation-letter.yml` + đính kèm guide | Word; Drive visibility `UNLISTED_TO_DOMAIN` → "Yêu cầu tài khoản IU" |
+  | `Student's name - ID- RecommendationLetter (Form dành cho công ty cần mộc ).docx` | `src/content/resources/20261112-giay-gioi-thieu-cong-ty-can-moc.yml` + đính kèm guide | như trên |
+  | Google Form `forms.gle/5dhikZKrHUoxBPPB6` (trong docx) | `src/content/resources/20261112-form-yeu-cau-giay-gioi-thieu.yml` + đính kèm guide | `access` để trống: chưa kiểm được |
+  | Sheet "Theo dõi tiến trình Request Giấy Giới thiệu" (trong docx) | **bỏ qua** | là sheet Form Responses (họ tên, MSSV, điện thoại, nơi nhận, email/địa chỉ), visibility "anyone with link" → dữ liệu cá nhân; HUMAN LEAD 2026-11-12: bỏ link, báo thư ký |
+
+- Tests: `npm run verify` FAIL do 2 test seed-only (xem FIX-01), không do nội dung; `npm run check` (schema) chạy trong verify trước test.
+- Diff + / − (app, test): content +4 file; app/test 0.
+- Helper mới (đã tìm, lý do không tái dùng): không có.
+- Review: ORCHESTRATOR tự làm (single-agent).
+- Important findings / decisions: quyền truy cập đọc từ metadata Drive, không đổi sharing. File mẫu chứa MSSV/CCCD ví dụ — HUMAN LEAD xác nhận 2026-11-12 là dữ liệu giả, giữ link. `drive_folder_url` danh mục giữ trống (D-06).
+- Known limitations: chưa READY — chờ FIX-01 merge, verify lại, HUMAN LEAD duyệt diff.
 - PR:
