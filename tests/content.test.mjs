@@ -72,7 +72,13 @@ test('soft category resolution warns for hidden/missing references and build ski
   assert.equal(invalid.warnings.length, 6);
 });
 
-test('production seed has exactly the nine approved categories, neutral descriptions and empty settings', () => {
+test('empty-seed fixture has nine initial categories, neutral descriptions and empty settings', t => {
+  const original = process.env.CONTENT_DIR;
+  t.after(() => {
+    if (original === undefined) delete process.env.CONTENT_DIR;
+    else process.env.CONTENT_DIR = original;
+  });
+  process.env.CONTENT_DIR = fileURLToPath(new URL('./fixtures/empty-seed/', import.meta.url));
   const content = globalContent();
   const expected = [
     ['thong-bao-hoc-vu', 'Thông báo học vụ'],

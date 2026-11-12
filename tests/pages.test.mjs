@@ -12,7 +12,7 @@ const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const directory = mkdtempSync(join(tmpdir(), 'iab-pages-'));
 const contentRoot = join(directory, 'content');
 const fixtureOutput = join(directory, 'fixture-output');
-const productionOutput = join(directory, 'production-output');
+const emptySeedOutput = join(directory, 'empty-seed-output');
 const today = buildDate();
 const html = (output, path = 'index.html') => readFileSync(join(output, path), 'utf8');
 const main = source => source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
@@ -47,7 +47,7 @@ before(async () => {
     })}\n---\nFixture body.\n`);
   }
   await buildSite(contentRoot, fixtureOutput);
-  await buildSite(undefined, productionOutput);
+  await buildSite(join(projectRoot, 'tests/fixtures/empty-seed'), emptySeedOutput);
 });
 
 after(() => rmSync(directory, { recursive: true, force: true }));
@@ -112,7 +112,7 @@ test('detail pages preserve filename URLs, escape raw HTML and render Markdown/a
   assert.match(page, /Fixture public &lt;b&gt;attachment&lt;\/b&gt;/);
   assert.match(page, /Fixture attachment without access note/);
   assert.doesNotMatch(html(fixtureOutput, 'thong-bao/b/index.html'), /class="attachment-list"/);
-  for (const output of [fixtureOutput, productionOutput]) {
+  for (const output of [fixtureOutput, emptySeedOutput]) {
     for (const file of readdirSync(output, { recursive: true }).filter(file => file.endsWith('.html'))) {
       assert.doesNotMatch(html(output, file), /\/it-academic-bulletin\/it-academic-bulletin\//, file);
     }
@@ -149,14 +149,22 @@ test('deadlines are formatted and expired only after their UTC day, then refresh
   assert.equal(statuses[0].textContent, ' — Đã hết hạn');
 });
 
-test('production with no announcements builds the homepage and all nine empty category pages', () => {
-  const home = main(html(productionOutput));
+test('empty-seed fixture with no announcements builds the homepage and all nine empty category pages', () => {
+  const home = main(html(emptySeedOutput));
   assert.match(home, /Chưa có thông báo/);
   assert.match(home, /Nội dung đang được cập nhật/);
   assert.deepEqual(announcementIds(home), []);
-  assert.match(main(html(productionOutput, 'thong-bao/index.html')), /Chưa có thông báo/);
-  const categoryFiles = readdirSync(join(productionOutput, 'danh-muc'), { recursive: true }).filter(file => file.endsWith('/index.html'));
+  assert.match(main(html(emptySeedOutput, 'thong-bao/index.html')), /Chưa có thông báo/);
+  const categoryFiles = readdirSync(join(emptySeedOutput, 'danh-muc'), { recursive: true }).filter(file => file.endsWith('/index.html'));
   assert.equal(categoryFiles.length, 9);
-  for (const file of categoryFiles) assert.match(main(html(productionOutput, `danh-muc/${file}`)), /Nội dung đang được cập nhật/);
-  assert.equal(existsSync(join(productionOutput, 'thong-bao/detail')), false);
+  for (const file of categoryFiles) assert.match(main(html(emptySeedOutput, `danh-muc/${file}`)), /Nội dung đang được cập nhật/);
+  assert.equal(existsSync(join(emptySeedOutput, 'thong-bao/detail')), false);
+});
+
+test('production content builds successfully and includes all fixed public pages', async () => {
+  const output = join(directory, 'production-output');
+  await buildSite(undefined, output);
+  for (const route of ['', 'thong-bao/', 'danh-muc/', 'huong-dan/', 'bieu-mau/', 'hoi-dap/', 'lien-he/']) {
+    assert.ok(existsSync(join(output, route, 'index.html')), route || 'homepage');
+  }
 });

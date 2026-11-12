@@ -10,7 +10,7 @@ const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const directory = mkdtempSync(join(tmpdir(), 'iab-secondary-'));
 const contentRoot = join(directory, 'content');
 const fixtureOutput = join(directory, 'fixture-output');
-const productionOutput = join(directory, 'production-output');
+const emptySeedOutput = join(directory, 'empty-seed-output');
 const routes = ['huong-dan', 'bieu-mau', 'hoi-dap', 'lien-he'];
 const html = (output, path = 'index.html') => readFileSync(join(output, path), 'utf8');
 const main = source => source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
@@ -51,21 +51,21 @@ before(async () => {
   category.drive_folder_url = 'https://example.org/secondary-drive-folder-must-stay-hidden';
   writeFileSync(join(contentRoot, 'categories/beta.yml'), JSON.stringify(category));
   await buildSite(contentRoot, fixtureOutput);
-  await buildSite(undefined, productionOutput);
+  await buildSite(join(projectRoot, 'tests/fixtures/empty-seed'), emptySeedOutput);
 });
 
 after(() => rmSync(directory, { recursive: true, force: true }));
 
-test('AC1: all secondary production pages render empty states; empty quick guides are hidden', () => {
+test('AC1: all secondary empty-seed pages render empty states; empty quick guides are hidden', () => {
   for (const route of routes) {
-    const page = main(html(productionOutput, `${route}/index.html`));
+    const page = main(html(emptySeedOutput, `${route}/index.html`));
     assert.match(page, /class="empty-state"/, route);
     assert.match(page, route === 'lien-he' ? /Thông tin liên hệ đang được cập nhật/ : /Nội dung đang được cập nhật/, route);
   }
-  const home = main(html(productionOutput));
+  const home = main(html(emptySeedOutput));
   assert.equal(section(home, 'quick-guides-title'), undefined);
   assert.match(section(home, 'contact-title'), /Thông tin liên hệ đang được cập nhật/);
-  assert.equal(existsSync(join(productionOutput, 'huong-dan/detail')), false);
+  assert.equal(existsSync(join(emptySeedOutput, 'huong-dan/detail')), false);
   assert.equal(existsSync(join(fixtureOutput, 'pages/huong-dan/detail-layout/index.html')), false);
 });
 
@@ -170,9 +170,9 @@ test('homepage shows recent guides and at most three contacts; category sections
   for (const id of ['guides-title', 'resources-title', 'faq-title']) assert.equal(section(first, id), undefined);
 });
 
-test('AC3: empty production settings yield no emails/phones anywhere; fixture contacts render from settings', () => {
-  for (const file of htmlFiles(productionOutput)) {
-    const page = html(productionOutput, file);
+test('AC3: empty-seed settings yield no emails/phones anywhere; fixture contacts render from settings', () => {
+  for (const file of htmlFiles(emptySeedOutput)) {
+    const page = html(emptySeedOutput, file);
     assert.doesNotMatch(page, /[\w.+-]+@[\w-]+\.[\w.]+/, file);
     assert.doesNotMatch(page, /(\+84|0)\d{8,10}/, file);
     assert.doesNotMatch(page, /href="(?:mailto:|tel:)/, file);
