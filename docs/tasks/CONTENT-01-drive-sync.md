@@ -79,10 +79,10 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
   | Google Form `forms.gle/5dhikZKrHUoxBPPB6` (trong docx) | `src/content/resources/20261112-form-yeu-cau-giay-gioi-thieu.yml` + đính kèm guide | `access` để trống: chưa kiểm được |
   | Sheet "Theo dõi tiến trình Request Giấy Giới thiệu" (trong docx) | **bỏ qua** | là sheet Form Responses (họ tên, MSSV, điện thoại, nơi nhận, email/địa chỉ), visibility "anyone with link" → dữ liệu cá nhân; HUMAN LEAD 2026-11-12: bỏ link, báo thư ký |
 
-- Tests: `npm run verify` FAIL do 2 test seed-only (xem FIX-01), không do nội dung; `npm run check` (schema) chạy trong verify trước test.
+- Tests: `npm run verify` PASS 103/103 + verify-dist PASS (ORCHESTRATOR, 2026-11-12) sau khi merge `main` `26ab85d` (FIX-01, PR #12) — AC2. Trước FIX-01: FAIL do 2 test seed-only.
 - Diff + / − (app, test): content +4 file; app/test 0.
 - Helper mới (đã tìm, lý do không tái dùng): không có.
 - Review: ORCHESTRATOR tự làm (single-agent).
 - Important findings / decisions: quyền truy cập đọc từ metadata Drive, không đổi sharing. File mẫu chứa MSSV/CCCD ví dụ — HUMAN LEAD xác nhận 2026-11-12 là dữ liệu giả, giữ link. `drive_folder_url` danh mục giữ trống (D-06).
-- Known limitations: chưa READY — chờ FIX-01 merge, verify lại, HUMAN LEAD duyệt diff.
+- Known limitations: chưa READY — chờ HUMAN LEAD duyệt diff nội dung (AC1, AC3).
 - PR:
