@@ -7,6 +7,7 @@ description: Hướng dẫn theo danh mục học vụ.
 {% from "components/EmptyState.njk" import emptyState %}
 {% from "components/DeadlineBadge.njk" import displayDate %}
 {% set byCategory = bulletin.guides | groupby('resolvedCategory.slug') %}
+{% set publishedCategories = bulletin.categories | groupby('slug') %}
 <h1>Hướng dẫn</h1>
 {% for category in bulletin.categories.concat([{ slug: 'khac', name: 'Khác' }]) %}
   {% set guides = byCategory[category.slug] or [] %}
@@ -16,7 +17,7 @@ description: Hướng dẫn theo danh mục học vụ.
       <ul class="guide-list">
         {% for guide in guides %}
           <li>
-            <a href="/huong-dan/{{ guide.id | escape }}/">{{ guide.title | escape }}</a>
+            <a href="{% if publishedCategories[guide.category] %}/danh-muc/{{ guide.category | escape }}/#huong-dan-{{ guide.id | escape }}{% else %}/huong-dan/{{ guide.id | escape }}/{% endif %}">{{ guide.title | escape }}</a>
             <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span>
             {% if guide.summary %}<p>{{ guide.summary | escape }}</p>{% endif %}
           </li>
