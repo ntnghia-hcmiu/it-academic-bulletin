@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: CHANGE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -79,10 +79,10 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
   | Google Form nộp request (`19imwc4l…`) | `resources/20261116-form-nop-request-hoc-vu.yml` + đính kèm | nguồn là link `/edit`; đổi `/viewform` theo HUMAN LEAD 2026-11-16; chưa kiểm chứng được (connector không thấy form); `access` trống |
   | Thông báo Edusoft | đính kèm guide | link ngoài |
 
-- Tests: `npm run verify` PASS 103/103 + verify-dist PASS (ORCHESTRATOR, 2026-11-16) — AC2.
+- Tests: `npm run verify` PASS (ORCHESTRATOR, 2026-11-16): 103/103 trên base; 107/107 + verify-dist sau khi merge `main` `e201e05` (UX-01, PR #14) — AC2.
 - Diff + / − (app, test): content +4 file; app/test 0.
 - Helper mới (đã tìm, lý do không tái dùng): không có.
-- Review: ORCHESTRATOR tự làm (single-agent).
+- Review: ORCHESTRATOR tự làm (single-agent); HUMAN LEAD duyệt nội dung qua bản preview 2026-11-16 ("Duyệt — merge") — AC1, AC3.
 - Important findings / decisions: Bước 1 có cú pháp đăng nhập onlinerequestoaa (Username = MSSV, Password = ngày sinh ddmmyyyy). Trên Drive file chỉ tài khoản IU xem được; ORCHESTRATOR khuyến nghị bỏ khi đăng công khai — HUMAN LEAD 2026-11-16 chọn **giữ nguyên văn** (chấp nhận rủi ro).
-- Known limitations: chưa READY — chờ HUMAN LEAD duyệt nội dung (AC1, AC3). Câu "Sinh viên có thể kiểm tra tình trạng đơn qua link" trong nguồn không kèm link — giữ nguyên, chờ thư ký bổ sung.
+- Known limitations: link Google Form `/viewform` cần thư ký/HUMAN LEAD thử mở sau deploy. Câu "Sinh viên có thể kiểm tra tình trạng đơn qua link" trong nguồn không kèm link — giữ nguyên, chờ thư ký bổ sung.
 - PR:
