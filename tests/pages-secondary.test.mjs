@@ -14,7 +14,7 @@ const emptySeedOutput = join(directory, 'empty-seed-output');
 const routes = ['huong-dan', 'bieu-mau', 'hoi-dap', 'lien-he'];
 const html = (output, path = 'index.html') => readFileSync(join(output, path), 'utf8');
 const main = source => source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
-const guideIds = source => [...source.matchAll(/href="[^"]*\/huong-dan\/([^/]+)\/"/g)].map(match => match[1]);
+const guideIds = source => [...source.matchAll(/href="[^"]*\/(?:huong-dan\/([^/]+)\/|danh-muc\/[^/]+\/#huong-dan-([^"]+))"/g)].map(match => match[1] || match[2]);
 const section = (source, id) => source.match(new RegExp(`<section\\b[^>]*aria-labelledby="${id}"[^>]*>([\\s\\S]*?)<\\/section>`))?.[1];
 const htmlFiles = output => readdirSync(output, { recursive: true }).filter(file => file.endsWith('.html'));
 
@@ -45,9 +45,11 @@ before(async () => {
     { role: 'Fixture contact role 4' },
   ];
   settings.contact_note = 'Fixture **contact note** and [note link](https://example.org/secondary-note).\n\n<script>alert(1)</script>\n\n<b>x</b>';
+  settings.quick_links = [{ label: 'Fixture quick link <b>escaped</b>', url: 'https://example.org/quick?first=1&second=2' }];
   settings.drive_root_url = 'https://example.org/secondary-drive-root-must-stay-hidden';
   writeFileSync(join(contentRoot, 'settings/site.json'), JSON.stringify(settings));
   const category = JSON.parse(readFileSync(join(contentRoot, 'categories/beta.yml'), 'utf8'));
+  category.description = 'Fixture procedure description <b>escaped</b>';
   category.drive_folder_url = 'https://example.org/secondary-drive-folder-must-stay-hidden';
   writeFileSync(join(contentRoot, 'categories/beta.yml'), JSON.stringify(category));
   await buildSite(contentRoot, fixtureOutput);
@@ -79,8 +81,8 @@ test('AC1: unpublished/default entries never produce guide pages or leak into an
 test('guides/resources/FAQ are grouped by resolved category with orphan/general entries under Khác', () => {
   const guides = main(html(fixtureOutput, 'huong-dan/index.html'));
   assert.deepEqual(guideIds(section(guides, 'guides-alpha')), ['a', 'b', 'later']);
-  assert.deepEqual(guideIds(section(guides, 'guides-beta')), ['secondary-formatted']);
-  assert.deepEqual(guideIds(section(guides, 'guides-khac')), ['secondary-orphan']);
+  assert.deepEqual(guideIds(section(guides, 'guides-beta')), ['secondary-formatted', 'procedure-followup']);
+  assert.deepEqual(guideIds(section(guides, 'guides-khac')), ['secondary-missing', 'secondary-orphan']);
   const resources = main(html(fixtureOutput, 'bieu-mau/index.html'));
   const beta = section(resources, 'resources-beta');
   assert.ok(beta.indexOf('secondary-resource-public') < beta.indexOf('secondary-resource-iu'));
@@ -155,19 +157,123 @@ test('AC2: every external anchor has rel; resources and attachments keep their s
   }
 });
 
-test('homepage shows recent guides and at most three contacts; category sections contain only related entries', () => {
+test('homepage omits quick guides and shows at most three contacts; category pages contain only related entries', () => {
   const home = main(html(fixtureOutput));
-  assert.deepEqual(guideIds(section(home, 'quick-guides-title')), ['secondary-formatted', 'secondary-orphan', 'a', 'b', 'later']);
+  assert.equal(section(home, 'quick-guides-title'), undefined);
+  assert.doesNotMatch(home, /Hướng dẫn nhanh/);
   const contacts = section(home, 'contact-title');
   assert.equal((contacts.match(/class="contact-card"/g) || []).length, 3);
   assert.doesNotMatch(contacts, /Fixture contact role 4/);
   assert.match(contacts, /href="[^\"]*\/lien-he\/"/);
   const beta = main(html(fixtureOutput, 'danh-muc/beta/index.html'));
-  assert.deepEqual(guideIds(section(beta, 'guides-title')), ['secondary-formatted']);
+  assert.deepEqual([...beta.matchAll(/<article class="guide-detail" id="huong-dan-([^"]+)"/g)].map(match => match[1]), ['secondary-formatted', 'procedure-followup']);
   assert.doesNotMatch(section(beta, 'resources-title'), /Fixture title a|orphan resource/);
   assert.doesNotMatch(section(beta, 'faq-title'), /Fixture question a|general question|orphan question/);
   const first = main(html(fixtureOutput, 'danh-muc/first/index.html'));
-  for (const id of ['guides-title', 'resources-title', 'faq-title']) assert.equal(section(first, id), undefined);
+  assert.doesNotMatch(first, /class="guide-detail"/);
+  for (const id of ['resources-title', 'faq-title']) assert.equal(section(first, id), undefined);
+});
+
+test('UX-01 AC1: one homepage click opens each published procedure with its full guides and resources', () => {
+  const home = main(html(fixtureOutput));
+  const procedures = section(home, 'categories-title');
+  assert.match(procedures, /<h2 id="categories-title">Bạn cần làm gì\?<\/h2>/);
+  const links = [...procedures.matchAll(/<h3><a href="([^"]+)">([^<]+)<\/a><\/h3>/g)];
+  assert.deepEqual(links.map(match => [match[1], match[2]]), [
+    ['/it-academic-bulletin/danh-muc/first/', 'Fixture category first'],
+    ['/it-academic-bulletin/danh-muc/alpha/', 'Fixture category alpha'],
+    ['/it-academic-bulletin/danh-muc/beta/', 'Fixture category beta'],
+  ]);
+  assert.match(procedures, /Fixture procedure description &lt;b&gt;escaped&lt;\/b&gt;/);
+  assert.match(procedures, /Nội dung đang được cập nhật/);
+  assert.match(procedures, /href="https:\/\/example.org\/quick\?first=1&amp;second=2" rel="noopener noreferrer">Fixture quick link &lt;b&gt;escaped&lt;\/b&gt;/);
+  assert.match(section(home, 'home-faq-title'), /href="\/it-academic-bulletin\/hoi-dap\/"/);
+  assert.doesNotMatch(home, /class="category-nav"/);
+
+  for (const link of links) {
+    const route = link[1].replace('/it-academic-bulletin/', '');
+    assert.ok(existsSync(join(fixtureOutput, route, 'index.html')), link[1]);
+  }
+  const beta = main(html(fixtureOutput, 'danh-muc/beta/index.html'));
+  const article = beta.match(/<article class="guide-detail" id="huong-dan-secondary-formatted">([\s\S]*?)<\/article>/)[1];
+  assert.match(article, /<h2>Fixture secondary guide &lt;b&gt;escaped&lt;\/b&gt;<\/h2>/);
+  assert.match(article, /datetime="2026-11-10">10\/11\/2026/);
+  assert.match(article, /secondary-public\?first=1&amp;second=2/);
+  assert.match(article, /Yêu cầu tài khoản IU/);
+  assert.match(article, /<h3 id="attachments-huong-dan-secondary-formatted">/);
+  const detail = main(html(fixtureOutput, 'huong-dan/secondary-formatted/index.html'));
+  const withoutHeadingLevels = source => source.match(/<div class="prose">([\s\S]*?)<\/div>/)[1].replace(/(<\/?h)[1-6](?=[ >])/g, '$1');
+  assert.equal(withoutHeadingLevels(article), withoutHeadingLevels(detail));
+  assert.match(article, /<h3>Fixture guide heading<\/h3>/);
+  assert.match(detail, /<h2>Fixture guide heading<\/h2>/);
+  assert.match(beta, /<ol>\s*<li>Fixture first step\.<\/li>\s*<li>Fixture second step with <strong>emphasis<\/strong>\.<\/li>\s*<\/ol>/);
+  assert.match(beta, /id="attachments-huong-dan-procedure-followup"/);
+  const ids = [...beta.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(ids.length, new Set(ids).size, 'guide and attachment anchors must be unique');
+  assert.ok(beta.indexOf('id="huong-dan-procedure-followup"') < beta.indexOf('aria-labelledby="resources-title"'));
+  assert.ok(beta.indexOf('aria-labelledby="resources-title"') < beta.indexOf('aria-labelledby="announcements-title"'));
+  assert.ok(beta.indexOf('aria-labelledby="announcements-title"') < beta.indexOf('aria-labelledby="faq-title"'));
+  assert.match(section(beta, 'resources-title'), /secondary-resource-public/);
+  const alpha = main(html(fixtureOutput, 'danh-muc/alpha/index.html'));
+  assert.deepEqual([...alpha.matchAll(/<article class="guide-detail" id="huong-dan-([^"]+)"/g)].map(match => match[1]), ['a', 'b', 'later']);
+});
+
+test('UX-01 review: embedded headings shift once with h6 capped; only detail metadata links to its category', () => {
+  const procedure = main(html(fixtureOutput, 'danh-muc/beta/index.html'));
+  const embedded = procedure.match(/<article class="guide-detail" id="huong-dan-procedure-followup">([\s\S]*?)<\/article>/)[1];
+  const detail = main(html(fixtureOutput, 'huong-dan/procedure-followup/index.html'));
+  for (let level = 1; level <= 6; level++) {
+    const embeddedLevel = Math.min(level + 1, 6);
+    assert.ok(embedded.includes(`<h${embeddedLevel}>Fixture heading level ${level}</h${embeddedLevel}>`));
+    assert.ok(detail.includes(`<h${level}>Fixture heading level ${level}</h${level}>`));
+  }
+  const embeddedMeta = embedded.match(/<div class="announcement-meta">([\s\S]*?)<\/div>/)[1];
+  assert.doesNotMatch(embeddedMeta, /<a\b|Fixture category beta/);
+  assert.match(embeddedMeta, /datetime="2026-11-11">11\/11\/2026/);
+  const detailMeta = detail.match(/<div class="announcement-meta">([\s\S]*?)<\/div>/)[1];
+  assert.match(detailMeta, /href="\/it-academic-bulletin\/danh-muc\/beta\/">Fixture category beta<\/a>/);
+});
+
+test('UX-01 AC2: both navigation menus have exactly five links, no category dropdown, and active-page state', () => {
+  const navigation = [
+    ['Trang chủ', ''], ['Thông báo', 'thong-bao/'], ['Biểu mẫu', 'bieu-mau/'],
+    ['Hỏi đáp', 'hoi-dap/'], ['Liên hệ', 'lien-he/'],
+  ];
+  for (const [, route] of navigation) {
+    const page = html(fixtureOutput, `${route}index.html`);
+    const nav = page.match(/<nav aria-label="Điều hướng chính">([\s\S]*?)<\/nav>/)[1];
+    const lists = [...nav.matchAll(/<ul class="(mobile-links|desktop-menu)">([\s\S]*?)<\/ul>/g)];
+    assert.equal(lists.length, 2);
+    for (const [, , list] of lists) {
+      const links = [...list.matchAll(/<a href="([^"]+)"([^>]*)>([^<]+)<\/a>/g)];
+      assert.deepEqual(links.map(match => [match[3], match[1]]), navigation.map(([label, path]) => [label, `/it-academic-bulletin/${path}`]));
+      assert.deepEqual(links.filter(match => match[2].includes('aria-current="page"')).map(match => match[1]), [`/it-academic-bulletin/${route}`]);
+      assert.doesNotMatch(list, /<ul\b|<details\b|Danh mục/);
+    }
+    assert.equal((nav.match(/<details\b/g) || []).length, 1, 'only the mobile Menu toggle remains');
+    assert.match(nav, /<details class="mobile-menu">\s*<summary>Menu<\/summary>/);
+  }
+});
+
+test('UX-01 AC3: guide links use published procedure anchors and retain detail routes for hidden/missing categories', () => {
+  const index = main(html(fixtureOutput, 'huong-dan/index.html'));
+  for (const [category, ids] of [['alpha', ['a', 'b', 'later']], ['beta', ['secondary-formatted', 'procedure-followup']]]) {
+    const procedure = main(html(fixtureOutput, `danh-muc/${category}/index.html`));
+    for (const id of ids) {
+      assert.ok(index.includes(`href="/it-academic-bulletin/danh-muc/${category}/#huong-dan-${id}"`), id);
+      assert.ok(procedure.includes(`id="huong-dan-${id}"`), id);
+      assert.ok(existsSync(join(fixtureOutput, `huong-dan/${id}/index.html`)), 'shared detail URL remains available');
+      for (const file of htmlFiles(fixtureOutput)) {
+        assert.ok(!html(fixtureOutput, file).includes(`href="/it-academic-bulletin/huong-dan/${id}/"`), `${file}: obsolete guide target ${id}`);
+      }
+    }
+  }
+  for (const id of ['secondary-orphan', 'secondary-missing']) {
+    assert.ok(index.includes(`href="/it-academic-bulletin/huong-dan/${id}/"`), id);
+    assert.match(main(html(fixtureOutput, `huong-dan/${id}/index.html`)), /<span>Khác<\/span>/);
+  }
+  for (const slug of ['hidden', 'missing']) assert.equal(existsSync(join(fixtureOutput, `danh-muc/${slug}/index.html`)), false);
+  assert.ok(existsSync(join(fixtureOutput, 'danh-muc/index.html')));
 });
 
 test('AC3: empty-seed settings yield no emails/phones anywhere; fixture contacts render from settings', () => {

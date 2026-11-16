@@ -7,10 +7,8 @@ eleventyComputed:
   title: "{{ bulletin.settings.site_title or 'Thông tin học vụ — Khoa CNTT' }}"
 ---
 {% from "components/AnnouncementCard.njk" import announcementCard %}
-{% from "components/CategoryNav.njk" import categoryNav %}
 {% from "components/EmptyState.njk" import emptyState %}
 {% from "components/DeadlineBadge.njk" import refreshDeadlines %}
-{% from "components/DeadlineBadge.njk" import displayDate %}
 {% from "components/ContactCard.njk" import contactCard %}
 {% from "components/SearchBox.njk" import searchBox %}
 {% set important = bulletin.announcements | selectattr('important') %}
@@ -40,8 +38,15 @@ eleventyComputed:
     </section>
   </div>
   <section class="page-section" aria-labelledby="categories-title">
-    <h2 id="categories-title">Thủ tục thường dùng</h2>
-    {{ categoryNav(bulletin.categories) }}
+    <h2 id="categories-title">Bạn cần làm gì?</h2>
+    <ul class="procedure-list">
+      {% for category in bulletin.categories %}
+        <li>
+          <h3><a href="/danh-muc/{{ category.slug | escape }}/">{{ category.name | escape }}</a></h3>
+          <p>{{ (category.description or 'Nội dung đang được cập nhật') | escape }}</p>
+        </li>
+      {% endfor %}
+    </ul>
     {% if not bulletin.categories.length %}{{ emptyState() }}{% endif %}
     {% if bulletin.settings.quick_links.length %}
       <ul class="quick-links">
@@ -51,20 +56,6 @@ eleventyComputed:
       </ul>
     {% endif %}
   </section>
-  {% if bulletin.guides.length %}
-    <section class="page-section" aria-labelledby="quick-guides-title">
-      <div class="section-heading">
-        <h2 id="quick-guides-title">Hướng dẫn nhanh</h2>
-        <a href="/huong-dan/">Xem tất cả hướng dẫn</a>
-      </div>
-      {% set recentGuides = bulletin.guides | sort(true, false, 'updated_date') %}
-      <ul class="guide-list">
-        {% for guide in recentGuides.slice(0, 6) %}
-          <li><a href="/huong-dan/{{ guide.id | escape }}/">{{ guide.title | escape }}</a> <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span></li>
-        {% endfor %}
-      </ul>
-    </section>
-  {% endif %}
   <section class="page-section home-contact" aria-labelledby="contact-title">
     <div class="section-heading">
       <h2 id="contact-title">Liên hệ</h2>
@@ -75,6 +66,10 @@ eleventyComputed:
     {% else %}
       {{ emptyState('Thông tin liên hệ đang được cập nhật') }}
     {% endif %}
+  </section>
+  <section class="page-section home-faq" aria-labelledby="home-faq-title">
+    <h2 id="home-faq-title">Hỏi đáp</h2>
+    <p><a href="/hoi-dap/">Xem câu hỏi thường gặp</a></p>
   </section>
 </div>
 {{ refreshDeadlines() }}
