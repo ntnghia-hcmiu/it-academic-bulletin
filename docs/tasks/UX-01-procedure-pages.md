@@ -2,7 +2,7 @@
 
 ## Status / Approval
 
-- Status: IN_PROGRESS
+- Status: READY
 - Type: CHANGE
 - Change class: S1
 - Owner: HUMAN LEAD (tech owner)
@@ -75,11 +75,12 @@ Task không chạm security model / quyền bên thứ ba; manual test sau autom
 
 ## Result
 
-- Main changes:
-- Tests:
-- Diff + / − (app, test):
-- Helper mới (đã tìm, lý do không tái dùng):
-- Review:
-- Important findings / decisions:
-- Known limitations:
+- Main changes: partial mới `components/GuideContent.njk` (tách từ trang chi tiết; khi nhúng: h2 + hạ heading body một cấp, bỏ link danh mục tự trỏ); `/danh-muc/<slug>/` nhúng toàn văn hướng dẫn (anchor `#huong-dan-<id>`) → Biểu mẫu → Thông báo liên quan → FAQ; trang chủ: "Bạn cần làm gì?" (danh sách danh mục), bỏ "Hướng dẫn nhanh", thêm link Hỏi đáp; menu 5 mục; `/huong-dan/` trỏ anchor (fallback detail khi danh mục ẩn/thiếu). `docs/SITEMAP.md` Amendment 1.
+- Tests: `npm run verify` PASS 107/107 + verify-dist (ORCHESTRATOR, 2026-11-16), cả trên merge thử với CONTENT-02 — AC4. Test fixture mới: AC1 `pages-secondary.test.mjs:177`, AC2 `:218`, AC3 `:239`, heading lồng `:221`. AC5: HUMAN LEAD xem bản preview (build merge UX-01 + CONTENT-02) 2026-11-16 — Đạt.
+- Diff + / − (app, test): app ≈ +74/−66; test/fixture ≈ +134/−8.
+- Helper mới (đã tìm, lý do không tái dùng): partial `GuideContent.njk` (tách, không nhân bản markup detail); không helper JS mới — Codex tìm `rg -n 'guideUrl|guideContent|GuideContent|renderContent|attachmentList|byOrder|guide-detail' src tests`.
+- Review: ORCHESTRATOR 1 blocking (heading body ngang cấp tiêu đề hướng dẫn khi nhúng) + 1 non-blocking (link danh mục tự trỏ) → Codex sửa 1 vòng, đã kiểm lại.
+- Pilot evidence: Codex CLI 0.166.0, `gpt-6.1-sol`, effort `high` (vòng sửa `medium`), session `01a1e3c2-31b3-74f0-bd60-74764320aae4`. Lưu ý: `codex exec resume` không nhận `-C` — chạy từ trong worktree.
+- Important findings / decisions: `CategoryNav` vẫn dùng làm thanh lọc trên trang danh mục/thông báo (không còn trong menu chính).
+- Known limitations: không có ảnh chụp tự động (VM không có trình duyệt headless).
 - PR:
