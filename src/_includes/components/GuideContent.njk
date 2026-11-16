@@ -1,0 +1,33 @@
+{# Include with guide and guideBody (rendered Markdown); embeddedGuide selects h2/unique anchors. #}
+{% from "components/DeadlineBadge.njk" import displayDate %}
+{% from "components/AttachmentList.njk" import attachmentList %}
+{% set attachmentId = 'attachments-title' %}
+{% if embeddedGuide %}
+  {% set attachmentId = 'attachments-huong-dan-' + guide.id %}
+  {# Shift deepest headings first so each heading moves exactly once; h6 stays h6. #}
+  {% set guideBody = guideBody
+    | replace('<h5', '<h6') | replace('</h5>', '</h6>')
+    | replace('<h4', '<h5') | replace('</h4>', '</h5>')
+    | replace('<h3', '<h4') | replace('</h3>', '</h4>')
+    | replace('<h2', '<h3') | replace('</h2>', '</h3>')
+    | replace('<h1', '<h2') | replace('</h1>', '</h2>') %}
+{% endif %}
+<article class="guide-detail"{% if embeddedGuide %} id="huong-dan-{{ guide.id | escape }}"{% endif %}>
+  {% if embeddedGuide %}<h2>{{ guide.title | escape }}</h2>{% else %}<h1>{{ guide.title | escape }}</h1>{% endif %}
+  <div class="announcement-meta">
+    {% if not embeddedGuide and guide.resolvedCategory.slug != 'khac' %}
+      <a href="/danh-muc/{{ guide.resolvedCategory.slug | escape }}/">{{ guide.resolvedCategory.name | escape }}</a>
+    {% elif not embeddedGuide %}
+      <span>{{ guide.resolvedCategory.name | escape }}</span>
+    {% endif %}
+    <span>Cập nhật: <time datetime="{{ guide.updated_date | escape }}">{{ displayDate(guide.updated_date) }}</time></span>
+  </div>
+  {% if guide.summary %}<p class="intro">{{ guide.summary | escape }}</p>{% endif %}
+  <div class="prose">{{ guideBody | replace('<a ', '<a rel="noopener noreferrer" ') | safe }}</div>
+  {% if guide.attachments.length %}
+    <section class="page-section" aria-labelledby="{{ attachmentId | escape }}">
+      {% if embeddedGuide %}<h3 id="{{ attachmentId | escape }}">Tệp và đường dẫn đính kèm</h3>{% else %}<h2 id="{{ attachmentId | escape }}">Tệp và đường dẫn đính kèm</h2>{% endif %}
+      {{ attachmentList(guide.attachments) }}
+    </section>
+  {% endif %}
+</article>
