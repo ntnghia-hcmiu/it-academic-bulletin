@@ -2,10 +2,19 @@
 
 | Metadata | Value |
 |---|---|
-| Status | ACCEPTED — HUMAN LEAD 2026-11-11 (cùng ADR-001/ADR-002/IAB-001) |
+| Status | ACCEPTED — HUMAN LEAD 2026-11-11 (cùng ADR-001/ADR-002/IAB-001); Amendment 1 ACCEPTED 2026-11-16 (UX-01) |
 | Date | 2026-11-11 |
 
 Tham khảo *cách tổ chức* trang School of Business (thông báo chung → danh mục → liên hệ → FAQ trên một trang chủ; menu theo thủ tục), nhưng thiết kế, văn bản và liên hệ là mới. Khác biệt có chủ đích: thông báo có ngày đăng + deadline, có trang Biểu mẫu riêng, tìm kiếm/lọc thật, FAQ tách trang.
+
+## Amendment 1 — 1 thủ tục = 1 trang (HUMAN LEAD 2026-11-16, UX-01)
+
+Hiện hành, thay các mục mâu thuẫn bên dưới:
+
+- `/danh-muc/<slug>/` là **trang thủ tục**: toàn văn mọi hướng dẫn đã xuất bản của danh mục (anchor `#huong-dan-<id>`), rồi biểu mẫu, thông báo và FAQ liên quan.
+- Trang chủ: Thông báo → "Bạn cần làm gì?" (danh sách thẳng các danh mục, 1 click tới trang thủ tục) → Liên hệ, Hỏi đáp rút gọn. Bỏ "Hướng dẫn nhanh".
+- Menu: Trang chủ · Thông báo · Biểu mẫu · Hỏi đáp · Liên hệ (không dropdown).
+- `/huong-dan/`, `/huong-dan/<id>/`, `/danh-muc/` vẫn tồn tại (không gãy link), không có trong menu; link hướng dẫn trỏ về anchor trang thủ tục.
 
 ## 1. Routes
 
